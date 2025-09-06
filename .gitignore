@@ -212,3 +212,5 @@ __marimo__/
 # Project/local data & env folders
 data
 myenv
+.env
+
