@@ -136,6 +136,8 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
       interval: 30s
@@ -151,6 +153,8 @@ services:
   airflow-dag-processor:
     <<: *airflow-common
     command: dag-processor
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type DagProcessorJob --hostname "$${HOSTNAME}"']
       interval: 30s
@@ -166,6 +170,8 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
+    env_file:
+      - .env
     healthcheck:
       # yamllint disable rule:line-length
       test:
@@ -191,6 +197,8 @@ services:
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
       interval: 30s

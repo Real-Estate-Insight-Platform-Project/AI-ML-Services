@@ -54,10 +54,12 @@ def train_model():
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     
     # Convert predictions to dict
-    data_to_insert = df[['State', 'PredictedPrice']].to_dict('records')
-    
+    data_to_insert = df[['state', 'PredictedPrice']].to_dict('records')
+
+    # Delete all existing rows in the table before inserting new predictions
+    supabase.table("Predictions").delete().neq("state", "").execute()
     supabase.table("Predictions").insert(data_to_insert).execute()
-    print(f"{len(data_to_insert)} predictions pushed to Supabase")
+    print(f"{len(data_to_insert)} predictions pushed to Supabase (table overwritten)")
 
 # --------------- DAG ---------------- #
 
