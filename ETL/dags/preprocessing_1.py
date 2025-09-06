@@ -96,7 +96,7 @@ def preprocess_data_1(df):
 
     # Reorder columns
     id_cols = ["year", "month", "state_id", "state"]
-    input_df = input_df[id_cols + [c for c in input_df.columns if c not in id_cols]]
+    df = df[id_cols + [c for c in df.columns if c not in id_cols]]
 
 
     # Cast selected columns to int (fill NaN with 0 before conversion)

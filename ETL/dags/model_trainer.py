@@ -87,7 +87,7 @@ def get_model_predictions(X, y, df_test, model_func):
     return val_preds, test_preds, rmse_list
 
 def lgb_model():
-    return lgb.LGBMRegressor(n_estimators=1000, learning_rate=0.1, device='gpu')
+    return lgb.LGBMRegressor(n_estimators=1000, learning_rate=0.1, device='cpu')
 
 def xgb_model():
     return xgb.XGBRegressor(
