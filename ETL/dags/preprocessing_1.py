@@ -88,8 +88,32 @@ def preprocess_data_1(df):
     df["Region"] = df["state"].map(lambda x: state_to_region_division.get(x, (None, None))[0])
     df["Division"] = df["state"].map(lambda x: state_to_region_division.get(x, (None, None))[1])
 
-    # Reorder columns to have state_id first
-    first_column = df.pop('state_id')
-    df.insert(0, 'state_id', first_column)  
+    df['month_date_yyyymm'] = pd.to_datetime(df['month_date_yyyymm'])
+    df['year'] = df['month_date_yyyymm'].dt.year
+    df['month'] = df['month_date_yyyymm'].dt.month
+
+    df.drop(columns=['month_date_yyyymm'], inplace=True, errors='ignore')
+
+    # Reorder columns
+    id_cols = ["year", "month", "state_id", "state"]
+    input_df = input_df[id_cols + [c for c in input_df.columns if c not in id_cols]]
+
+
+    # Cast selected columns to int (fill NaN with 0 before conversion)
+    int_columns = [
+        'median_listing_price',
+        'active_listing_count',
+        'median_days_on_market',
+        'new_listing_count',
+        'price_increased_count',
+        'price_reduced_count',
+        'median_listing_price_per_square_foot',
+        'median_square_feet',
+        'average_listing_price',
+        'total_listing_count'
+    ]
+    for col in int_columns:
+        if col in df.columns:
+            df[col] = df[col].astype(int)
 
     return df
