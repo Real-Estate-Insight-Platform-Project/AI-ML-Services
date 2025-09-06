@@ -1,13 +1,9 @@
 # File: dags/monthly_forecast_pipeline.py
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from datetime import datetime
 import pandas as pd
 import os
 from supabase import create_client
-from sklearn.ensemble import RandomForestRegressor  # example model
-from sklearn.preprocessing import LabelEncoder
-import joblib
 
 # Load environment variables
 from dotenv import load_dotenv
@@ -59,13 +55,12 @@ def train_model():
     df = pd.read_csv(DATA_PATH)
     target_df = pd.read_csv(DATA_PATH2)
 
-    from model_trainer import get_model_predictions
-    predictions = get_model_predictions(df, target_df)
-
+    from model_trainer import get_predictions
+    predictions = get_predictions(df, target_df)
     target_df['PredictedPrice'] = predictions
 
     # Convert predictions to dict
-    data_to_insert = target_df[['month_date_yyyymm', 'state', 'PredictedPrice']].to_dict('records')
+    data_to_insert = target_df[['year', 'month', 'state', 'PredictedPrice']].to_dict('records')
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 

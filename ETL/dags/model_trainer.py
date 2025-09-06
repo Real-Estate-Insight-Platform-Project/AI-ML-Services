@@ -13,16 +13,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 warnings.filterwarnings("ignore")
 
-from sklearn.model_selection import KFold
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
-import lightgbm as lgb
-import xgboost as xgb
-from catboost import CatBoostRegressor
-import numpy as np
-import gc
-import warnings
-warnings.filterwarnings("ignore")
 
 def get_model_predictions(X, y, df_test, model_func):
     test_preds = np.zeros(len(df_test))
@@ -133,34 +123,36 @@ def et_model():
     )
 
 def get_predictions(df,target_df):
+    df2 = df.copy()
+    target_df2 = target_df.copy()
 
     # Columns to encode
-    encode_cols = ["state", "state_id", "Region_prev", "Division_prev"]
+    encode_cols = ["state", "state_id", "Region", "Division"]
     # Initialize encoder
     for col in encode_cols:
         le = LabelEncoder()
-        df[col] = le.fit_transform(df[col])
-        target_df[col] = le.transform(target_df[col])
+        df2[col] = le.fit_transform(df2[col])
+        target_df2[col] = le.transform(target_df2[col])
 
-    df.drop(columns=['state','month_date_yyyymm'], inplace=True, errors='ignore')
-    target_df.drop(columns=['state','month_date_yyyymm'], inplace=True, errors='ignore')
+    df2.drop(columns=['state'], inplace=True, errors='ignore')
+    target_df2.drop(columns=['state'], inplace=True, errors='ignore')
 
     label = 'median_listing_price' 
-    X = df.drop(columns=[label], axis=1)  
-    y = df[label]
+    X = df2.drop(columns=[label], axis=1)  
+    y = df2[label]
 
     X = X.reset_index(drop=True)
     y = y.reset_index(drop=True)
 
     scaler = StandardScaler()
 
-    # Fit on training features
+    target_df2 = target_df2[X.columns.tolist()]
     X_scaled = scaler.fit_transform(X)
-    test_scaled = scaler.transform(target_df)
+    test_scaled = scaler.transform(target_df2)
 
     # Optional: convert back to DataFrame
     X_scaled = pd.DataFrame(X_scaled, columns=X.columns)
-    test_scaled = pd.DataFrame(test_scaled, columns=target_df.columns)
+    test_scaled = pd.DataFrame(test_scaled, columns=target_df2.columns)
 
     lgb_val_preds, lgb_test_preds, lgb_rmse_list = get_model_predictions(X_scaled, y, test_scaled, lgb_model)
 
