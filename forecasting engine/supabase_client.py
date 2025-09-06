@@ -10,11 +10,24 @@ key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 supabase = create_client(url, key)
 
-# Replace "your_table" with the actual table name
-response = supabase.table("State_Market").select("*").execute()
+batch_size = 1000
+offset = 0
+all_data = []
 
-# Convert to DataFrame
-data = response.data
-df = pd.DataFrame(data)
+while True:
+    response = (
+        supabase.table("State_Market")
+        .select("*")
+        .range(offset, offset + batch_size - 1)
+        .execute()
+    )
+    data = response.data
+    if not data:  # no more rows
+        break
+    all_data.extend(data)
+    offset += batch_size
 
+df = pd.DataFrame(all_data)
 df.to_csv("State_Market.csv", index=False)
+
+print("Total rows:", df.shape[0])
