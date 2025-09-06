@@ -1,0 +1,14 @@
+langchain-google-genai==2.1.10
+langchain
+langchain-community
+google-genai>=1.0.0,<2
+sqlalchemy==2.0.32
+psycopg2-binary==2.9.9
+python-dotenv==1.0.1
+pandas==2.2.2
+langgraph
+fastapi
+pydantic
+starlette
+requests
+uvicorn
