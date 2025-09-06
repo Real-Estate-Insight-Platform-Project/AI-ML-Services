@@ -29,5 +29,3 @@ while True:
 
 df = pd.DataFrame(all_data)
 df.to_csv("State_Market.csv", index=False)
-
-print("Total rows:", df.shape[0])

@@ -12,7 +12,8 @@ modules = [
     "seaborn",
     "statsmodels",
     "dotenv",       # PyPI package name is python-dotenv
-    "supabase"      # PyPI package name is supabase
+    "supabase",      # PyPI package name is supabase
+    "requests"
 ]
 
 package_name_map = {
@@ -40,7 +41,7 @@ for module in modules:
         print(f"{module}: Not installed")
 
 # Write requirements.txt
-with open("requirements.txt", "w") as f:
+with open("forecasting engine/requirements.txt", "w") as f:
     f.write("\n".join(requirements))
 
 print("\n✅ requirements.txt has been created.")

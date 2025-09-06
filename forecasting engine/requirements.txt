@@ -9,3 +9,4 @@ seaborn==0.13.2
 statsmodels==0.14.5
 python-dotenv
 supabase==2.18.1
+requests==2.32.5
