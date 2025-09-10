@@ -57,10 +57,10 @@ def train_model():
 
     from model_trainer import get_predictions
     predictions = get_predictions(df, target_df)
-    target_df['PredictedPrice'] = predictions
+    target_df['median_listing_price'] = predictions
 
     # Convert predictions to dict
-    data_to_insert = target_df[['year', 'month', 'state', 'PredictedPrice']].to_dict('records')
+    data_to_insert = target_df[['year', 'month', 'state', 'median_listing_price']].to_dict('records')
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
