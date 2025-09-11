@@ -122,7 +122,7 @@ def et_model():
         verbose=0
     )
 
-def get_predictions(df,target_df):
+def get_predictions(df,target_df,feature):
     df2 = df.copy()
     target_df2 = target_df.copy()
 
@@ -137,7 +137,7 @@ def get_predictions(df,target_df):
     df2.drop(columns=['state'], inplace=True, errors='ignore')
     target_df2.drop(columns=['state'], inplace=True, errors='ignore')
 
-    label = 'median_listing_price' 
+    label = feature
     X = df2.drop(columns=[label], axis=1)  
     y = df2[label]
 

@@ -30,8 +30,8 @@ def aggregate_data():
 
     # Push preprocessed data to Supabase (State_Market table)
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    data_to_insert = df.to_dict('records')
-    supabase.table("State_Market").insert(data_to_insert).execute()
+    # data_to_insert = df.to_dict('records')
+    # supabase.table("State_Market").insert(data_to_insert).execute()
     
     # Load full dataset from Supabase
     from get_supabase_data import get_supabase_data
@@ -39,34 +39,42 @@ def aggregate_data():
     
     df.to_csv(DATA_PATH, index=False)
 
-def preprocess_data():
-    """Load dataset, preprocess, save to CSV""" 
-    df = pd.read_csv(DATA_PATH)
-
-    # Preprocess data
-    from preprocessing_2 import preprocess_data_2
-    df, target_df = preprocess_data_2(df)
-
-    df.to_csv(DATA_PATH, index=False)
-    target_df.to_csv(DATA_PATH2, index=False)
-
 def train_model():
     """Load dataset, train model, save predictions to Supabase"""
     df = pd.read_csv(DATA_PATH)
-    target_df = pd.read_csv(DATA_PATH2)
 
+    # List of features to predict
+    features = [
+        "median_listing_price",
+        "average_listing_price",
+        "median_listing_price_per_square_foot",
+        "total_listing_count",
+        "median_days_on_market"
+    ]
+
+    from preprocessing_2 import preprocess_data_2
     from model_trainer import get_predictions
-    predictions = get_predictions(df, target_df)
-    target_df['PredictedPrice'] = predictions
 
-    # Convert predictions to dict
-    data_to_insert = target_df[['year', 'month', 'state', 'PredictedPrice']].to_dict('records')
+    df_proc, target_df = preprocess_data_2(df.copy(), ["median_listing_price"])
+    prediction_df = target_df[['year', 'month', 'state']]
+
+    for feature in features:
+        df_proc, target_df = preprocess_data_2(df.copy(), [feature])
+        predictions = get_predictions(df_proc, target_df, feature)
+        prediction_df[feature] = predictions
+
+    for col in features:
+        if col in prediction_df.columns:
+            prediction_df[col] = prediction_df[col].astype(int)
+
+    # Concatenate all predictions
+    data_to_insert = prediction_df.to_dict('records')
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     # Delete all existing rows in the table before inserting new predictions
-    supabase.table("Predictions").delete().neq("state", "").execute()
-    supabase.table("Predictions").insert(data_to_insert).execute()
+    supabase.table("predictions").delete().neq("state", "").execute()
+    supabase.table("predictions").insert(data_to_insert).execute()
     print(f"{len(data_to_insert)} predictions pushed to Supabase (table overwritten)")
 
 # --------------- DAG ---------------- #
@@ -99,12 +107,6 @@ aggregate_task = PythonOperator(
     dag=dag,
 )
 
-preprocess_task = PythonOperator(
-    task_id='preprocess_data',
-    python_callable=preprocess_data,
-    dag=dag,
-)
-
 train_task = PythonOperator(
     task_id='train_model_and_push',
     python_callable=train_model,
@@ -112,4 +114,4 @@ train_task = PythonOperator(
 )
 
 # DAG pipeline
-download_task >> aggregate_task >> preprocess_task >> train_task
+download_task >> aggregate_task >> train_task
