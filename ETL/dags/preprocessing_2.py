@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def preprocess_data_2(df):
+def preprocess_data_2(df, feature):
     """Preprocess data for modeling"""
     # Sort by state and month
     df = df.sort_values(["state_id", "year", "month"])
@@ -28,7 +28,7 @@ def preprocess_data_2(df):
     input_df = input_df[id_cols + [c for c in input_df.columns if c not in id_cols]]
 
     # Columns to always keep
-    keep_cols = ["year", "month", "state_id", "state", "median_listing_price", "Region", "Division"]
+    keep_cols = ["year", "month", "state_id", "state", "Region", "Division"] + feature
 
     # Lag columns
     df_lagged = (
@@ -49,31 +49,31 @@ def preprocess_data_2(df):
     df_lagged = df_lagged.sort_values(["state_id", "year", "month"])
 
     # Create lag features for 6 and 12 months
-    df_lagged["median_listing_price_lag6"] = (
-        df_lagged.groupby("state_id")["median_listing_price"].shift(6)
+    df_lagged["median_feature_lag6"] = (
+        df_lagged.groupby("state_id")[feature].shift(6)
     )
-    df_lagged["median_listing_price_lag12"] = (
-        df_lagged.groupby("state_id")["median_listing_price"].shift(12)
+    df_lagged["median_feature_lag12"] = (
+        df_lagged.groupby("state_id")[feature].shift(12)
     )
 
     input_df = input_df.sort_values(["state_id", "year", "month"])
-    
-    df_lagged["median_listing_price_lag5"] = (
-        df_lagged.groupby("state_id")["median_listing_price"].shift(5)
+
+    df_lagged["median_feature_lag5"] = (
+        df_lagged.groupby("state_id")[feature].shift(5)
     )
-    df_lagged["median_listing_price_lag11"] = (
-        df_lagged.groupby("state_id")["median_listing_price"].shift(11)
+    df_lagged["median_feature_lag11"] = (
+        df_lagged.groupby("state_id")[feature].shift(11)
     )
 
     # Create lag features for 6 and 12 months in input_df using last values from df_lagged
-    input_df["median_listing_price_lag6"] = (
-        df_lagged.groupby("state_id")["median_listing_price_lag5"].last().values
+    input_df["median_feature_lag6"] = (
+        df_lagged.groupby("state_id")["median_feature_lag5"].last().values
     )
-    input_df["median_listing_price_lag12"] = (
-        df_lagged.groupby("state_id")["median_listing_price_lag11"].last().values
+    input_df["median_feature_lag12"] = (
+        df_lagged.groupby("state_id")["median_feature_lag11"].last().values
     )
 
-    df_lagged = df_lagged.drop(columns=['median_listing_price_lag5', 'median_listing_price_lag11'])
+    df_lagged = df_lagged.drop(columns=['median_feature_lag5', 'median_feature_lag11'])
 
     # Cast selected columns to int (fill NaN with 0 before conversion)
     int_columns = [
