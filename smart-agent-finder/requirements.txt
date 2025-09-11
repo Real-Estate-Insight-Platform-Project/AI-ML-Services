@@ -1,0 +1,7 @@
+playwright>=1.45
+scrapegraphai>=1.10.0
+pydantic>=2.7
+pandas>=2.2
+python-dotenv>=1.0
+beautifulsoup4>=4.12
+lxml>=5.2
