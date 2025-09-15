@@ -3,7 +3,8 @@ from dotenv import load_dotenv, find_dotenv
 from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.agents import AgentType, create_sql_agent
+from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain.agents import AgentType
 from langchain import hub
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from sqlalchemy import create_engine, event
