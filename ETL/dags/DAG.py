@@ -28,10 +28,10 @@ def aggregate_data():
     from preprocessing_1 import preprocess_data_1
     df = preprocess_data_1(df)
 
-    # Push preprocessed data to Supabase (State_Market table)
+    # Push preprocessed data to Supabase (state_market table)
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     # data_to_insert = df.to_dict('records')
-    # supabase.table("State_Market").insert(data_to_insert).execute()
+    # supabase.table("state_market").insert(data_to_insert).execute()
     
     # Load full dataset from Supabase
     from get_supabase_data import get_supabase_data

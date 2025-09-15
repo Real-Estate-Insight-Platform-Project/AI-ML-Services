@@ -17,7 +17,7 @@ def get_supabase_data():
 
     while True:
         response = (
-            supabase.table("State_Market")
+            supabase.table("state_market")
             .select("*")
             .range(offset, offset + batch_size - 1)
             .execute()
