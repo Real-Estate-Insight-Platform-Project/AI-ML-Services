@@ -9,7 +9,7 @@ def preprocess_data_1(df):
     df.drop(columns=['quality_flag'], inplace=True, errors='ignore')
     
     # Sort by state_id and month_date_yyyymm
-    df = df.sort_values(["state_id", "month_date_yyyymm"])
+    df = df.sort_values(["state", "month_date_yyyymm"])
     df.reset_index(drop=True, inplace=True)
     
     # Mapping dictionary: state -> (Region, Division)
