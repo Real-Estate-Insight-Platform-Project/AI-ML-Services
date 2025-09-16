@@ -214,3 +214,4 @@ data
 myenv
 .env
 mlruns
+mlartifacts

@@ -42,8 +42,8 @@ def get_predictions(df,feature):
         return Path().resolve().parent.parent
 
     # set mlflow tracking uri
-    mlflow.set_tracking_uri(uri=(get_project_root() / 'forecasting_engine' / 'mlruns').as_uri())
-    experiment = mlflow.set_experiment(experiment_name="RealEstate_Price_Prediction")
+    mlflow.set_tracking_uri("http://host.docker.internal:5000")
+    experiment = mlflow.set_experiment(experiment_name="RealEstate_forcasting")
 
     df['date'] = pd.to_datetime(df['year'].astype(str) + '-' + df['month'].astype(str).str.zfill(2) + '-01')
     # sort
