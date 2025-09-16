@@ -30,8 +30,13 @@ def aggregate_data():
 
     # Push preprocessed data to Supabase (state_market table)
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    # data_to_insert = df.to_dict('records')
-    # supabase.table("state_market").insert(data_to_insert).execute()
+
+    response = supabase.table("state_market").select("*", count="exact").execute()
+    if response.count == 0:
+        data_to_insert = df.to_dict('records')
+        supabase.table("state_market").insert(data_to_insert).execute()
+    else:
+        print("Data already exists in Supabase; skipping insertion.")
     
     # Load full dataset from Supabase
     from get_supabase_data import get_supabase_data
@@ -55,12 +60,11 @@ def train_model():
     from preprocessing_2 import preprocess_data_2
     from model_trainer import get_predictions
 
-    df_proc, target_df = preprocess_data_2(df.copy(), ["median_listing_price"])
-    prediction_df = target_df[['year', 'month', 'state']]
+    target_df = preprocess_data_2(df.copy())
+    prediction_df = target_df.copy()
 
     for feature in features:
-        df_proc, target_df = preprocess_data_2(df.copy(), [feature])
-        predictions = get_predictions(df_proc, target_df, feature)
+        predictions = get_predictions(df, feature)
         prediction_df[feature] = predictions
 
     for col in features:

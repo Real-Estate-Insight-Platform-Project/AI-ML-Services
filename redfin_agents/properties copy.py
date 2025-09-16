@@ -11,7 +11,7 @@ url = "https://us-realtor.p.rapidapi.com/api/v1/property/list"
 querystring = {"location":"New Hampshire","limit":"10","state_code":"NH","area_type":"state","sort_by":"photo_count"}
 
 headers = {
-	"x-rapidapi-key": "c81a2bc770mshc415ab8a0a187e6p148462jsned2071e2393f",
+	"x-rapidapi-key": rapidapi_key,
 	"x-rapidapi-host": "us-realtor.p.rapidapi.com"
 }
 
