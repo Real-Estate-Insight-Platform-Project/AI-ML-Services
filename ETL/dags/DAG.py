@@ -30,8 +30,13 @@ def aggregate_data():
 
     # Push preprocessed data to Supabase (state_market table)
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    data_to_insert = df.to_dict('records')
-    supabase.table("state_market").insert(data_to_insert).execute()
+
+    response = supabase.table("state_market").select("*", count="exact").execute()
+    if response.count == 0:
+        data_to_insert = df.to_dict('records')
+        supabase.table("state_market").insert(data_to_insert).execute()
+    else:
+        print("Data already exists in Supabase; skipping insertion.")
     
     # Load full dataset from Supabase
     from get_supabase_data import get_supabase_data
