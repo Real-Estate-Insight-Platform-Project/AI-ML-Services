@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_49642",
+            "type": "10",
+            "name": "Arkansas Heights Agents",
+            "subName": "Arlington, TX, USA",
+            "url": "/neighborhood/49642/TX/Arlington/Arkansas-Heights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_510",
+            "type": "10",
+            "name": "Arkansas City Agents",
+            "subName": "Arkansas City, AR, USA",
+            "url": "/city/510/AR/Arkansas-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_602",
+            "type": "10",
+            "name": "Arkansas City Agents",
+            "subName": "Arkansas City, KS, USA",
+            "url": "/city/602/KS/Arkansas-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_228",
+            "type": "10",
+            "name": "Arkansas County Agents",
+            "subName": "AR, USA",
+            "url": "/county/228/AR/Arkansas-County/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13936",
+            "type": "10",
+            "name": "Patmos Agents",
+            "subName": "Patmos, AR, USA",
+            "url": "/city/13936/AR/Patmos/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13972",
+            "type": "10",
+            "name": "Patterson Agents",
+            "subName": "Patterson, AR, USA",
+            "url": "/city/13972/AR/Patterson/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14140",
+            "type": "10",
+            "name": "Perry Agents",
+            "subName": "Perry, AR, USA",
+            "url": "/city/14140/AR/Perry/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14149",
+            "type": "10",
+            "name": "Perrytown Agents",
+            "subName": "Perrytown, AR, USA",
+            "url": "/city/14149/AR/Perrytown/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14160",
+            "type": "10",
+            "name": "Perryville Agents",
+            "subName": "Perryville, AR, USA",
+            "url": "/city/14160/AR/Perryville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14282",
+            "type": "10",
+            "name": "Piggott Agents",
+            "subName": "Piggott, AR, USA",
+            "url": "/city/14282/AR/Piggott/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

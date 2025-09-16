@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_190506",
+            "type": "10",
+            "name": "Pennsylvania Warehouses Agents",
+            "subName": "Tucson, AZ, USA",
+            "url": "/neighborhood/190506/AZ/Tucson/Pennsylvania-Warehouses/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_189821",
+            "type": "10",
+            "name": "Pennsylvania Park Agents",
+            "subName": "St. Louis Park, MN, USA",
+            "url": "/neighborhood/189821/MN/St-Louis-Park/Pennsylvania-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_77785",
+            "type": "10",
+            "name": "Pennsylvania Heights Agents",
+            "subName": "Indianapolis, IN, USA",
+            "url": "/neighborhood/77785/IN/Indianapolis/Pennsylvania-Heights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_766569",
+            "type": "10",
+            "name": "Pennsylvania Avenue Agents",
+            "subName": "Weirton, WV, USA",
+            "url": "/neighborhood/766569/WV/Weirton/Pennsylvania-Avenue/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16597",
+            "type": "10",
+            "name": "Pennsylvania Avenue Hights Agents",
+            "subName": "Washington, DC, DC, USA",
+            "url": "/neighborhood/16597/DC/Washington-DC/Pennsylvania-Avenue-Hights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_47887",
+            "type": "10",
+            "name": "Pennsylvania Business Park Agents",
+            "subName": "Horsham, PA, USA",
+            "url": "/neighborhood/47887/PA/Horsham/Pennsylvania-Business-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13960",
+            "type": "10",
+            "name": "Newport Agents",
+            "subName": "Newport, PA, USA",
+            "url": "/city/13960/PA/Newport/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13986",
+            "type": "10",
+            "name": "Newry Agents",
+            "subName": "Newry, PA, USA",
+            "url": "/city/13986/PA/Newry/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14040",
+            "type": "10",
+            "name": "Newtown Agents",
+            "subName": "Newtown, PA, USA",
+            "url": "/city/14040/PA/Newtown/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14067",
+            "type": "10",
+            "name": "Newville Agents",
+            "subName": "Newville, PA, USA",
+            "url": "/city/14067/PA/Newville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_347987",
+            "type": "10",
+            "name": "Goat Island Agents",
+            "subName": "Newport, RI, USA",
+            "url": "/neighborhood/347987/RI/Newport/Goat-Island/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_347988",
+            "type": "10",
+            "name": "Rose Island Agents",
+            "subName": "Newport, RI, USA",
+            "url": "/neighborhood/347988/RI/Newport/Rose-Island/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_549946",
+            "type": "10",
+            "name": "Hog Island Agents",
+            "subName": "Portsmouth, RI, USA",
+            "url": "/neighborhood/549946/RI/Portsmouth/Hog-Island/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_549954",
+            "type": "10",
+            "name": "Prudence Island Agents",
+            "subName": "Portsmouth, RI, USA",
+            "url": "/neighborhood/549954/RI/Portsmouth/Prudence-Island/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_549948",
+            "type": "10",
+            "name": "Island Park Agents",
+            "subName": "Portsmouth, RI, USA",
+            "url": "/neighborhood/549948/RI/Portsmouth/Island-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14136",
+            "type": "10",
+            "name": "Pawtucket Agents",
+            "subName": "Pawtucket, RI, USA",
+            "url": "/city/14136/RI/Pawtucket/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15272",
+            "type": "10",
+            "name": "Providence Agents",
+            "subName": "Providence, RI, USA",
+            "url": "/city/15272/RI/Providence/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_12826",
+            "type": "10",
+            "name": "Newport Agents",
+            "subName": "Newport, RI, USA",
+            "url": "/city/12826/RI/Newport/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_4953",
+            "type": "10",
+            "name": "Cranston Agents",
+            "subName": "Cranston, RI, USA",
+            "url": "/city/4953/RI/Cranston/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_23175",
+            "type": "10",
+            "name": "Greenville Agents",
+            "subName": "Greenville, RI, USA",
+            "url": "/city/23175/RI/Greenville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

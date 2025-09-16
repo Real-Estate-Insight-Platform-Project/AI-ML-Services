@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_351503",
+            "type": "10",
+            "name": "Hawaii Volcanos Agents",
+            "subName": "Volcano, HI, USA",
+            "url": "/neighborhood/351503/HI/Volcano/Hawaii-Volcanos/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_607053",
+            "type": "10",
+            "name": "Hawaii Island Agents",
+            "subName": "Hilo, HI, USA",
+            "url": "/neighborhood/607053/HI/Hilo/Hawaii-Island/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_156288",
+            "type": "10",
+            "name": "Hawaii Kai Agents",
+            "subName": "East Honolulu, HI, USA",
+            "url": "/neighborhood/156288/HI/East-Honolulu/Hawaii-Kai/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_663",
+            "type": "10",
+            "name": "Hawaii County Agents",
+            "subName": "HI, USA",
+            "url": "/county/663/HI/Hawaii-County/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_404364",
+            "type": "10",
+            "name": "Hawaii Loa Ridge Agents",
+            "subName": "East Honolulu, HI, USA",
+            "url": "/neighborhood/404364/HI/East-Honolulu/Hawaii-Loa-Ridge/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_156295",
+            "type": "10",
+            "name": "Hawaii Kai Marina Agents",
+            "subName": "East Honolulu, HI, USA",
+            "url": "/neighborhood/156295/HI/East-Honolulu/Hawaii-Kai-Marina/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13935",
+            "type": "10",
+            "name": "Nanakuli Agents",
+            "subName": "Nanakuli, HI, USA",
+            "url": "/city/13935/HI/Nanakuli/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15544",
+            "type": "10",
+            "name": "Paia Agents",
+            "subName": "Paia, HI, USA",
+            "url": "/city/15544/HI/Paia/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13539",
+            "type": "10",
+            "name": "Mokuleia Agents",
+            "subName": "Mokuleia, HI, USA",
+            "url": "/city/13539/HI/Mokuleia/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13055",
+            "type": "10",
+            "name": "Maunawili Agents",
+            "subName": "Maunawili, HI, USA",
+            "url": "/city/13055/HI/Maunawili/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

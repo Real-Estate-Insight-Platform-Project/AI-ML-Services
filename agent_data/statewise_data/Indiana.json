@@ -1,0 +1,93 @@
+{
+    "data": [
+        {
+            "agentId": 66769,
+            "partner": true,
+            "name": "Donna Tidwell",
+            "givenName": "Donna",
+            "email": "donnatidwell@tprsold.com",
+            "slug": "d-tidwell",
+            "photoUrl": "https://ssl.cdn-redfin.com/system_files/images/66769/500x500/8_98.jpg",
+            "adminOnlyPhoneNumber": false,
+            "servesOffers": true,
+            "servesListings": true,
+            "pastYearDealsInRegion": 0,
+            "veteran": false,
+            "isPremier": false,
+            "languages": [],
+            "complianceText": "",
+            "officeState": "PA",
+            "jobTitle": "Senior Agent",
+            "primaryServiceRegions": [
+                "Indiana County",
+                "Western Westmoreland County",
+                "PA - Somerset",
+                "Westmoreland County - East"
+            ],
+            "propertyTypes": [],
+            "dealPrices": [],
+            "agentType": 2,
+            "businessMarket": "Pittsburgh",
+            "businessMarketId": 63,
+            "servicing": "Western Westmoreland County",
+            "brokerageName": "Berkshire Hathaway HomeServices Preferred Realty",
+            "firstName": "Donna",
+            "lastName": "Tidwell",
+            "fullName": "Donna Tidwell",
+            "gender": 1,
+            "hasPhotos": true,
+            "noPhoto": false,
+            "profileUrl": "/real-estate-agents/d-tidwell",
+            "profileContactEnabled": true,
+            "isActive": true,
+            "isPartnerTeam": false
+        },
+        {
+            "agentId": 61846,
+            "partner": true,
+            "name": "Craig Bytner",
+            "givenName": "Craig",
+            "email": "craigbytnerrog@gmail.com",
+            "slug": "craig-bytner",
+            "photoUrl": "https://ssl.cdn-redfin.com/system_files/images/61846/500x500/8_98.jpg",
+            "adminOnlyPhoneNumber": false,
+            "servesOffers": true,
+            "servesListings": true,
+            "pastYearDealsInRegion": 0,
+            "pastYearDeals": 2,
+            "veteran": false,
+            "isPremier": false,
+            "languages": [],
+            "complianceText": "",
+            "officeState": "PA",
+            "jobTitle": "Senior Agent",
+            "primaryServiceRegions": [
+                "Indiana County"
+            ],
+            "propertyTypes": [
+                "Single Family Residential"
+            ],
+            "dealPrices": [
+                417500,
+                123000
+            ],
+            "agentType": 2,
+            "businessMarket": "Pittsburgh",
+            "businessMarketId": 63,
+            "servicing": "Indiana County",
+            "brokerageName": "Realty ONE Group Landmark",
+            "firstName": "Craig",
+            "lastName": "Bytner",
+            "fullName": "Craig Bytner",
+            "gender": 1,
+            "hasPhotos": true,
+            "noPhoto": false,
+            "profileUrl": "/real-estate-agents/craig-bytner",
+            "profileContactEnabled": true,
+            "totalDealsInPastYear": 2,
+            "isActive": true,
+            "isPartnerTeam": false
+        }
+    ],
+    "status": true
+}

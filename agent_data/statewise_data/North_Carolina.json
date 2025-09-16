@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_13012",
+            "type": "10",
+            "name": "North Agents",
+            "subName": "North, SC, USA",
+            "url": "/city/13012/SC/North/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_601288",
+            "type": "10",
+            "name": "Carolina Arbors Agents",
+            "subName": "Durham, NC, USA",
+            "url": "/neighborhood/601288/NC/Durham/Carolina-Arbors/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13040",
+            "type": "10",
+            "name": "North Augusta Agents",
+            "subName": "North Augusta, SC, USA",
+            "url": "/city/13040/SC/North-Augusta/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13096",
+            "type": "10",
+            "name": "North Charleston Agents",
+            "subName": "North Charleston, SC, USA",
+            "url": "/city/13096/SC/North-Charleston/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_12231",
+            "type": "10",
+            "name": "North Wilkesboro Agents",
+            "subName": "North Wilkesboro, NC, USA",
+            "url": "/city/12231/NC/North-Wilkesboro/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_36298",
+            "type": "10",
+            "name": "North Santee Agents",
+            "subName": "North Santee, SC, USA",
+            "url": "/city/36298/SC/North-Santee/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_24542",
+            "type": "10",
+            "name": "North Hartsville Agents",
+            "subName": "North Hartsville, SC, USA",
+            "url": "/city/24542/SC/North-Hartsville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_350750",
+            "type": "10",
+            "name": "Willowhaven North Agents",
+            "subName": "Durham, NC, USA",
+            "url": "/neighborhood/350750/NC/Durham/Willowhaven-North/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_526270",
+            "type": "10",
+            "name": "North Central Agents",
+            "subName": "Raleigh, NC, USA",
+            "url": "/neighborhood/526270/NC/Raleigh/North-Central/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_551939",
+            "type": "10",
+            "name": "North Dunean Agents",
+            "subName": "Dunean, SC, USA",
+            "url": "/neighborhood/551939/SC/Dunean/North-Dunean/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

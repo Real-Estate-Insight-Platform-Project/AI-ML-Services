@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_30345",
+            "type": "10",
+            "name": "Mexico Agents",
+            "subName": "Mexico, NY, USA",
+            "url": "/city/30345/NY/Mexico/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_220906",
+            "type": "10",
+            "name": "New Harwood Agents",
+            "subName": "Albuquerque, NM, USA",
+            "url": "/neighborhood/220906/NM/Albuquerque/New-Harwood/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_479900",
+            "type": "10",
+            "name": "New Vistas Agents",
+            "subName": "Albuquerque, NM, USA",
+            "url": "/neighborhood/479900/NM/Albuquerque/New-Vistas/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_33993",
+            "type": "10",
+            "name": "Newkirk Agents",
+            "subName": "Newkirk, NM, USA",
+            "url": "/city/33993/NM/Newkirk/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_24608",
+            "type": "10",
+            "name": "Newcomb Agents",
+            "subName": "Newcomb, NM, USA",
+            "url": "/city/24608/NM/Newcomb/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15955",
+            "type": "10",
+            "name": "Raton Agents",
+            "subName": "Raton, NM, USA",
+            "url": "/city/15955/NM/Raton/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16079",
+            "type": "10",
+            "name": "Reserve Agents",
+            "subName": "Reserve, NM, USA",
+            "url": "/city/16079/NM/Reserve/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15680",
+            "type": "10",
+            "name": "Questa Agents",
+            "subName": "Questa, NM, USA",
+            "url": "/city/15680/NM/Questa/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_12932",
+            "type": "10",
+            "name": "Mosquero Agents",
+            "subName": "Mosquero, NM, USA",
+            "url": "/city/12932/NM/Mosquero/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_12955",
+            "type": "10",
+            "name": "Mountainair Agents",
+            "subName": "Mountainair, NM, USA",
+            "url": "/city/12955/NM/Mountainair/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

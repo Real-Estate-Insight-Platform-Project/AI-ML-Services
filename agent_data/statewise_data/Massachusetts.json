@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_19442",
+            "type": "10",
+            "name": "Massachusetts Avenue Heights Agents",
+            "subName": "Washington, DC, DC, USA",
+            "url": "/neighborhood/19442/DC/Washington-DC/Massachusetts-Avenue-Heights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_555769",
+            "type": "10",
+            "name": "Massachusetts Avenue Heights Agents",
+            "subName": "Washington, DC, DC, USA",
+            "url": "/neighborhood/555769/DC/Washington-DC/Massachusetts-Avenue-Heights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13959",
+            "type": "10",
+            "name": "Pittsfield Agents",
+            "subName": "Pittsfield, MA, USA",
+            "url": "/city/13959/MA/Pittsfield/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14424",
+            "type": "10",
+            "name": "Quincy Agents",
+            "subName": "Quincy, MA, USA",
+            "url": "/city/14424/MA/Quincy/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16064",
+            "type": "10",
+            "name": "Somerville Agents",
+            "subName": "Somerville, MA, USA",
+            "url": "/city/16064/MA/Somerville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14653",
+            "type": "10",
+            "name": "Revere Agents",
+            "subName": "Revere, MA, USA",
+            "url": "/city/14653/MA/Revere/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13521",
+            "type": "10",
+            "name": "Peabody Agents",
+            "subName": "Peabody, MA, USA",
+            "url": "/city/13521/MA/Peabody/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15302",
+            "type": "10",
+            "name": "Salem Agents",
+            "subName": "Salem, MA, USA",
+            "url": "/city/15302/MA/Salem/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_710",
+            "type": "10",
+            "name": "Attleboro Agents",
+            "subName": "Attleboro, MA, USA",
+            "url": "/city/710/MA/Attleboro/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_8820",
+            "type": "10",
+            "name": "Lawrence Agents",
+            "subName": "Lawrence, MA, USA",
+            "url": "/city/8820/MA/Lawrence/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

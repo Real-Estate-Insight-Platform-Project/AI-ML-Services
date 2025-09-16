@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_13318",
+            "type": "10",
+            "name": "New Milford Agents",
+            "subName": "New Milford, NJ, USA",
+            "url": "/city/13318/NJ/New-Milford/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_9168",
+            "type": "10",
+            "name": "Jersey City Agents",
+            "subName": "Jersey City, NJ, USA",
+            "url": "/city/9168/NJ/Jersey-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_37574",
+            "type": "10",
+            "name": "New Vernon Agents",
+            "subName": "New Vernon, NJ, USA",
+            "url": "/city/37574/NJ/New-Vernon/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_37199",
+            "type": "10",
+            "name": "New Gretna Agents",
+            "subName": "New Gretna, NJ, USA",
+            "url": "/city/37199/NJ/New-Gretna/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_24568",
+            "type": "10",
+            "name": "New Egypt Agents",
+            "subName": "New Egypt, NJ, USA",
+            "url": "/city/24568/NJ/New-Egypt/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_354276",
+            "type": "10",
+            "name": "New Yorkshire Agents",
+            "subName": "Burlington, NJ, USA",
+            "url": "/neighborhood/354276/NJ/Burlington/New-Yorkshire/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_355031",
+            "type": "10",
+            "name": "New London Agents",
+            "subName": "Burlington, NJ, USA",
+            "url": "/neighborhood/355031/NJ/Burlington/New-London/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_92025",
+            "type": "10",
+            "name": "New Italy Agents",
+            "subName": "Vineland, NJ, USA",
+            "url": "/neighborhood/92025/NJ/Vineland/New-Italy/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13201",
+            "type": "10",
+            "name": "New Brunswick Agents",
+            "subName": "New Brunswick, NJ, USA",
+            "url": "/city/13201/NJ/New-Brunswick/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13364",
+            "type": "10",
+            "name": "New Providence Agents",
+            "subName": "New Providence, NJ, USA",
+            "url": "/city/13364/NJ/New-Providence/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}
