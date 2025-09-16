@@ -1,0 +1,1580 @@
+{
+    "status": true,
+    "timestamp": 1758041981346,
+    "data": {
+        "home_search": {
+            "__typename": "SearchHomeResult",
+            "count": 10,
+            "total": 7989,
+            "search_promotion": {
+                "__typename": "SearchPromotionNextPagePayload",
+                "name": "CITY",
+                "slots": [],
+                "promoted_properties": [
+                    []
+                ]
+            },
+            "results": [
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "3427999905",
+                    "listing_id": "2986138748",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 118,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Keller Williams Coastal Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Dover",
+                            "line": "8 Gerrys Ln",
+                            "street_name": "Gerrys",
+                            "street_number": "8",
+                            "street_suffix": "Ln",
+                            "country": "USA",
+                            "postal_code": "03820",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.196403,
+                                "lon": -70.859612,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33017"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 4,
+                        "baths": 4,
+                        "lot_sqft": 91476,
+                        "sqft": 3496,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 3,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": null,
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "1079799",
+                            "name": "Christina LaRoche-Barrows",
+                            "email": "team@largeassets.realestate",
+                            "href": null,
+                            "slogan": "Here to Help!",
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Keller Williams Coastal Realty",
+                                "href": "NEWENGLANDCOASTAL.YOURKWOFFICE.COM"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": true,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "MAME",
+                                "agent_id": "014398",
+                                "agent_name": "Christina Laroche",
+                                "office_id": "2073",
+                                "office_name": "Keller Williams Coastal and Lakes & Mountains Realty"
+                            }
+                        ],
+                        "id": "MAME",
+                        "type": "mls",
+                        "name": "MaineListings",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "1636842"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/999347c8d7b2c59da75954e198116d0bl-m601153626s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/8-Gerrys-Ln_Dover_NH_03820_M34279-99905",
+                    "list_price": 1590000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 1609200
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": true
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2005-03-31",
+                    "list_date": "2025-09-08T08:11:48.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 350000
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "3683779944",
+                    "listing_id": "2983390531",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 92,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Williamson Group Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Orford",
+                            "line": "594 NH Route 10",
+                            "street_name": "NH Route 10",
+                            "street_number": "594",
+                            "street_suffix": null,
+                            "country": "USA",
+                            "postal_code": "03777",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.904053,
+                                "lon": -72.132515,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33009"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 5,
+                        "baths": 4,
+                        "lot_sqft": 609840,
+                        "sqft": 5827,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 3,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": [
+                        {
+                            "__typename": "VirtualTour",
+                            "href": "https://players.brightcove.net/5699924528001/default_default/index.html?videoId=6375688874112"
+                        }
+                    ],
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "3830427",
+                            "name": "John Chapin",
+                            "email": "john.chapin@williamson-group.com",
+                            "href": null,
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Williamson Group Sotheby's International Realty",
+                                "href": "https://www.williamson-group.com/"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "284330",
+                                "agent_name": "John Chapin",
+                                "office_id": "2831",
+                                "office_name": "Williamson Group Sothebys Intl. Realty"
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5047824"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/5de72e20c80c7c8d25d778303a8123bal-b1778258501s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/594-NH-Route-10_Orford_NH_03777_M36837-79944",
+                    "list_price": 2850000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": null,
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2018-06-08",
+                    "list_date": "2025-06-21T11:48:14.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 1179000
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "3601299041",
+                    "listing_id": "2983857572",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 86,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "CENTURY 21 Dumont & Associates",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Goffstown",
+                            "line": "30 Crescent Ln",
+                            "street_name": "Crescent",
+                            "street_number": "30",
+                            "street_suffix": "Ln",
+                            "country": "USA",
+                            "postal_code": "03045",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 42.982815,
+                                "lon": -71.586603,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33011"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 2,
+                        "baths": 2,
+                        "lot_sqft": 3920,
+                        "sqft": 1304,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 1,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 1,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": [
+                        {
+                            "__typename": "VirtualTour",
+                            "href": "https://www.youtube.com/watch?v=l77mDzaaaBM"
+                        }
+                    ],
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "25712",
+                            "name": "Richard Dumont",
+                            "email": "rdumont1@aol.com",
+                            "href": "http://www.century21dumont.com",
+                            "slogan": "Broker/Owner",
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "CENTURY 21 Dumont & Associates",
+                                "href": "http://www.century21dumont.com/"
+                            }
+                        },
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "3328496",
+                            "name": "Darleen Wilkins",
+                            "email": "c21ddumont@yahoo.com",
+                            "href": "http://www.century21dumont.com",
+                            "slogan": "Experience Plus",
+                            "type": "co_seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Century 21 Dumont And Assoc.",
+                                "href": "WWW.CENTURY21DUMONT.COM"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": true
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "1995",
+                                "agent_name": "Richard Dumont",
+                                "office_id": "446",
+                                "office_name": null
+                            },
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "2004",
+                                "agent_name": null,
+                                "office_id": null,
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5049729"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/6b19926bbf0272c910ef1be327b7cde8l-b482108849s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/30-Crescent-Ln_Goffstown_NH_03045_M36012-99041",
+                    "list_price": 459900,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 440600
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": true
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": null,
+                    "list_date": "2025-07-02T20:31:47.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "basic_opt_in",
+                        "products": [
+                            "core.agent",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": null
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "4029888348",
+                    "listing_id": "2983958514",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 70,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Laconia",
+                            "line": "21 Leighton Ave S",
+                            "street_name": "Leighton",
+                            "street_number": "21",
+                            "street_suffix": "Ave",
+                            "country": "USA",
+                            "postal_code": "03246",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.578118,
+                                "lon": -71.5215,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33001"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 3,
+                        "baths": 4,
+                        "lot_sqft": 37462,
+                        "sqft": 3571,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 2,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": [
+                        {
+                            "__typename": "VirtualTour",
+                            "href": "https://players.brightcove.net/5699924528001/default_default/index.html?videoId=6375372463112"
+                        }
+                    ],
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "2018944",
+                            "name": "Ashley Davis",
+                            "email": "ashley.davis@fourseasonssir.com",
+                            "href": "https://www.ashleydavis.us/",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "https://www.sothebysrealty.com/fourseasonssir"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": true,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "8481",
+                                "agent_name": "Ashley Davis",
+                                "office_id": "1309",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5050104"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/f0bd2b13ec9a6fed82977ff03d3feb8fl-b1286493992s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/21-Leighton-Ave-S_Laconia_NH_03246_M40298-88348",
+                    "list_price": 4995000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 4742900
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2014-03-14",
+                    "list_date": "2025-07-07T08:56:39.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 1199000
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "4528802860",
+                    "listing_id": "2983946976",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 65,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Bradford",
+                            "line": "338 E Washington Rd",
+                            "street_name": "Washington",
+                            "street_number": "338",
+                            "street_suffix": "Rd",
+                            "country": "USA",
+                            "postal_code": "03221",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.208733,
+                                "lon": -71.998524,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33013"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 4,
+                        "baths": 4,
+                        "lot_sqft": 6795360,
+                        "sqft": 5115,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 2,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": [
+                        {
+                            "__typename": "VirtualTour",
+                            "href": "https://drive.google.com/drive/u/0/home"
+                        }
+                    ],
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "2018911",
+                            "name": "Margaret Weathers",
+                            "email": "margaret.weathers@fourseasonssir.com",
+                            "href": "WWW.FOURSEASONSSIR.COM",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "http://www.fourseasonssir.com/"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "8436",
+                                "agent_name": "Margaret Weathers",
+                                "office_id": "1307",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5050058"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/541906f7ee7c4896c1ab78dfbcc6b0e1l-b3976410377s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/338-E-Washington-Rd_Bradford_NH_03221_M45288-02860",
+                    "list_price": 2495000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 2454800
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2019-12-13",
+                    "list_date": "2025-07-06T01:16:51.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 1070800
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "4225945695",
+                    "listing_id": "2984362280",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 65,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Grantham",
+                            "line": "35 Sturgis Cir",
+                            "street_name": "Sturgis",
+                            "street_number": "35",
+                            "street_suffix": "Cir",
+                            "country": "USA",
+                            "postal_code": "03753",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.49241,
+                                "lon": -72.148228,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33019"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 4,
+                        "baths": 3,
+                        "lot_sqft": 178596,
+                        "sqft": 2766,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 2,
+                        "baths_half": null,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": null
+                    },
+                    "has_specials": false,
+                    "virtual_tours": null,
+                    "matterport": true,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "2018910",
+                            "name": "Pamela Perkins",
+                            "email": "pam.perkins@fourseasonssir.com",
+                            "href": "http://www.PamPerkinsRealEstate.com",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "http://www.fourseasonssir.com/"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": false,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": true
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "8435",
+                                "agent_name": "Pamela Perkins",
+                                "office_id": "1307",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5051970"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/77588aadc889c720fe5ab0f7a5235b38l-b1136093837s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/35-Sturgis-Cir_Grantham_NH_03753_M42259-45695",
+                    "list_price": 749000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": 46000,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 728900
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2021-04-09",
+                    "list_date": "2025-07-17T09:04:43.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 640000
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "4986748895",
+                    "listing_id": "2975560179",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 64,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Laconia",
+                            "line": "8 Deadreckoning Pt",
+                            "street_name": "Deadreckoning",
+                            "street_number": "8",
+                            "street_suffix": "Pt",
+                            "country": "USA",
+                            "postal_code": "03246",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.615354,
+                                "lon": -71.473678,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33001"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 4,
+                        "baths": 5,
+                        "lot_sqft": 17860,
+                        "sqft": 3097,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 4,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 4,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": null,
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "1508074",
+                            "name": "Kevin Shaw",
+                            "email": "kevin.shaw@fourseasonssir.com",
+                            "href": "https://www.kevinshawrealty.com/",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "https://www.sothebysrealty.com/fourseasonssir"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": false,
+                        "is_new_construction": true,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": true,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "9689",
+                                "agent_name": "Kevin Shaw",
+                                "office_id": "1309",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5023398"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/d6cdc8e871109e0adbcab656abc8ce44l-b877892935s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/8-Deadreckoning-Pt_Laconia_NH_03246_M49867-48895",
+                    "list_price": 1399900,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": 100000,
+                    "estimate": null,
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": null,
+                    "list_date": "2024-11-29T16:19:33.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": null
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "3154855588",
+                    "listing_id": "2985155198",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 64,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Laconia",
+                            "line": "43 Captains Walk",
+                            "street_name": "Captains",
+                            "street_number": "43",
+                            "street_suffix": "Walk",
+                            "country": "USA",
+                            "postal_code": "03246",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.57693,
+                                "lon": -71.467703,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33001"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "single_family",
+                        "beds": 3,
+                        "baths": 4,
+                        "lot_sqft": 12197,
+                        "sqft": 2673,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 3,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 3,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": null,
+                    "matterport": true,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "1508074",
+                            "name": "Kevin Shaw",
+                            "email": "kevin.shaw@fourseasonssir.com",
+                            "href": "https://www.kevinshawrealty.com/",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "https://www.sothebysrealty.com/fourseasonssir"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": true,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "9689",
+                                "agent_name": "Kevin Shaw",
+                                "office_id": "1309",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5055633"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/5776bec71a7f03a5909366de06be56e5l-b1830369560s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/43-Captains-Walk_Laconia_NH_03246_M31548-55588",
+                    "list_price": 1899900,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": {
+                        "__typename": "LatestEstimate",
+                        "estimate": 1811100
+                    },
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2011-10-19",
+                    "list_date": "2025-08-08T14:58:19.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 520000
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "9118848080",
+                    "listing_id": "2984880785",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 63,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Coldwell Banker Lifestyles - Conway, New Hampshire",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Eaton",
+                            "line": "6 Willis Bean Road",
+                            "street_name": "Willis Bean Road",
+                            "street_number": "6",
+                            "street_suffix": null,
+                            "country": "USA",
+                            "postal_code": "03832",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": null
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": null
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": null,
+                        "type": "land",
+                        "beds": null,
+                        "baths": null,
+                        "lot_sqft": 3092760,
+                        "sqft": null,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": null,
+                        "baths_half": null,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": null,
+                        "baths_partial_calc": null
+                    },
+                    "has_specials": false,
+                    "virtual_tours": null,
+                    "matterport": false,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "3985542",
+                            "name": "Miriam Habert",
+                            "email": "Miriam@TheCBLife.com",
+                            "href": "http://www.thecblife.com",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Coldwell Banker Lifestyles - Conway, New Hampshire",
+                                "href": "http://WWW.THECBLIFE.COM"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": false,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "MAME",
+                                "agent_id": "020376",
+                                "agent_name": "Miriam Habert",
+                                "office_id": "1512",
+                                "office_name": "Coldwell Banker Lifestyles"
+                            }
+                        ],
+                        "id": "MAME",
+                        "type": "mls",
+                        "name": "MaineListings",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "1632611"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/aab4ba232dd40f21944a52839412b2e8l-m722561349s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/6-Willis-Bean-Rd_Eaton_NH_03832_M91188-48080",
+                    "list_price": 375000,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": null,
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": null,
+                    "list_date": "2025-07-31T20:14:37.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker"
+                        ]
+                    },
+                    "last_sold_price": null
+                },
+                {
+                    "__typename": "SearchHome",
+                    "property_id": "9512018427",
+                    "listing_id": "2986038491",
+                    "plan_id": null,
+                    "status": "for_sale",
+                    "photo_count": 61,
+                    "search_promotions": null,
+                    "branding": [
+                        {
+                            "__typename": "Branding",
+                            "photo": null,
+                            "name": "Four Seasons Sotheby's International Realty",
+                            "phone": null,
+                            "link": null
+                        }
+                    ],
+                    "location": {
+                        "__typename": "SearchHomeLocation",
+                        "address": {
+                            "__typename": "SearchHomeAddress",
+                            "city": "Meredith",
+                            "line": "66 Brook Hl",
+                            "street_name": "Brook",
+                            "street_number": "66",
+                            "street_suffix": "Hl",
+                            "country": "USA",
+                            "postal_code": "03253",
+                            "state_code": "NH",
+                            "state": "New Hampshire",
+                            "coordinate": {
+                                "__typename": "Coordinate",
+                                "lat": 43.643484,
+                                "lon": -71.516604,
+                                "accuracy": null
+                            }
+                        },
+                        "street_view_url": "",
+                        "county": {
+                            "__typename": "HomeCounty",
+                            "fips_code": "33001"
+                        }
+                    },
+                    "open_houses": null,
+                    "description": {
+                        "__typename": "SearchHomeDescription",
+                        "sub_type": "townhouse",
+                        "type": "townhomes",
+                        "beds": 2,
+                        "baths": 3,
+                        "lot_sqft": null,
+                        "sqft": 2203,
+                        "beds_max": null,
+                        "beds_min": null,
+                        "sqft_max": null,
+                        "sqft_min": null,
+                        "baths_full": 2,
+                        "baths_half": 1,
+                        "baths_min": null,
+                        "baths_max": null,
+                        "baths_full_calc": 2,
+                        "baths_partial_calc": 1
+                    },
+                    "has_specials": false,
+                    "virtual_tours": [
+                        {
+                            "__typename": "VirtualTour",
+                            "href": "https://players.brightcove.net/5699924528001/default_default/index.html?videoId=6378933677112"
+                        }
+                    ],
+                    "matterport": true,
+                    "advertisers": [
+                        {
+                            "__typename": "HomeAdvertiser",
+                            "fulfillment_id": "1508074",
+                            "name": "Kevin Shaw",
+                            "email": "kevin.shaw@fourseasonssir.com",
+                            "href": "https://www.kevinshawrealty.com/",
+                            "slogan": null,
+                            "type": "seller",
+                            "builder": null,
+                            "office": {
+                                "__typename": "HomeAdvertiserOffice",
+                                "name": "Four Seasons Sotheby's International Realty",
+                                "href": "https://www.sothebysrealty.com/fourseasonssir"
+                            }
+                        }
+                    ],
+                    "flags": {
+                        "__typename": "SearchHomeFlags",
+                        "is_price_reduced": null,
+                        "is_new_construction": null,
+                        "is_foreclosure": null,
+                        "is_plan": null,
+                        "is_new_listing": true,
+                        "is_coming_soon": null,
+                        "is_contingent": null,
+                        "is_pending": null
+                    },
+                    "source": {
+                        "__typename": "MlsSource",
+                        "agents": [
+                            {
+                                "__typename": "MlsAgent",
+                                "id": "NHVT",
+                                "agent_id": "9689",
+                                "agent_name": "Kevin Shaw",
+                                "office_id": "1309",
+                                "office_name": null
+                            }
+                        ],
+                        "id": "NHVT",
+                        "type": "mls",
+                        "name": "PrimeMLS",
+                        "feed_type": null,
+                        "spec_id": null,
+                        "plan_id": null,
+                        "listing_href": null,
+                        "listing_id": "5059739"
+                    },
+                    "pet_policy": null,
+                    "community": null,
+                    "primary_photo": {
+                        "__typename": "HomePhoto",
+                        "href": "https://ap.rdcpix.com/d73cd41d2e4609fb4ef3c99aeebd08eal-b2984406535s.jpg"
+                    },
+                    "href": "https://www.realtor.com/realestateandhomes-detail/66-Brook-Hl_Meredith_NH_03253_M95120-18427",
+                    "list_price": 689999,
+                    "list_price_min": null,
+                    "list_price_max": null,
+                    "price_reduced_amount": null,
+                    "estimate": null,
+                    "lead_attributes": {
+                        "__typename": "LeadAttributes",
+                        "lead_type": "co_broke",
+                        "show_contact_an_agent": true,
+                        "opcity_lead_attributes": {
+                            "__typename": "OpCityLeadAttributes",
+                            "flip_the_market_enabled": false
+                        },
+                        "is_premium_ldp": null
+                    },
+                    "last_sold_date": "2023-09-05",
+                    "list_date": "2025-09-04T18:10:36.000000Z",
+                    "products": {
+                        "__typename": "ProductSummarySearchHome",
+                        "brand_name": "essentials",
+                        "products": [
+                            "core.agent",
+                            "core.broker",
+                            "co_broke"
+                        ]
+                    },
+                    "last_sold_price": 499000
+                }
+            ]
+        }
+    }
+}
