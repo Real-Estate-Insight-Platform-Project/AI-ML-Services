@@ -36,7 +36,8 @@ def _enforce_readonly(dbapi_conn, record):
         c.execute("SET default_transaction_read_only = on;")
 
 # LangChain DB wrapper (ALLOWLIST tables for safety)
-ALLOWED_TABLES = ["properties", "market_analytics"]
+# UPDATED: allow only these four tables (exclude 'profiles' and 'user_favorites')
+ALLOWED_TABLES = ["nri_counties", "predictions", "properties", "state_market"]
 db = SQLDatabase(engine=engine, include_tables=ALLOWED_TABLES)
 
 # Deterministic LLM for reliable SQL generation
@@ -66,16 +67,62 @@ if LOG_SQL:
         return _guarded_run(sql, *a, **k)
     db.run = _logging_run
 
-# Pull LangChain Hub prompt AND inject live schema snippet
+
+# Pull LangChain Hub prompt AND inject live schema snippet + domain notes
 prompt_template = hub.pull("langchain-ai/sql-agent-system-prompt")
 base_system = prompt_template.format(dialect="PostgreSQL", top_k=5)
 schema_snippet = db.get_table_info(ALLOWED_TABLES)
+
+domain_notes = """
+### DOMAIN NOTES (READ FIRST)
+- You are querying a read-only PostgreSQL database. Only SELECT statements are allowed.
+- **ROW LIMIT POLICY:** For any query that can return multiple rows (e.g., property listings or historical rows), **always** include `LIMIT 10` (hard cap). 
+  - If the user requests more than 10 rows, still return only the first 10 and state that results are truncated to 10.
+  - Do **not** apply a LIMIT when the question clearly asks for a single value/aggregate (e.g., COUNT, AVG, MIN/MAX for a specific filter).
+- Use ONLY these allowed tables: `nri_counties`, `predictions`, `properties`, `state_market`. Do NOT use `profiles` or `user_favorites`.
+- Prefer aggregates for summaries and apply precise WHERE filters (by state/year/month/price/bedrooms) from the user’s question.
+
+### TABLE PURPOSES & KEYS
+1) public.predictions — (FORECASTS)
+   - PK: (year, month, state).
+   - Columns: median_listing_price, average_listing_price, median_listing_price_per_square_foot, total_listing_count, median_days_on_market, market_trend.
+   - **BUSINESS RULE:** If “predictions” are requested without dates, return **current month and next two months** (3-month horizon) for the specified state(s).
+     Compute “current month” as `(extract(year from now()), extract(month from now()))`. Sort by (year, month) ASC. The 3-month horizon is already small; no LIMIT needed unless returning multiple states (then still apply LIMIT 10 to the row set).
+
+2) public.state_market — (HISTORICAL OBSERVATIONS)
+   - PK: (year, month, state).
+   - Use for historical trends, M/M and Y/Y comparisons, and time series. 
+   - When returning row-level history (e.g., many months or many states), **enforce `LIMIT 10`** and sort by `year DESC, month DESC` unless the user specifies an order.
+
+3) public.nri_counties — (RISK INDEX, COUNTY-LEVEL)
+   - PK: county_fips.
+   - risk_index_score is a 0–100 **percentile** (relative within county level). risk_index_rating is a qualitative bucket (“Very Low” … “Very High”).
+   - `predominant_hazard` is derived from the **highest Expected Annual Loss (EAL) total** among 18 hazards.
+
+4) public.properties — (LISTINGS CATALOG)
+   - PK: id (uuid). Columns include price, bedrooms, bathrooms, square_feet, property_type, listing_status, city/state/zip, created_at/updated_at, coordinates.
+   - For listing queries (e.g., “3+ bedrooms under $500k”), **always** `LIMIT 10` and default ordering `ORDER BY created_at DESC NULLS LAST` unless the user asks for a different order (e.g., price ASC).
+
+### JOIN & FILTER HINTS
+- State-level joins: `predictions.state` <-> `state_market.state` (text). County risk lives in `nri_counties`; aggregate by state via `state_name`/`state_fips` if needed.
+- Time filters use (year, month) pairs; sort by `year, month`.
+- When combining historical (state_market) with forecasts (predictions), show recent history first (limited to 10 rows if multi-row), then the 3-month forecast window.
+
+### ANSWER STYLE
+- Clearly label **historical** (state_market) vs **predicted** (predictions).
+- Include units (currency for prices, counts as integers, ratios as % when appropriate).
+- If truncation occurs due to the 10-row cap, **say so explicitly** (e.g., “showing first 10 rows”).
+"""
+
 merged_system_prompt = (
     f"{base_system}\n\n"
     "### ADDITIONAL CONTEXT: DATABASE SCHEMA (READ CAREFULLY)\n"
-    "Use ONLY these tables/columns. Prefer aggregates. Always include a LIMIT (<=100) unless a single value is asked.\n\n"
-    f"{schema_snippet}"
+    "Use ONLY these tables/columns. Prefer aggregates. For multi-row outputs, always include LIMIT 10 (hard cap) unless a single value is asked.\n\n"
+    f"{schema_snippet}\n\n"
+    f"{domain_notes}"
 )
+
+
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", merged_system_prompt),
