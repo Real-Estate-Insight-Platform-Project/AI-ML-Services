@@ -35,15 +35,25 @@ def add_month(test_futures, n_predict):
 
     return test_futures
 
+def calculate_metrics(y_true, y_hat):
+    y_true = np.array(y_true)
+    y_hat = np.array(y_hat)
+
+    rmse = math.sqrt(mean_squared_error(y_true, y_hat))
+    rmsle = math.sqrt(((np.log1p(np.maximum(0, y_hat)) - np.log1p(np.maximum(0, y_true)))**2).mean())
+    mae = mean_absolute_error(y_true, y_hat)
+    mape = np.mean(np.abs((y_true - y_hat) / y_true)) * 100
+    r2 = r2_score(y_true, y_hat)
+
+    return rmse, rmsle, mae, mape, r2
 
 def get_predictions(df,feature):
 
-    def get_project_root():
-        return Path().resolve().parent.parent
-
     # set mlflow tracking uri
     mlflow.set_tracking_uri("http://host.docker.internal:5000")
-    experiment = mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+    mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+    # mlflow.set_tracking_uri(uri=(get_project_root() / 'mlflow' / 'mlruns').as_uri())
+    # mlflow.set_experiment(experiment_name="RealEstate_forcasting")
 
     df['date'] = pd.to_datetime(df['year'].astype(str) + '-' + df['month'].astype(str).str.zfill(2) + '-01')
     # sort
@@ -118,7 +128,7 @@ def get_predictions(df,feature):
         pipeline_dict[state] = pipe
         ts_transformed[state] = transformed
 
-    n_predict = 1  # next month
+    n_predict = 3
     train_series = []
     val_series = []
     train_pasts = []
@@ -139,6 +149,8 @@ def get_predictions(df,feature):
         test_futures.append(future_cov_ts[s]) 
 
     test_futures = add_month(test_futures, n_predict)
+    test_futures = add_month(test_futures, n_predict)
+    test_futures = add_month(test_futures, n_predict)
 
     # XGBoost model training and validation
     with mlflow.start_run(run_name=f"XGB_Darts_Model_{feature}"):
@@ -147,7 +159,7 @@ def get_predictions(df,feature):
         mlflow.log_params({
             "lags": 12,
             "lags_past_covariates": list(range(-24, 0)),
-            "lags_future_covariates": list(range(1, n_predict+1)),
+            "lags_future_covariates": list(range(1, 2)),
             "output_chunk_length": n_predict,
             "random_state": 42
         })
@@ -155,7 +167,7 @@ def get_predictions(df,feature):
         xgb_model = XGBModel(
             lags=12,
             lags_past_covariates=list(range(-24, 0)),
-            lags_future_covariates=list(range(1, n_predict+1)),
+            lags_future_covariates=list(range(1, 2)),
             output_chunk_length=n_predict,
             random_state=42
         )
@@ -175,37 +187,33 @@ def get_predictions(df,feature):
         )
 
         y_true, y_hat = [], []
-        for i, sname in enumerate(ts_transformed):
-            pred_ts = preds[i]
-            inv = pipeline_dict[sname].inverse_transform(pred_ts)
-            y_hat.append(inv.values()[-1].item())
+        for j in range (n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-            true_val = val_series[i]
-            true_inv = pipeline_dict[sname].inverse_transform(true_val)
-            y_true.append(true_inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-        y_true = np.array(y_true)
-        y_hat = np.array(y_hat)
+            xgb_rmse, xgb_rmsle, xgb_mae, xgb_mape, xgb_r2 = calculate_metrics(y_true, y_hat)
 
-        xgb_rmse = math.sqrt(mean_squared_error(y_true, y_hat))
-        xgb_rmsle = math.sqrt(((np.log1p(np.maximum(0, y_hat)) - np.log1p(np.maximum(0, y_true)))**2).mean())
-        xgb_mae = mean_absolute_error(y_true, y_hat)
-        xgb_mape = np.mean(np.abs((y_true - y_hat) / y_true)) * 100
-        xgb_r2 = r2_score(y_true, y_hat)
+            print(f"Validation RMSE: {xgb_rmse:.4f}, RMSLE: {xgb_rmsle:.4f}, "
+                f"MAE: {xgb_mae:.4f}, MAPE: {xgb_mape:.2f}%, R²: {xgb_r2:.4f}")
 
-        print(f"Validation RMSE: {xgb_rmse:.4f}, RMSLE: {xgb_rmsle:.4f}, "
-            f"MAE: {xgb_mae:.4f}, MAPE: {xgb_mape:.2f}%, R²: {xgb_r2:.4f}")
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": xgb_rmse,
+                f"RMSLE_{j+1}_month_ahead": xgb_rmsle,
+                f"MAE_{j+1}_month_ahead": xgb_mae,
+                f"MAPE_{j+1}_month_ahead": xgb_mape,
+                f"R2_{j+1}_month_ahead": xgb_r2
+            })
 
-        mlflow.log_metrics({
-            "RMSE": xgb_rmse,
-            "RMSLE": xgb_rmsle,
-            "MAE": xgb_mae,
-            "MAPE": xgb_mape,
-            "R2": xgb_r2
-        })
+            y_true, y_hat = [], []
 
         # Log trained model
-        mlflow.xgboost.log_model(xgb_model.model, artifact_path=f"XGB_Darts_Model_{feature}")
+        # mlflow.xgboost.log_model(xgb_model.model, artifact_path=f"XGB_Darts_Model_{feature}")
 
     # End MLflow run
     mlflow.end_run()
@@ -219,7 +227,7 @@ def get_predictions(df,feature):
         mlflow.log_params({
             "lags": 12,
             "lags_past_covariates": list(range(-24, 0)),
-            "lags_future_covariates": list(range(1, n_predict+1)),
+            "lags_future_covariates": list(range(1, 2)),
             "output_chunk_length": n_predict,
             "random_state": 42
         })
@@ -227,7 +235,7 @@ def get_predictions(df,feature):
         lgbm_model = LightGBMModel(
             lags=12,
             lags_past_covariates=list(range(-24, 0)),
-            lags_future_covariates=list(range(1, n_predict+1)),
+            lags_future_covariates=list(range(1, 2)),
             output_chunk_length=n_predict,
             random_state=42
         )
@@ -246,43 +254,38 @@ def get_predictions(df,feature):
         )
 
         y_true, y_hat = [], []
-        for i, sname in enumerate(ts_transformed):
-            pred_ts = preds[i]
-            inv = pipeline_dict[sname].inverse_transform(pred_ts)
-            y_hat.append(inv.values()[-1].item())
+        for j in range (n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-            true_val = val_series[i]
-            true_inv = pipeline_dict[sname].inverse_transform(true_val)
-            y_true.append(true_inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-        y_true = np.array(y_true)
-        y_hat = np.array(y_hat)
+            lgb_rmse, lgb_rmsle, lgb_mae, lgb_mape, lgb_r2 = calculate_metrics(y_true, y_hat)
 
-        lgb_rmse = math.sqrt(mean_squared_error(y_true, y_hat))
-        lgb_rmsle = math.sqrt(((np.log1p(np.maximum(0, y_hat)) - np.log1p(np.maximum(0, y_true)))**2).mean())
-        lgb_mae = mean_absolute_error(y_true, y_hat)
-        lgb_mape = np.mean(np.abs((y_true - y_hat) / y_true)) * 100
-        lgb_r2 = r2_score(y_true, y_hat)
+            print(f"Validation RMSE: {lgb_rmse:.4f}, RMSLE: {lgb_rmsle:.4f}, "
+                f"MAE: {lgb_mae:.4f}, MAPE: {lgb_mape:.2f}%, R²: {lgb_r2:.4f}")
 
-        print(f"Validation RMSE: {lgb_rmse:.4f}, RMSLE: {lgb_rmsle:.4f}, "
-            f"MAE: {lgb_mae:.4f}, MAPE: {lgb_mape:.2f}%, R²: {lgb_r2:.4f}")
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": lgb_rmse,
+                f"RMSLE_{j+1}_month_ahead": lgb_rmsle,
+                f"MAE_{j+1}_month_ahead": lgb_mae,
+                f"MAPE_{j+1}_month_ahead": lgb_mape,
+                f"R2_{j+1}_month_ahead": lgb_r2
+            })
 
-        mlflow.log_metrics({
-            "RMSE": lgb_rmse,
-            "RMSLE": lgb_rmsle,
-            "MAE": lgb_mae,
-            "MAPE": lgb_mape,
-            "R2": lgb_r2
-        })
+            y_true, y_hat = [], []
 
         # Log trained model
-        mlflow.lightgbm.log_model(lgbm_model.model, artifact_path=f"LightGBM_Darts_Model_{feature}")
+        # mlflow.lightgbm.log_model(lgbm_model.model, artifact_path=f"LightGBM_Darts_Model_{feature}")
 
     # End MLflow run
     mlflow.end_run()
 
     # Predictions for next month
-
     train_series = []
     train_pasts = []
     train_futures = []
@@ -309,8 +312,7 @@ def get_predictions(df,feature):
 
     lags = 12
     lags_past_covariates = list(range(-24,0))   # previous 24 months of past covariates
-    lags_future_covariates = list(range(1, n_predict+1))  # months ahead 
-
+    lags_future_covariates = list(range(1, 2)) 
     if (lgb_r2 >= xgb_r2):
         print("Using LightGBM model for predictions")
         model = LightGBMModel(
@@ -342,10 +344,11 @@ def get_predictions(df,feature):
 
     y_hat = []
 
-    for i, sname in enumerate(ts_transformed):
-        pred_ts = preds[i]
-        inv = pipeline_dict[sname].inverse_transform(pred_ts)
-        y_hat.append(inv.values()[-1].item())
+    for j in range (n_predict):
+        for i, sname in enumerate(ts_transformed):
+            pred_ts = preds[i][j]
+            inv = pipeline_dict[sname].inverse_transform(pred_ts)
+            y_hat.append(inv.values()[-1].item())
 
     y_hat = np.array(y_hat)
 
