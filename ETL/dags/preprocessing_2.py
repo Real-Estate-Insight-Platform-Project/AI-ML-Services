@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 def preprocess_data_2(df):
     # Sort by state and month
@@ -7,19 +6,27 @@ def preprocess_data_2(df):
 
     # Get latest record per state
     latest_df = df.groupby("state").tail(1).reset_index(drop=True)
-
-    # Rename all other columns with _prev
-    input_df = latest_df.copy()
-
-    # Add one month
-    if input_df["month"].iloc[0] == 12:
-        input_df["month"] = 1
-        input_df["year"] = input_df["year"] + 1
-    else:   
-        input_df["month"] = input_df["month"] + 1
-
-    # Reorder columns
-    id_cols = ["year", "month", "state"]
-    input_df = input_df[id_cols]
-
-    return input_df
+    
+    # Create empty dataframe to store results
+    result_df = pd.DataFrame()
+    
+    # Generate data for next 3 months
+    for i in range(1, 4):  # 1, 2, 3 (three months ahead)
+        input_df = latest_df.copy()
+        
+        # Calculate new month and year
+        new_month = input_df["month"] + i
+        new_year = input_df["year"] + (new_month > 12).astype(int)
+        new_month = ((new_month - 1) % 12) + 1  # Handle month overflow
+        
+        input_df["month"] = new_month
+        input_df["year"] = new_year
+        
+        # Reorder columns
+        id_cols = ["year", "month", "state"]
+        input_df = input_df[id_cols]
+        
+        # Add to results
+        result_df = pd.concat([result_df, input_df], ignore_index=True)
+    
+    return result_df
