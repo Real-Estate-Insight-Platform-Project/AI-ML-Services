@@ -1,0 +1,10 @@
+# mapbox-vector-tile==1.2.1
+# mercantile==1.2.1
+# shapely==2.0.4
+# pyproj==3.6.1
+
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+asyncpg==0.29.0
+python-dotenv==1.0.1
+orjson==3.10.7
