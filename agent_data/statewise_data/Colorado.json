@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_348417",
+            "type": "10",
+            "name": "Loma Colorado Agents",
+            "subName": "Rio Rancho, NM, USA",
+            "url": "/neighborhood/348417/NM/Rio-Rancho/Loma-Colorado/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_233549",
+            "type": "10",
+            "name": "Colorado Crossing Agents",
+            "subName": "Austin, TX, USA",
+            "url": "/neighborhood/233549/TX/Austin/Colorado-Crossing/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_567",
+            "type": "10",
+            "name": "Colorado Boulevard Agents",
+            "subName": "Los Angeles, CA, USA",
+            "url": "/neighborhood/567/CA/Los-Angeles/Colorado-Boulevard/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_40661",
+            "type": "10",
+            "name": "Colorado Commons Agents",
+            "subName": "Monrovia, CA, USA",
+            "url": "/neighborhood/40661/CA/Monrovia/Colorado-Commons/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_120628",
+            "type": "10",
+            "name": "Colorado Centre Agents",
+            "subName": "Colorado Springs, CO, USA",
+            "url": "/neighborhood/120628/CO/Colorado-Springs/Colorado-Centre/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_590344",
+            "type": "10",
+            "name": "Colorado Springs Agents",
+            "subName": "Black Forest, CO, USA",
+            "url": "/neighborhood/590344/CO/Black-Forest/Colorado-Springs/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_590692",
+            "type": "10",
+            "name": "Colorado Springs Agents",
+            "subName": "Manitou Springs, CO, USA",
+            "url": "/neighborhood/590692/CO/Manitou-Springs/Colorado-Springs/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_548570",
+            "type": "10",
+            "name": "Colorado University Agents",
+            "subName": "Boulder, CO, USA",
+            "url": "/neighborhood/548570/CO/Boulder/Colorado-University/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_2684",
+            "type": "10",
+            "name": "Colorado County Agents",
+            "subName": "TX, USA",
+            "url": "/county/2684/TX/Colorado-County/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_3839",
+            "type": "10",
+            "name": "Colorado City Agents",
+            "subName": "Colorado City, AZ, USA",
+            "url": "/city/3839/AZ/Colorado-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

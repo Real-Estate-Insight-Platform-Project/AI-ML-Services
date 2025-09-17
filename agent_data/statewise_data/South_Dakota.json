@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_189665",
+            "type": "10",
+            "name": "Century South Agents",
+            "subName": "Hastings, MN, USA",
+            "url": "/neighborhood/189665/MN/Hastings/Century-South/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_18848",
+            "type": "10",
+            "name": "South Heart Agents",
+            "subName": "South Heart, ND, USA",
+            "url": "/city/18848/ND/South-Heart/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_32145",
+            "type": "10",
+            "name": "Dakota Dunes Agents",
+            "subName": "Dakota Dunes, SD, USA",
+            "url": "/city/32145/SD/Dakota-Dunes/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_190444",
+            "type": "10",
+            "name": "South Pines Agents",
+            "subName": "Hastings, MN, USA",
+            "url": "/neighborhood/190444/MN/Hastings/South-Pines/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_763846",
+            "type": "10",
+            "name": "South Minot Agents",
+            "subName": "Minot, ND, USA",
+            "url": "/neighborhood/763846/ND/Minot/South-Minot/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765638",
+            "type": "10",
+            "name": "South Fargo Agents",
+            "subName": "Fargo, ND, USA",
+            "url": "/neighborhood/765638/ND/Fargo/South-Fargo/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15490",
+            "type": "10",
+            "name": "South Shore Agents",
+            "subName": "South Shore, SD, USA",
+            "url": "/city/15490/SD/South-Shore/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765395",
+            "type": "10",
+            "name": "South Hill Agents",
+            "subName": "Minot, ND, USA",
+            "url": "/neighborhood/765395/ND/Minot/South-Hill/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765575",
+            "type": "10",
+            "name": "South Charleswood Agents",
+            "subName": "West Fargo, ND, USA",
+            "url": "/neighborhood/765575/ND/West-Fargo/South-Charleswood/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_766005",
+            "type": "10",
+            "name": "South Robbinsdale Agents",
+            "subName": "Rapid City, SD, USA",
+            "url": "/neighborhood/766005/SD/Rapid-City/South-Robbinsdale/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

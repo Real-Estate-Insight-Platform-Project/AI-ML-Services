@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_25417",
+            "type": "10",
+            "name": "South Henderson Agents",
+            "subName": "South Henderson, NC, USA",
+            "url": "/city/25417/NC/South-Henderson/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_25437",
+            "type": "10",
+            "name": "South Rosemary Agents",
+            "subName": "South Rosemary, NC, USA",
+            "url": "/city/25437/NC/South-Rosemary/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_25445",
+            "type": "10",
+            "name": "South Weldon Agents",
+            "subName": "South Weldon, NC, USA",
+            "url": "/city/25445/NC/South-Weldon/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_25753",
+            "type": "10",
+            "name": "South Sumter Agents",
+            "subName": "South Sumter, SC, USA",
+            "url": "/city/25753/SC/South-Sumter/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_508252",
+            "type": "10",
+            "name": "Carolina Bay Agents",
+            "subName": "Charleston, SC, USA",
+            "url": "/neighborhood/508252/SC/Charleston/Carolina-Bay/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_17341",
+            "type": "10",
+            "name": "South Congaree Agents",
+            "subName": "South Congaree, SC, USA",
+            "url": "/city/17341/SC/South-Congaree/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_381628",
+            "type": "10",
+            "name": "Biltmore South Agents",
+            "subName": "Asheville, NC, USA",
+            "url": "/neighborhood/381628/NC/Asheville/Biltmore-South/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_551952",
+            "type": "10",
+            "name": "South Meadowfield Agents",
+            "subName": "Columbia, SC, USA",
+            "url": "/neighborhood/551952/SC/Columbia/South-Meadowfield/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_612039",
+            "type": "10",
+            "name": "South Liberty Agents",
+            "subName": "Sumter, SC, USA",
+            "url": "/neighborhood/612039/SC/Sumter/South-Liberty/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_29631",
+            "type": "10",
+            "name": "Brookhaven South Agents",
+            "subName": "Raleigh, NC, USA",
+            "url": "/neighborhood/29631/NC/Raleigh/Brookhaven-South/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_10982",
+            "type": "10",
+            "name": "Minnesota City Agents",
+            "subName": "Minnesota City, MN, USA",
+            "url": "/city/10982/MN/Minnesota-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_10993",
+            "type": "10",
+            "name": "Minnesota Lake Agents",
+            "subName": "Minnesota Lake, MN, USA",
+            "url": "/city/10993/MN/Minnesota-Lake/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_549787",
+            "type": "10",
+            "name": "University of Minnesota Agents",
+            "subName": "Minneapolis, MN, USA",
+            "url": "/neighborhood/549787/MN/Minneapolis/University-of-Minnesota/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13931",
+            "type": "10",
+            "name": "Renville Agents",
+            "subName": "Renville, MN, USA",
+            "url": "/city/13931/MN/Renville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13939",
+            "type": "10",
+            "name": "Revere Agents",
+            "subName": "Revere, MN, USA",
+            "url": "/city/13939/MN/Revere/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13974",
+            "type": "10",
+            "name": "Rice Agents",
+            "subName": "Rice, MN, USA",
+            "url": "/city/13974/MN/Rice/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14049",
+            "type": "10",
+            "name": "Richfield Agents",
+            "subName": "Richfield, MN, USA",
+            "url": "/city/14049/MN/Richfield/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14062",
+            "type": "10",
+            "name": "Richmond Agents",
+            "subName": "Richmond, MN, USA",
+            "url": "/city/14062/MN/Richmond/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14182",
+            "type": "10",
+            "name": "Robbinsdale Agents",
+            "subName": "Robbinsdale, MN, USA",
+            "url": "/city/14182/MN/Robbinsdale/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14201",
+            "type": "10",
+            "name": "Rochester Agents",
+            "subName": "Rochester, MN, USA",
+            "url": "/city/14201/MN/Rochester/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

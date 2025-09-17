@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_436841",
+            "type": "10",
+            "name": "Utah Valley Agents",
+            "subName": "Provo, UT, USA",
+            "url": "/neighborhood/436841/UT/Provo/Utah-Valley/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_178282",
+            "type": "10",
+            "name": "Fort Utah Agents",
+            "subName": "Provo, UT, USA",
+            "url": "/neighborhood/178282/UT/Provo/Fort-Utah/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_121724",
+            "type": "10",
+            "name": "Utah Park Agents",
+            "subName": "Aurora, CO, USA",
+            "url": "/neighborhood/121724/CO/Aurora/Utah-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_2918",
+            "type": "10",
+            "name": "Utah County Agents",
+            "subName": "UT, USA",
+            "url": "/county/2918/UT/Utah-County/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_436506",
+            "type": "10",
+            "name": "University of Utah Agents",
+            "subName": "Salt Lake City, UT, USA",
+            "url": "/neighborhood/436506/UT/Salt-Lake-City/University-of-Utah/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14053",
+            "type": "10",
+            "name": "Nephi Agents",
+            "subName": "Nephi, UT, USA",
+            "url": "/city/14053/UT/Nephi/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14112",
+            "type": "10",
+            "name": "Newton Agents",
+            "subName": "Newton, UT, USA",
+            "url": "/city/14112/UT/Newton/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14145",
+            "type": "10",
+            "name": "Nibley Agents",
+            "subName": "Nibley, UT, USA",
+            "url": "/city/14145/UT/Nibley/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16022",
+            "type": "10",
+            "name": "Providence Agents",
+            "subName": "Providence, UT, USA",
+            "url": "/city/16022/UT/Providence/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16166",
+            "type": "10",
+            "name": "Randolph Agents",
+            "subName": "Randolph, UT, USA",
+            "url": "/city/16166/UT/Randolph/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

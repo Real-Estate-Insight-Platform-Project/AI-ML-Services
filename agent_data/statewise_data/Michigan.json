@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_415968",
+            "type": "10",
+            "name": "Michigan Terrace Agents",
+            "subName": "Dade City, FL, USA",
+            "url": "/neighborhood/415968/FL/Dade-City/Michigan-Terrace/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_517765",
+            "type": "10",
+            "name": "Michigan Beach Agents",
+            "subName": "Satellite Beach, FL, USA",
+            "url": "/neighborhood/517765/FL/Satellite-Beach/Michigan-Beach/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_19649",
+            "type": "10",
+            "name": "Michigan Park Agents",
+            "subName": "Washington, DC, DC, USA",
+            "url": "/neighborhood/19649/DC/Washington-DC/Michigan-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_186845",
+            "type": "10",
+            "name": "Michigan Oaks Agents",
+            "subName": "Grand Rapids, MI, USA",
+            "url": "/neighborhood/186845/MI/Grand-Rapids/Michigan-Oaks/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_62028",
+            "type": "10",
+            "name": "Michigan Park Agents",
+            "subName": "Whittier, CA, USA",
+            "url": "/neighborhood/62028/CA/Whittier/Michigan-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13582",
+            "type": "10",
+            "name": "Michigan City Agents",
+            "subName": "Michigan City, ND, USA",
+            "url": "/city/13582/ND/Michigan-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_12493",
+            "type": "10",
+            "name": "Michigan City Agents",
+            "subName": "Michigan City, IN, USA",
+            "url": "/city/12493/IN/Michigan-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_760505",
+            "type": "10",
+            "name": "Michigan Avenue Agents",
+            "subName": "Fort Wayne, IN, USA",
+            "url": "/neighborhood/760505/IN/Fort-Wayne/Michigan-Avenue/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_24732",
+            "type": "10",
+            "name": "Michigan Center Agents",
+            "subName": "Michigan Center, MI, USA",
+            "url": "/city/24732/MI/Michigan-Center/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_759883",
+            "type": "10",
+            "name": "Michigan Ave Agents",
+            "subName": "Ames, IA, USA",
+            "url": "/neighborhood/759883/IA/Ames/Michigan-Ave/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_415376",
+            "type": "10",
+            "name": "Maryland Manor Agents",
+            "subName": "Dade City, FL, USA",
+            "url": "/neighborhood/415376/FL/Dade-City/Maryland-Manor/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_28973",
+            "type": "10",
+            "name": "Maryland Line Agents",
+            "subName": "Harris Hill, MD, USA",
+            "url": "/neighborhood/28973/MD/Harris-Hill/Maryland-Line/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_11891",
+            "type": "10",
+            "name": "Maryland Heights Agents",
+            "subName": "Maryland Heights, MO, USA",
+            "url": "/city/11891/MO/Maryland-Heights/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765190",
+            "type": "10",
+            "name": "Maryland Park Agents",
+            "subName": "Maryland Park, MD, USA",
+            "url": "/neighborhood/765190/MD/Maryland-Park/Maryland-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_37462",
+            "type": "10",
+            "name": "Maryland Park Agents",
+            "subName": "Maryland Park, MD, USA",
+            "url": "/city/37462/MD/Maryland-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_24538",
+            "type": "10",
+            "name": "Maryland City Agents",
+            "subName": "Maryland City, MD, USA",
+            "url": "/city/24538/MD/Maryland-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_189381",
+            "type": "10",
+            "name": "South of Maryland Agents",
+            "subName": "St. Paul, MN, USA",
+            "url": "/neighborhood/189381/MN/St-Paul/South-of-Maryland/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_190046",
+            "type": "10",
+            "name": "North of Maryland Agents",
+            "subName": "St. Paul, MN, USA",
+            "url": "/neighborhood/190046/MN/St-Paul/North-of-Maryland/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16130",
+            "type": "10",
+            "name": "Poolesville Agents",
+            "subName": "Poolesville, MD, USA",
+            "url": "/city/16130/MD/Poolesville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16371",
+            "type": "10",
+            "name": "Preston Agents",
+            "subName": "Preston, MD, USA",
+            "url": "/city/16371/MD/Preston/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_550624",
+            "type": "10",
+            "name": "West Virginia Park Agents",
+            "subName": "Detroit, MI, USA",
+            "url": "/neighborhood/550624/MI/Detroit/West-Virginia-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_19906",
+            "type": "10",
+            "name": "Potomac West Agents",
+            "subName": "Alexandria, VA, USA",
+            "url": "/neighborhood/19906/VA/Alexandria/Potomac-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_180184",
+            "type": "10",
+            "name": "Churchland West Agents",
+            "subName": "Portsmouth, VA, USA",
+            "url": "/neighborhood/180184/VA/Portsmouth/Churchland-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_29",
+            "type": "10",
+            "name": "Alexandria West Agents",
+            "subName": "Alexandria, VA, USA",
+            "url": "/neighborhood/29/VA/Alexandria/Alexandria-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_65402",
+            "type": "10",
+            "name": "West Ghent Agents",
+            "subName": "Norfolk, VA, USA",
+            "url": "/neighborhood/65402/VA/Norfolk/West-Ghent/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_59919",
+            "type": "10",
+            "name": "Riverpoint West Agents",
+            "subName": "Hampton, VA, USA",
+            "url": "/neighborhood/59919/VA/Hampton/Riverpoint-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_547723",
+            "type": "10",
+            "name": "Eisenhower West Agents",
+            "subName": "Alexandria, VA, USA",
+            "url": "/neighborhood/547723/VA/Alexandria/Eisenhower-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_26764",
+            "type": "10",
+            "name": "West Springfield Agents",
+            "subName": "West Springfield, VA, USA",
+            "url": "/city/26764/VA/West-Springfield/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_180455",
+            "type": "10",
+            "name": "West Side Agents",
+            "subName": "Tysons, VA, USA",
+            "url": "/neighborhood/180455/VA/Tysons/West-Side/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_181700",
+            "type": "10",
+            "name": "Tysons West Agents",
+            "subName": "Tysons, VA, USA",
+            "url": "/neighborhood/181700/VA/Tysons/Tysons-West/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

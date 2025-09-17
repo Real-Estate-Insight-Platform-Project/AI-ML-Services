@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_308451",
+            "type": "10",
+            "name": "Illinois Central Agents",
+            "subName": "Chicago, IL, USA",
+            "url": "/neighborhood/308451/IL/Chicago/Illinois-Central/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_37443",
+            "type": "10",
+            "name": "Illinois City Agents",
+            "subName": "Illinois City, IL, USA",
+            "url": "/city/37443/IL/Illinois-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_737043",
+            "type": "10",
+            "name": "Illinois State University Agents",
+            "subName": "Normal, IL, USA",
+            "url": "/neighborhood/737043/IL/Normal/Illinois-State-University/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_156989",
+            "type": "10",
+            "name": "Illinois Medical District Agents",
+            "subName": "Chicago, IL, USA",
+            "url": "/neighborhood/156989/IL/Chicago/Illinois-Medical-District/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13922",
+            "type": "10",
+            "name": "Northlake Agents",
+            "subName": "Northlake, IL, USA",
+            "url": "/city/13922/IL/Northlake/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14082",
+            "type": "10",
+            "name": "Norwood Agents",
+            "subName": "Norwood, IL, USA",
+            "url": "/city/14082/IL/Norwood/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14132",
+            "type": "10",
+            "name": "Oakford Agents",
+            "subName": "Oakford, IL, USA",
+            "url": "/city/14132/IL/Oakford/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14177",
+            "type": "10",
+            "name": "Oakland Agents",
+            "subName": "Oakland, IL, USA",
+            "url": "/city/14177/IL/Oakland/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14243",
+            "type": "10",
+            "name": "Oakwood Agents",
+            "subName": "Oakwood, IL, USA",
+            "url": "/city/14243/IL/Oakwood/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14274",
+            "type": "10",
+            "name": "Oblong Agents",
+            "subName": "Oblong, IL, USA",
+            "url": "/city/14274/IL/Oblong/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

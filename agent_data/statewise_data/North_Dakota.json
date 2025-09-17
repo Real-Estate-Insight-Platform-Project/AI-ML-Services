@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_24164",
+            "type": "10",
+            "name": "North Spearfish Agents",
+            "subName": "North Spearfish, SD, USA",
+            "url": "/city/24164/SD/North-Spearfish/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765635",
+            "type": "10",
+            "name": "North Fargo Agents",
+            "subName": "Fargo, ND, USA",
+            "url": "/neighborhood/765635/ND/Fargo/North-Fargo/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765391",
+            "type": "10",
+            "name": "North Minot Agents",
+            "subName": "Minot, ND, USA",
+            "url": "/neighborhood/765391/ND/Minot/North-Minot/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_762059",
+            "type": "10",
+            "name": "North Hills Agents",
+            "subName": "Bismarck, ND, USA",
+            "url": "/neighborhood/762059/ND/Bismarck/North-Hills/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_765394",
+            "type": "10",
+            "name": "North Hill Agents",
+            "subName": "Minot, ND, USA",
+            "url": "/neighborhood/765394/ND/Minot/North-Hill/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15058",
+            "type": "10",
+            "name": "North River Agents",
+            "subName": "North River, ND, USA",
+            "url": "/city/15058/ND/North-River/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_1792",
+            "type": "10",
+            "name": "Dakota County Agents",
+            "subName": "NE, USA",
+            "url": "/county/1792/NE/Dakota-County/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_3106",
+            "type": "10",
+            "name": "Dakota City Agents",
+            "subName": "Dakota City, NE, USA",
+            "url": "/city/3106/NE/Dakota-City/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_760758",
+            "type": "10",
+            "name": "Northport Agents",
+            "subName": "Fargo, ND, USA",
+            "url": "/neighborhood/760758/ND/Fargo/Northport/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15101",
+            "type": "10",
+            "name": "Northwood Agents",
+            "subName": "Northwood, ND, USA",
+            "url": "/city/15101/ND/Northwood/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

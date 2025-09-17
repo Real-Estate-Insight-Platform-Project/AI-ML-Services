@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_96917",
+            "type": "10",
+            "name": "Kentucky Hills Agents",
+            "subName": "Independence, MO, USA",
+            "url": "/neighborhood/96917/MO/Independence/Kentucky-Hills/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_764149",
+            "type": "10",
+            "name": "Kentucky Avenue Agents",
+            "subName": "Paducah, KY, USA",
+            "url": "/neighborhood/764149/KY/Paducah/Kentucky-Avenue/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_551826",
+            "type": "10",
+            "name": "University of Kentucky Agents",
+            "subName": "Lexington, KY, USA",
+            "url": "/neighborhood/551826/KY/Lexington/University-of-Kentucky/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14101",
+            "type": "10",
+            "name": "Muldraugh Agents",
+            "subName": "Muldraugh, KY, USA",
+            "url": "/city/14101/KY/Muldraugh/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14119",
+            "type": "10",
+            "name": "Munfordville Agents",
+            "subName": "Munfordville, KY, USA",
+            "url": "/city/14119/KY/Munfordville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14137",
+            "type": "10",
+            "name": "Murray Agents",
+            "subName": "Murray, KY, USA",
+            "url": "/city/14137/KY/Murray/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14267",
+            "type": "10",
+            "name": "Nebo Agents",
+            "subName": "Nebo, KY, USA",
+            "url": "/city/14267/KY/Nebo/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16087",
+            "type": "10",
+            "name": "Powderly Agents",
+            "subName": "Powderly, KY, USA",
+            "url": "/city/16087/KY/Powderly/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16147",
+            "type": "10",
+            "name": "Prestonsburg Agents",
+            "subName": "Prestonsburg, KY, USA",
+            "url": "/city/16147/KY/Prestonsburg/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_16152",
+            "type": "10",
+            "name": "Prestonville Agents",
+            "subName": "Prestonville, KY, USA",
+            "url": "/city/16152/KY/Prestonville/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

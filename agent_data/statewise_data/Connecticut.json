@@ -1,0 +1,115 @@
+{
+    "message": "The name you selected is not correct. Please choose the correct name from the suggestions below.",
+    "suggestions": [
+        {
+            "id": "10_306794",
+            "type": "10",
+            "name": "Connecticut Hills Agents",
+            "subName": "Frankfort, IL, USA",
+            "url": "/neighborhood/306794/IL/Frankfort/Connecticut-Hills/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_524862",
+            "type": "10",
+            "name": "Connecticut College Agents",
+            "subName": "New London, CT, USA",
+            "url": "/neighborhood/524862/CT/New-London/Connecticut-College/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15725",
+            "type": "10",
+            "name": "Connecticut Gardens Agents",
+            "subName": "North Kensington, MD, USA",
+            "url": "/neighborhood/15725/MD/North-Kensington/Connecticut-Gardens/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_83752",
+            "type": "10",
+            "name": "Connecticut Farms Agents",
+            "subName": "Kenilworth, NJ, USA",
+            "url": "/neighborhood/83752/NJ/Kenilworth/Connecticut-Farms/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_37834",
+            "type": "10",
+            "name": "Connecticut Farms Agents",
+            "subName": "Connecticut Farms, NJ, USA",
+            "url": "/city/37834/NJ/Connecticut-Farms/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15723",
+            "type": "10",
+            "name": "Connecticut Avenue Hills Agents",
+            "subName": "North Kensington, MD, USA",
+            "url": "/neighborhood/15723/MD/North-Kensington/Connecticut-Avenue-Hills/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_15724",
+            "type": "10",
+            "name": "Connecticut Avenue Park Agents",
+            "subName": "Glenmont, MD, USA",
+            "url": "/neighborhood/15724/MD/Glenmont/Connecticut-Avenue-Park/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_60270",
+            "type": "10",
+            "name": "Connecticut Avenue Estates Agents",
+            "subName": "Wheaton, MD, USA",
+            "url": "/neighborhood/60270/MD/Wheaton/Connecticut-Avenue-Estates/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_14493",
+            "type": "10",
+            "name": "Norwalk Agents",
+            "subName": "Norwalk, CT, USA",
+            "url": "/city/14493/CT/Norwalk/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        },
+        {
+            "id": "10_13622",
+            "type": "10",
+            "name": "Newtown Agents",
+            "subName": "Newtown, CT, USA",
+            "url": "/city/13622/CT/Newtown/real-estate/agents",
+            "active": true,
+            "claimedHome": false,
+            "invalidMRS": false,
+            "countryCode": "US"
+        }
+    ]
+}

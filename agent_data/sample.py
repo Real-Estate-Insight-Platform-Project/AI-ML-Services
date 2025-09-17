@@ -20,7 +20,7 @@ response = requests.get(url, headers=headers, params=querystring)
 data = response.json()
 
 # Save the response to a JSON file with pretty formatting
-with open("redfin_agents/redfin_agents_response.json", "w", encoding="utf-8") as f:
+with open("agent_data/redfin_agents_response.json", "w", encoding="utf-8") as f:
 	json.dump(data, f, ensure_ascii=False, indent=4)
 
-print("Response saved to redfin_agents/redfin_agents_response.json")
+print("Response saved to agent_data/redfin_agents_response.json")
