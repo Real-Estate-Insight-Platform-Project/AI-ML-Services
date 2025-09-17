@@ -67,6 +67,23 @@ def train_model():
         predictions = get_predictions(df, feature)
         prediction_df[feature] = predictions
 
+    # Add market_trend column based on average_listing_price trend
+    prediction_df['market_trend'] = 'stable'
+    
+    for state in prediction_df['state'].unique():
+        state_data = prediction_df[prediction_df['state'] == state]
+        
+        # Check if we have at least 3 months of predictions to analyze trend
+        if len(state_data) >= 3:
+            # Get the average_listing_price for the next 3 months
+            prices = state_data['average_listing_price'].iloc[:3].values
+            
+            # Calculate if trend is rising, declining or stable
+            if prices[2] > prices[0]:
+                prediction_df.loc[prediction_df['state'] == state, 'market_trend'] = 'rising'
+            elif prices[2] < prices[0]:
+                prediction_df.loc[prediction_df['state'] == state, 'market_trend'] = 'declining'
+
     for col in features:
         if col in prediction_df.columns:
             prediction_df[col] = prediction_df[col].astype(int)
