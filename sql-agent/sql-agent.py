@@ -1,4 +1,4 @@
-import os, re
+import os, re, math
 from dotenv import load_dotenv, find_dotenv
 from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
@@ -55,6 +55,7 @@ def _guarded_run(sql: str, *args, **kwargs):
     up = sql.strip().upper()
     if not up.startswith("SELECT"):
         raise ValueError("Only SELECT queries are permitted.")
+    # Keep your existing LIMIT safety; presentation layer will still cap to 10.
     if not _limit_re.search(sql):
         sql += " LIMIT 100"
     return _original_db_run(sql, *args, **kwargs)
@@ -122,8 +123,6 @@ merged_system_prompt = (
     f"{domain_notes}"
 )
 
-
-
 prompt = ChatPromptTemplate.from_messages([
     ("system", merged_system_prompt),
     ("human", "{input}"),
@@ -139,6 +138,128 @@ agent = create_sql_agent(
     top_k=5,
     max_iterations=15,
 )
+
+# --------------------------
+# Pretty-printing utilities
+# --------------------------
+
+def _parse_markdown_table(md: str):
+    """
+    Parse a simple Markdown table into list[dict]. 
+    Expects header row and '---' separator. Ignores empty/short lines.
+    """
+    lines = [ln for ln in md.splitlines() if ln.strip()]
+    # Find the first header row that looks like a pipe table
+    start = None
+    for i, ln in enumerate(lines):
+        if ln.strip().startswith("|") and ("|" in ln.strip()[1:]):
+            # Next line should be the separator (---)
+            if i + 1 < len(lines) and set(lines[i + 1].replace("|", "").replace(" ", "")) <= set("-"):
+                start = i
+                break
+    if start is None:
+        return None
+
+    header = [h.strip() for h in lines[start].split("|") if h.strip()]
+    rows = []
+    for ln in lines[start + 2:]:
+        if not ln.strip().startswith("|"):
+            # stop at first non-table block
+            break
+        cols = [c.strip() for c in ln.split("|") if c.strip()]
+        if len(cols) < 1:
+            continue
+        row = {}
+        for j, h in enumerate(header):
+            if j < len(cols):
+                row[h] = cols[j]
+        rows.append(row)
+    return rows
+
+def _coerce_number(x):
+    try:
+        # remove $ and commas
+        s = str(x).replace("$", "").replace(",", "").strip()
+        if s == "" or s.lower() == "n/a":
+            return None
+        return float(s)
+    except Exception:
+        return None
+
+EM_SPACE = " "  # U+2003 for wide gap
+
+def format_properties(rows):
+    """
+    rows: list[dict] with keys like Title, Price, Bedrooms, Bathrooms, Address, square_feet, etc.
+    Returns a numbered, card-like Markdown string (without IDs).
+    Caps to first 10 entries.
+    """
+    if not rows:
+        return None
+
+    # Normalize field names (case-insensitive)
+    def g(row, *keys, default=""):
+        for k in keys:
+            for kk in row.keys():
+                if kk.lower() == k.lower():
+                    return row[kk]
+        return default
+
+    cards = []
+    for idx, row in enumerate(rows[:10], start=1):
+        title = g(row, "Title", "title", default="Unnamed Property")
+        price_raw = g(row, "Price", "price", default="")
+        price_num = _coerce_number(price_raw)
+        price = f"${price_num:,.0f}" if price_num is not None else (price_raw or "N/A")
+
+        bedrooms = g(row, "Bedrooms", "bedrooms", default="")
+        bathrooms = g(row, "Bathrooms", "bathrooms", default="")
+        sqft = g(row, "Square Feet", "square_feet", "sqft", default="")
+        address = g(row, "Address", "address", default="")
+
+        # Build the card (numbered + larger gaps between bed/bath/sqft)
+        meta_line = f"🛏 {bedrooms} bed"
+        if bathrooms:
+            meta_line += f"{EM_SPACE*3}🛁 {bathrooms} bath"
+        if sqft:
+            # ensure formatted with commas if numeric
+            sqn = _coerce_number(sqft)
+            sqft_disp = f"{int(sqn):,}" if (sqn is not None and not math.isnan(sqn)) else str(sqft)
+            meta_line += f"{EM_SPACE*3}📐 {sqft_disp} sqft"
+
+        card = (
+            f"{idx}) {title}\n"
+            + (f"📍 {address}\n" if address else "")
+            + meta_line + "\n"
+            + f"💰 {price}\n"
+        )
+        cards.append(card)
+
+    return "\n\n".join(cards)
+
+def try_beautify_properties(answer_text: str):
+    """
+    If the agent returned a markdown table that looks like property rows,
+    format them as numbered cards without IDs.
+    """
+    rows = _parse_markdown_table(answer_text)
+    if not rows:
+        return None
+
+    # Heuristic: if the table has a Title/Price column, it's likely properties.
+    header_keys = {k.lower() for k in rows[0].keys()}
+    if not (("title" in header_keys) and ("price" in header_keys)):
+        return None
+
+    # Drop obvious ID fields from rows (not shown to users)
+    for r in rows:
+        for k in list(r.keys()):
+            if k.strip().lower() in {"id", "uuid"}:
+                r.pop(k, None)
+
+    pretty = format_properties(rows)
+    return pretty
+
 
 # FastAPI setup
 app = FastAPI()
@@ -157,6 +278,13 @@ class QueryRequest(BaseModel):
 def ask_endpoint(request: QueryRequest):
     try:
         answer = agent.run(request.question)
+
+        # Try to beautify property results into card style (numbered, spaced)
+        pretty = try_beautify_properties(answer)
+        if pretty:
+            # Mention truncation if we likely capped to 10
+            answer = "Here are the top matching properties (showing up to 10):\n\n" + pretty
+
         return {"answer": answer}
     except Exception as e:
         return {"error": str(e)}
