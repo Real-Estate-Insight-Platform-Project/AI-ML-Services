@@ -5,10 +5,13 @@ from datetime import datetime
 import os
 from typing import Dict, Any, Optional, List
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Supabase configuration
-SUPABASE_URL = "https://kjyiuoqbkzmbdkrpwqcr.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtqeWl1b3Fia3ptYmRrcnB3cWNyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzYxNDc5OCwiZXhwIjoyMDczMTkwNzk4fQ.8t60wee7Op3EU19phk2OoxQGD-vZ1Lzxau6c50dxDj0"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
