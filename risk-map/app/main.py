@@ -1,61 +1,21 @@
 # risk-map/app/main.py
 import os
-import sys
-import logging
-import warnings
-from typing import Any, Dict, Optional, List
-from pathlib import Path as PathLib
+from typing import Any, Dict, Optional
 
 import asyncpg
 from fastapi import FastAPI, HTTPException, Path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import Response, JSONResponse
-from pydantic import BaseModel
 from dotenv import load_dotenv
-
-# Add agent_recommender to Python path
-agent_recommender_path = PathLib(__file__).parent.parent.parent / "agent_recommender"
-sys.path.append(str(agent_recommender_path))
-
-# Import agent recommender components
-try:
-    from recommender import AgentRecommenderSystem
-    AGENT_RECOMMENDER_AVAILABLE = True
-except ImportError:
-    AGENT_RECOMMENDER_AVAILABLE = False
-    print("⚠️ Agent Recommender system not available")
 
 load_dotenv()
 
 DB_URL = os.environ["MAP_DATABASE_URL"]  # e.g. postgresql://map_backend.<ref>:pass@aws-1-...pooler...:6543/postgres?sslmode=require
 
-# Agent Recommender data path
-AGENT_DATA_PATH = str(PathLib(__file__).parent.parent.parent / "agent_data" / "statewise_data")
-
 # A tiny Response subclass so OpenAPI shows the correct MVT media-type
 class MVTResponse(Response):
     media_type = "application/vnd.mapbox-vector-tile"
-
-# ---------------------------------------------------------------------
-# Pydantic models for Agent Recommender API
-# ---------------------------------------------------------------------
-
-class AgentRecommendationRequest(BaseModel):
-    """Request model for agent recommendations."""
-    regions: List[str]
-    budget: float
-    property_types: List[str]
-    top_k: Optional[int] = 5
-    model_type: Optional[str] = 'baseline'
-    explain: Optional[bool] = False
-
-class AgentCompareRequest(BaseModel):
-    """Request model for comparing agent models."""
-    regions: List[str]
-    budget: float
-    property_types: List[str]
-    top_k: Optional[int] = 5
 
 # ---------------------------------------------------------------------
 # App + middleware
@@ -75,7 +35,7 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=1500)
 
 # ---------------------------------------------------------------------
-# Startup / shutdown: db pool + agent recommender (PgBouncer-safe)
+# Startup / shutdown: db pool (PgBouncer-safe)
 # ---------------------------------------------------------------------
 
 @app.on_event("startup")
@@ -87,30 +47,6 @@ async def _startup():
         statement_cache_size=0,  # PgBouncer safe
         max_inactive_connection_lifetime=60.0,
     )
-    
-    # Initialize Agent Recommender System
-    if AGENT_RECOMMENDER_AVAILABLE:
-        try:
-            # Suppress agent recommender logging to reduce console noise
-            logging.getLogger('recommender').setLevel(logging.WARNING)
-            logging.getLogger('utils.data_preprocessing').setLevel(logging.WARNING)
-            logging.getLogger('models.baseline_scorer').setLevel(logging.WARNING)
-            logging.getLogger('models.ml_ranker').setLevel(logging.WARNING)
-            
-            # Also suppress sklearn and lightgbm warnings
-            logging.getLogger('sklearn').setLevel(logging.ERROR)
-            logging.getLogger('lightgbm').setLevel(logging.ERROR)
-            
-            # Suppress sklearn UserWarnings about feature names
-            warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
-            
-            app.state.agent_recommender = AgentRecommenderSystem(AGENT_DATA_PATH)
-            app.state.agent_recommender.initialize()
-        except Exception as e:
-            print(f"❌ Failed to initialize Agent Recommender: {e}")
-            app.state.agent_recommender = None
-    else:
-        app.state.agent_recommender = None
 
 @app.on_event("shutdown")
 async def _shutdown():
@@ -204,259 +140,20 @@ async def property_details(property_id: str = Path(..., description="Property UU
     )
 
 # ---------------------------------------------------------------------
-# Agent Recommender API Routes
-# ---------------------------------------------------------------------
-
-@app.post("/agents/recommend", tags=["agents"])
-async def recommend_agents(request: AgentRecommendationRequest):
-    """
-    Get real estate agent recommendations based on user preferences.
-    
-    - **regions**: List of target cities/regions
-    - **budget**: Budget amount in USD
-    - **property_types**: List of desired property types
-    - **top_k**: Number of recommendations to return (default: 5)
-    - **model_type**: Model to use - 'baseline', 'ml', or 'ensemble' (default: 'baseline')
-    - **explain**: Include detailed explanations (default: False)
-    """
-    if not app.state.agent_recommender:
-        raise HTTPException(
-            status_code=503, 
-            detail="Agent Recommender service not available"
-        )
-    
-    try:
-        # Validate model type
-        if request.model_type not in ['baseline', 'ml', 'ensemble']:
-            raise HTTPException(
-                status_code=400,
-                detail="model_type must be one of: baseline, ml, ensemble"
-            )
-        
-        # Validate budget
-        if request.budget <= 0:
-            raise HTTPException(
-                status_code=400,
-                detail="budget must be a positive number"
-            )
-        
-        # Validate regions and property types
-        if not request.regions:
-            raise HTTPException(
-                status_code=400,
-                detail="regions list cannot be empty"
-            )
-        
-        if not request.property_types:
-            raise HTTPException(
-                status_code=400,
-                detail="property_types list cannot be empty"
-            )
-        
-        # Create query
-        user_query = {
-            'regions': request.regions,
-            'budget': request.budget,
-            'property_types': request.property_types
-        }
-        
-        # Get recommendations
-        result = app.state.agent_recommender.recommend(
-            user_query,
-            model_type=request.model_type,
-            top_k=request.top_k,
-            explain=request.explain
-        )
-        
-        return JSONResponse(
-            _to_jsonable(result),
-            headers={"Cache-Control": "public, max-age=300"}
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
-
-@app.get("/agents/{agent_id}", tags=["agents"])
-async def get_agent_details(agent_id: int = Path(..., description="Agent ID")):
-    """
-    Get detailed information about a specific real estate agent.
-    
-    - **agent_id**: Unique agent identifier
-    """
-    if not app.state.agent_recommender:
-        raise HTTPException(
-            status_code=503,
-            detail="Agent Recommender service not available"
-        )
-    
-    try:
-        details = app.state.agent_recommender.get_agent_details(agent_id)
-        
-        if 'error' in details:
-            raise HTTPException(status_code=404, detail=details['error'])
-        
-        return JSONResponse(
-            _to_jsonable(details),
-            headers={"Cache-Control": "public, max-age=3600"}
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
-
-@app.post("/agents/compare", tags=["agents"])
-async def compare_agent_models(request: AgentCompareRequest):
-    """
-    Compare recommendations from different models (baseline vs ML).
-    
-    - **regions**: List of target cities/regions
-    - **budget**: Budget amount in USD
-    - **property_types**: List of desired property types
-    - **top_k**: Number of recommendations to return per model (default: 5)
-    """
-    if not app.state.agent_recommender:
-        raise HTTPException(
-            status_code=503,
-            detail="Agent Recommender service not available"
-        )
-    
-    try:
-        # Validate inputs
-        if request.budget <= 0:
-            raise HTTPException(
-                status_code=400,
-                detail="budget must be a positive number"
-            )
-        
-        if not request.regions:
-            raise HTTPException(
-                status_code=400,
-                detail="regions list cannot be empty"
-            )
-        
-        if not request.property_types:
-            raise HTTPException(
-                status_code=400,
-                detail="property_types list cannot be empty"
-            )
-        
-        # Create query
-        user_query = {
-            'regions': request.regions,
-            'budget': request.budget,
-            'property_types': request.property_types
-        }
-        
-        # Compare models
-        comparison = app.state.agent_recommender.compare_models(
-            user_query,
-            top_k=request.top_k
-        )
-        
-        return JSONResponse(
-            _to_jsonable(comparison),
-            headers={"Cache-Control": "public, max-age=300"}
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
-
-@app.get("/agents/stats", tags=["agents"])
-async def get_agent_system_stats():
-    """
-    Get statistics about the agent recommender system.
-    
-    Returns information about:
-    - Total number of agents
-    - States and markets covered
-    - Data quality metrics
-    - System performance
-    """
-    if not app.state.agent_recommender:
-        raise HTTPException(
-            status_code=503,
-            detail="Agent Recommender service not available"
-        )
-    
-    try:
-        stats = app.state.agent_recommender.get_system_stats()
-        
-        return JSONResponse(
-            _to_jsonable(stats),
-            headers={"Cache-Control": "public, max-age=3600"}
-        )
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
-
-@app.get("/agents/health", tags=["agents"])
-async def agent_health_check():
-    """
-    Health check for the agent recommender system.
-    """
-    if not app.state.agent_recommender:
-        return JSONResponse(
-            {
-                "status": "unavailable",
-                "message": "Agent Recommender service not initialized",
-                "healthy": False
-            },
-            status_code=503
-        )
-    
-    try:
-        # Quick system check
-        stats = app.state.agent_recommender.get_system_stats()
-        
-        return JSONResponse({
-            "status": "healthy",
-            "message": "Agent Recommender service operational",
-            "healthy": True,
-            "total_agents": stats.get('total_agents', 0),
-            "unique_states": stats.get('unique_states', 0),
-            "unique_markets": stats.get('unique_markets', 0)
-        })
-        
-    except Exception as e:
-        return JSONResponse(
-            {
-                "status": "unhealthy",
-                "message": f"Agent Recommender service error: {str(e)}",
-                "healthy": False
-            },
-            status_code=500
-        )
-
-# ---------------------------------------------------------------------
 # Health
 # ---------------------------------------------------------------------
 
 @app.get("/", tags=["health"])
 async def root():
-    agent_status = "available" if app.state.agent_recommender else "unavailable"
-    
     return {
         "ok": True,
-        "service": "risk-map + agent-recommender",
-        "message": "Vector tiles + Properties + Agent Recommender enabled",
-        "agent_recommender_status": agent_status,
+        "service": "risk-map",
+        "message": "Vector tiles + Properties enabled",
         "tiles": {
             "counties": "/tiles/counties/{z}/{x}/{y}",
             "properties": "/tiles/properties/{z}/{x}/{y}",
         },
         "json": {
             "property_details": "/properties/{id}",
-        },
-        "agents": {
-            "recommend": "/agents/recommend",
-            "agent_details": "/agents/{id}",
-            "compare_models": "/agents/compare", 
-            "system_stats": "/agents/stats",
-            "health_check": "/agents/health"
         },
     }
