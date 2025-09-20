@@ -12,3 +12,4 @@ pydantic
 starlette
 requests
 uvicorn
+geoalchemy2

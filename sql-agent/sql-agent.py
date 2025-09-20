@@ -11,6 +11,7 @@ from sqlalchemy import create_engine, event
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from geoalchemy2 import Geometry
 
 # Load environment variables
 load_dotenv(find_dotenv(), override=True)
@@ -101,7 +102,7 @@ domain_notes = """
    - `predominant_hazard` is derived from the **highest Expected Annual Loss (EAL) total** among 18 hazards.
 
 4) public.properties — (LISTINGS CATALOG)
-   - PK: id (uuid). Columns include price, bedrooms, bathrooms, square_feet, property_type, listing_status, city/state/zip, created_at/updated_at, coordinates.
+   - PK: id (uuid). Columns include price, bedrooms, bathrooms, square_feet, property_type, listing_status, address, city, state, created_at/updated_at.
    - For listing queries (e.g., “3+ bedrooms under $500k”), **always** `LIMIT 10` and default ordering `ORDER BY created_at DESC NULLS LAST` unless the user asks for a different order (e.g., price ASC).
 
 ### JOIN & FILTER HINTS
@@ -215,21 +216,37 @@ def format_properties(rows):
         bedrooms = g(row, "Bedrooms", "bedrooms", default="")
         bathrooms = g(row, "Bathrooms", "bathrooms", default="")
         sqft = g(row, "Square Feet", "square_feet", "sqft", default="")
-        address = g(row, "Address", "address", default="")
 
-        # Build the card (numbered + larger gaps between bed/bath/sqft)
+        # --- Location fields (robust to header variants) ---
+        address = g(
+            row,
+            "address", "street_address", "street address", "addr", "full_address", "location",
+            default=""
+        )
+        city = g(row, "city", "town", "locality", default="")
+        state = g(row, "state", "state_code", "region", "province", default="")
+
+        # Build the card (address + city + state together)
+        location_line = ""
+        if address or city or state:
+            parts = []
+            if address: parts.append(address)
+            if city:    parts.append(city)
+            if state:   parts.append(state)
+            location_line = f"📍 {', '.join(parts)}\n"
+
+        # Build the meta info
         meta_line = f"🛏 {bedrooms} bed"
         if bathrooms:
             meta_line += f"{EM_SPACE*3}🛁 {bathrooms} bath"
         if sqft:
-            # ensure formatted with commas if numeric
             sqn = _coerce_number(sqft)
             sqft_disp = f"{int(sqn):,}" if (sqn is not None and not math.isnan(sqn)) else str(sqft)
             meta_line += f"{EM_SPACE*3}📐 {sqft_disp} sqft"
 
         card = (
             f"{idx}) {title}\n"
-            + (f"📍 {address}\n" if address else "")
+            + location_line
             + meta_line + "\n"
             + f"💰 {price}\n"
         )
