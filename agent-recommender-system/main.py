@@ -121,6 +121,7 @@ class AgentOut(BaseModel):
     phone: Optional[str]
     email: Optional[str]
     profile_url: Optional[str]
+    photo_url: Optional[str]        # Add photo_url field
     is_premier: bool
     is_active: bool
     total_score: float
@@ -401,6 +402,7 @@ def recommend(req: RecommendRequest):
             phone=getattr(r, "phone_number"),
             email=getattr(r, "email"),
             profile_url=getattr(r, "profile_url"),
+            photo_url=getattr(r, "photo_url", None),  # Add photo_url field
             is_premier=bool(getattr(r, "is_premier")),
             is_active=bool(getattr(r, "is_active")),
             total_score=float(getattr(r, "total_score")),
