@@ -1,0 +1,70 @@
+Adamsville, RI, USA
+Albion, RI, USA
+Ashaway, RI, USA
+Barrington, RI, USA
+Block Island, RI, USA
+Bradford, RI, USA
+Bristol, RI, USA
+Carolina, RI, USA
+Central Falls, RI, USA
+Charlestown, RI, USA
+Chepachet, RI, USA
+Clayville, RI, USA
+Coventry, RI, USA
+Cranston, RI, USA
+Cumberland, RI, USA
+East Greenwich, RI, USA
+East Providence, RI, USA
+Exeter, RI, USA
+Fiskeville, RI, USA
+Forestdale, RI, USA
+Foster, RI, USA
+Glendale, RI, USA
+Greene, RI, USA
+Greenville, RI, USA
+Harmony, RI, USA
+Harrisville, RI, USA
+Hope, RI, USA
+Hope Valley, RI, USA
+Hopkinton, RI, USA
+Jamestown, RI, USA
+Johnston, RI, USA
+Kenyon, RI, USA
+Kingston, RI, USA
+Lincoln, RI, USA
+Little Compton, RI, USA
+Manville, RI, USA
+Mapleville, RI, USA
+Middletown, RI, USA
+Narragansett, RI, USA
+Newport, RI, USA
+North Kingstown, RI, USA
+North Providence, RI, USA
+North Scituate, RI, USA
+North Smithfield, RI, USA
+Oakland, RI, USA
+Pascoag, RI, USA
+Pawtucket, RI, USA
+Peace Dale, RI, USA
+Portsmouth, RI, USA
+Providence, RI, USA
+Prudence Island, RI, USA
+Riverside, RI, USA
+Rockville, RI, USA
+Rumford, RI, USA
+Saunderstown, RI, USA
+Shannock, RI, USA
+Slatersville, RI, USA
+Slocum, RI, USA
+Smithfield, RI, USA
+Tiverton, RI, USA
+Wakefield, RI, USA
+Warren, RI, USA
+Warwick, RI, USA
+West Greenwich, RI, USA
+West Kingston, RI, USA
+West Warwick, RI, USA
+Westerly, RI, USA
+Wood River Junction, RI, USA
+Woonsocket, RI, USA
+Wyoming, RI, USA

@@ -1,0 +1,790 @@
+Ada, MN, USA
+Adams, MN, USA
+Adrian, MN, USA
+Afton, MN, USA
+Aitkin, MN, USA
+Akeley, MN, USA
+Albany, MN, USA
+Albert Lea, MN, USA
+Alberta, MN, USA
+Albertville, MN, USA
+Alborn, MN, USA
+Alden, MN, USA
+Aldrich, MN, USA
+Alexandria, MN, USA
+Alpha, MN, USA
+Altura, MN, USA
+Alvarado, MN, USA
+Amboy, MN, USA
+Andover, MN, USA
+Angle Inlet, MN, USA
+Angora, MN, USA
+Annandale, MN, USA
+Anoka, MN, USA
+Appleton, MN, USA
+Arco, MN, USA
+Argyle, MN, USA
+Arlington, MN, USA
+Ashby, MN, USA
+Askov, MN, USA
+Atwater, MN, USA
+Audubon, MN, USA
+Aurora, MN, USA
+Austin, MN, USA
+Avoca, MN, USA
+Avon, MN, USA
+Babbitt, MN, USA
+Backus, MN, USA
+Badger, MN, USA
+Bagley, MN, USA
+Balaton, MN, USA
+Barnesville, MN, USA
+Barnum, MN, USA
+Barrett, MN, USA
+Barry, MN, USA
+Battle Lake, MN, USA
+Baudette, MN, USA
+Baxter, MN, USA
+Bayport, MN, USA
+Beardsley, MN, USA
+Beaver Bay, MN, USA
+Beaver Creek, MN, USA
+Becker, MN, USA
+Bejou, MN, USA
+Belgrade, MN, USA
+Belle Plaine, MN, USA
+Bellingham, MN, USA
+Beltrami, MN, USA
+Belview, MN, USA
+Bemidji, MN, USA
+Bena, MN, USA
+Benedict, MN, USA
+Benson, MN, USA
+Bertha, MN, USA
+Bethel, MN, USA
+Big Falls, MN, USA
+Big Lake, MN, USA
+Bigelow, MN, USA
+Bigfork, MN, USA
+Bingham Lake, MN, USA
+Birchdale, MN, USA
+Bird Island, MN, USA
+Biwabik, MN, USA
+Blackduck, MN, USA
+Blomkest, MN, USA
+Blooming Prairie, MN, USA
+Blue Earth, MN, USA
+Bluffton, MN, USA
+Bock, MN, USA
+Borup, MN, USA
+Bovey, MN, USA
+Bowlus, MN, USA
+Bowstring, MN, USA
+Boyd, MN, USA
+Braham, MN, USA
+Brainerd, MN, USA
+Brandon, MN, USA
+Breckenridge, MN, USA
+Brewster, MN, USA
+Bricelyn, MN, USA
+Brimson, MN, USA
+Britt, MN, USA
+Brook Park, MN, USA
+Brooks, MN, USA
+Brookston, MN, USA
+Brooten, MN, USA
+Browerville, MN, USA
+Browns Valley, MN, USA
+Brownsdale, MN, USA
+Brownsville, MN, USA
+Brownton, MN, USA
+Bruno, MN, USA
+Buffalo, MN, USA
+Buffalo Lake, MN, USA
+Buhl, MN, USA
+Burnsville, MN, USA
+Burtrum, MN, USA
+Butterfield, MN, USA
+Byron, MN, USA
+Caledonia, MN, USA
+Callaway, MN, USA
+Calumet, MN, USA
+Cambridge, MN, USA
+Campbell, MN, USA
+Canby, MN, USA
+Cannon Falls, MN, USA
+Canton, MN, USA
+Canyon, MN, USA
+Carlos, MN, USA
+Carlton, MN, USA
+Carver, MN, USA
+Cass Lake, MN, USA
+Castle Rock, MN, USA
+Cedar, MN, USA
+Center City, MN, USA
+Ceylon, MN, USA
+Champlin, MN, USA
+Chandler, MN, USA
+Chanhassen, MN, USA
+Chaska, MN, USA
+Chatfield, MN, USA
+Chisago City, MN, USA
+Chisholm, MN, USA
+Chokio, MN, USA
+Circle Pines, MN, USA
+Clara City, MN, USA
+Claremont, MN, USA
+Clarissa, MN, USA
+Clarkfield, MN, USA
+Clarks Grove, MN, USA
+Clear Lake, MN, USA
+Clearbrook, MN, USA
+Clearwater, MN, USA
+Clements, MN, USA
+Cleveland, MN, USA
+Climax, MN, USA
+Clinton, MN, USA
+Clitherall, MN, USA
+Clontarf, MN, USA
+Cloquet, MN, USA
+Cohasset, MN, USA
+Cokato, MN, USA
+Cold Spring, MN, USA
+Coleraine, MN, USA
+Collegeville, MN, USA
+Cologne, MN, USA
+Comfrey, MN, USA
+Comstock, MN, USA
+Conger, MN, USA
+Cook, MN, USA
+Correll, MN, USA
+Cosmos, MN, USA
+Cottage Grove, MN, USA
+Cotton, MN, USA
+Cottonwood, MN, USA
+Courtland, MN, USA
+Crane Lake, MN, USA
+Cromwell, MN, USA
+Crookston, MN, USA
+Crosby, MN, USA
+Crosslake, MN, USA
+Crystal Bay, MN, USA
+Currie, MN, USA
+Cushing, MN, USA
+Cyrus, MN, USA
+Dakota, MN, USA
+Dalbo, MN, USA
+Dalton, MN, USA
+Danube, MN, USA
+Danvers, MN, USA
+Darfur, MN, USA
+Darwin, MN, USA
+Dassel, MN, USA
+Dawson, MN, USA
+Dayton, MN, USA
+Deer Creek, MN, USA
+Deer River, MN, USA
+Deerwood, MN, USA
+Delano, MN, USA
+Delavan, MN, USA
+Dennison, MN, USA
+Dent, MN, USA
+Detroit Lakes, MN, USA
+Dexter, MN, USA
+Dilworth, MN, USA
+Dodge Center, MN, USA
+Donaldson, MN, USA
+Donnelly, MN, USA
+Dover, MN, USA
+Dovray, MN, USA
+Duluth, MN, USA
+Dumont, MN, USA
+Dundas, MN, USA
+Dunnell, MN, USA
+Eagle Bend, MN, USA
+Eagle Lake, MN, USA
+East Grand Forks, MN, USA
+Easton, MN, USA
+Echo, MN, USA
+Eden Prairie, MN, USA
+Eden Valley, MN, USA
+Edgerton, MN, USA
+Effie, MN, USA
+Eitzen, MN, USA
+Elbow Lake, MN, USA
+Elgin, MN, USA
+Elizabeth, MN, USA
+Elk River, MN, USA
+Elko New Market, MN, USA
+Elkton, MN, USA
+Ellendale, MN, USA
+Ellsworth, MN, USA
+Elmore, MN, USA
+Elrosa, MN, USA
+Ely, MN, USA
+Elysian, MN, USA
+Embarrass, MN, USA
+Emily, MN, USA
+Emmons, MN, USA
+Erhard, MN, USA
+Erskine, MN, USA
+Esko, MN, USA
+Euclid, MN, USA
+Evansville, MN, USA
+Eveleth, MN, USA
+Excelsior, MN, USA
+Eyota, MN, USA
+Fairfax, MN, USA
+Fairmont, MN, USA
+Faribault, MN, USA
+Farmington, MN, USA
+Farwell, MN, USA
+Federal Dam, MN, USA
+Felton, MN, USA
+Fergus Falls, MN, USA
+Fertile, MN, USA
+Fifty Lakes, MN, USA
+Finland, MN, USA
+Finlayson, MN, USA
+Fisher, MN, USA
+Flensburg, MN, USA
+Flom, MN, USA
+Floodwood, MN, USA
+Foley, MN, USA
+Forbes, MN, USA
+Forest Lake, MN, USA
+Foreston, MN, USA
+Fort Ripley, MN, USA
+Fosston, MN, USA
+Fountain, MN, USA
+Foxhome, MN, USA
+Franklin, MN, USA
+Frazee, MN, USA
+Freeborn, MN, USA
+Freeport, MN, USA
+Frontenac, MN, USA
+Frost, MN, USA
+Fulda, MN, USA
+Garden City, MN, USA
+Garfield, MN, USA
+Garrison, MN, USA
+Garvin, MN, USA
+Gary, MN, USA
+Gatzke, MN, USA
+Gaylord, MN, USA
+Geneva, MN, USA
+Georgetown, MN, USA
+Ghent, MN, USA
+Gibbon, MN, USA
+Gilbert, MN, USA
+Gilman, MN, USA
+Glencoe, MN, USA
+Glenville, MN, USA
+Glenwood, MN, USA
+Glyndon, MN, USA
+Gonvick, MN, USA
+Good Thunder, MN, USA
+Goodhue, MN, USA
+Goodland, MN, USA
+Goodridge, MN, USA
+Graceville, MN, USA
+Granada, MN, USA
+Grand Marais, MN, USA
+Grand Meadow, MN, USA
+Grand Portage, MN, USA
+Grand Rapids, MN, USA
+Grandy, MN, USA
+Granite Falls, MN, USA
+Grasston, MN, USA
+Green Isle, MN, USA
+Greenbush, MN, USA
+Greenwald, MN, USA
+Grey Eagle, MN, USA
+Grove City, MN, USA
+Grygla, MN, USA
+Gully, MN, USA
+Hackensack, MN, USA
+Hallock, MN, USA
+Halma, MN, USA
+Halstad, MN, USA
+Hamburg, MN, USA
+Hamel, MN, USA
+Hampton, MN, USA
+Hancock, MN, USA
+Hanley Falls, MN, USA
+Hanover, MN, USA
+Hanska, MN, USA
+Hardwick, MN, USA
+Harmony, MN, USA
+Harris, MN, USA
+Hartland, MN, USA
+Hastings, MN, USA
+Hawley, MN, USA
+Hayfield, MN, USA
+Hayward, MN, USA
+Hector, MN, USA
+Henderson, MN, USA
+Hendricks, MN, USA
+Hendrum, MN, USA
+Henning, MN, USA
+Henriette, MN, USA
+Herman, MN, USA
+Heron Lake, MN, USA
+Hewitt, MN, USA
+Hibbing, MN, USA
+Hill City, MN, USA
+Hillman, MN, USA
+Hills, MN, USA
+Hinckley, MN, USA
+Hines, MN, USA
+Hitterdal, MN, USA
+Hoffman, MN, USA
+Hokah, MN, USA
+Holdingford, MN, USA
+Holland, MN, USA
+Hollandale, MN, USA
+Holloway, MN, USA
+Holmes City, MN, USA
+Holyoke, MN, USA
+Hope, MN, USA
+Hopkins, MN, USA
+Houston, MN, USA
+Hovland, MN, USA
+Howard Lake, MN, USA
+Hoyt Lakes, MN, USA
+Hugo, MN, USA
+Humboldt, MN, USA
+Huntley, MN, USA
+Hutchinson, MN, USA
+International Falls, MN, USA
+Inver Grove Heights, MN, USA
+Iona, MN, USA
+Iron, MN, USA
+Ironton, MN, USA
+Isabella, MN, USA
+Isanti, MN, USA
+Isle, MN, USA
+Ivanhoe, MN, USA
+Jackson, MN, USA
+Jacobson, MN, USA
+Janesville, MN, USA
+Jasper, MN, USA
+Jeffers, MN, USA
+Jordan, MN, USA
+Kabetogama, MN, USA
+Kanaranzi, MN, USA
+Kandiyohi, MN, USA
+Karlstad, MN, USA
+Kasota, MN, USA
+Kasson, MN, USA
+Keewatin, MN, USA
+Kelliher, MN, USA
+Kellogg, MN, USA
+Kennedy, MN, USA
+Kenneth, MN, USA
+Kensington, MN, USA
+Kent, MN, USA
+Kenyon, MN, USA
+Kerkhoven, MN, USA
+Kerrick, MN, USA
+Kettle River, MN, USA
+Kiester, MN, USA
+Kilkenny, MN, USA
+Kimball, MN, USA
+Kinney, MN, USA
+Knife River, MN, USA
+La Crescent, MN, USA
+La Salle, MN, USA
+Lafayette, MN, USA
+Lake Benton, MN, USA
+Lake Bronson, MN, USA
+Lake City, MN, USA
+Lake Crystal, MN, USA
+Lake Elmo, MN, USA
+Lake George, MN, USA
+Lake Lillian, MN, USA
+Lake Park, MN, USA
+Lake Wilson, MN, USA
+Lakefield, MN, USA
+Lakeland, MN, USA
+Lakeville, MN, USA
+Lamberton, MN, USA
+Lancaster, MN, USA
+Lanesboro, MN, USA
+Lansing, MN, USA
+Laporte, MN, USA
+Lastrup, MN, USA
+Le Center, MN, USA
+Le Roy, MN, USA
+Le Sueur, MN, USA
+Lengby, MN, USA
+Leonard, MN, USA
+Leota, MN, USA
+Lester Prairie, MN, USA
+Lewiston, MN, USA
+Lewisville, MN, USA
+Lindstrom, MN, USA
+Lismore, MN, USA
+Litchfield, MN, USA
+Little Falls, MN, USA
+Littlefork, MN, USA
+Loman, MN, USA
+Long Lake, MN, USA
+Long Prairie, MN, USA
+Longville, MN, USA
+Lonsdale, MN, USA
+Loretto, MN, USA
+Lowry, MN, USA
+Lucan, MN, USA
+Lutsen, MN, USA
+Luverne, MN, USA
+Lyle, MN, USA
+Lynd, MN, USA
+Mabel, MN, USA
+Madelia, MN, USA
+Madison, MN, USA
+Madison Lake, MN, USA
+Magnolia, MN, USA
+Mahnomen, MN, USA
+Makinen, MN, USA
+Mankato, MN, USA
+Mantorville, MN, USA
+Maple Grove, MN, USA
+Maple Lake, MN, USA
+Maple Plain, MN, USA
+Mapleton, MN, USA
+Marble, MN, USA
+Marcell, MN, USA
+Margie, MN, USA
+Marietta, MN, USA
+Marine On Saint Croix, MN, USA
+Marshall, MN, USA
+Max, MN, USA
+Mayer, MN, USA
+Maynard, MN, USA
+Mazeppa, MN, USA
+Mc Grath, MN, USA
+Mcgregor, MN, USA
+Mcintosh, MN, USA
+Meadowlands, MN, USA
+Medford, MN, USA
+Melrose, MN, USA
+Menahga, MN, USA
+Mendota, MN, USA
+Mentor, MN, USA
+Merrifield, MN, USA
+Middle River, MN, USA
+Milaca, MN, USA
+Milan, MN, USA
+Millville, MN, USA
+Milroy, MN, USA
+Miltona, MN, USA
+Minneapolis, MN, USA
+Minneota, MN, USA
+Minnesota City, MN, USA
+Minnesota Lake, MN, USA
+Minnetonka, MN, USA
+Minnetonka Beach, MN, USA
+Mizpah, MN, USA
+Montevideo, MN, USA
+Montgomery, MN, USA
+Monticello, MN, USA
+Montrose, MN, USA
+Moorhead, MN, USA
+Moose Lake, MN, USA
+Mora, MN, USA
+Morgan, MN, USA
+Morris, MN, USA
+Morristown, MN, USA
+Morton, MN, USA
+Motley, MN, USA
+Mound, MN, USA
+Mountain Iron, MN, USA
+Mountain Lake, MN, USA
+Murdock, MN, USA
+Nashua, MN, USA
+Nashwauk, MN, USA
+Naytahwaush, MN, USA
+Nelson, MN, USA
+Nerstrand, MN, USA
+Nett Lake, MN, USA
+Nevis, MN, USA
+New Auburn, MN, USA
+New Germany, MN, USA
+New London, MN, USA
+New Munich, MN, USA
+New Prague, MN, USA
+New Richland, MN, USA
+New Ulm, MN, USA
+New York Mills, MN, USA
+Newfolden, MN, USA
+Newport, MN, USA
+Nicollet, MN, USA
+Nielsville, MN, USA
+Nisswa, MN, USA
+Norcross, MN, USA
+North Branch, MN, USA
+Northfield, MN, USA
+Northome, MN, USA
+Northrop, MN, USA
+Norwood Young America, MN, USA
+Noyes, MN, USA
+Oak Island, MN, USA
+Oak Park, MN, USA
+Odessa, MN, USA
+Odin, MN, USA
+Ogema, MN, USA
+Ogilvie, MN, USA
+Okabena, MN, USA
+Oklee, MN, USA
+Olivia, MN, USA
+Onamia, MN, USA
+Ormsby, MN, USA
+Oronoco, MN, USA
+Orr, MN, USA
+Ortonville, MN, USA
+Osage, MN, USA
+Osakis, MN, USA
+Oslo, MN, USA
+Osseo, MN, USA
+Ostrander, MN, USA
+Ottertail, MN, USA
+Outing, MN, USA
+Owatonna, MN, USA
+Palisade, MN, USA
+Park Rapids, MN, USA
+Parkers Prairie, MN, USA
+Paynesville, MN, USA
+Pease, MN, USA
+Pelican Rapids, MN, USA
+Pemberton, MN, USA
+Pengilly, MN, USA
+Pennington, MN, USA
+Pennock, MN, USA
+Pequot Lakes, MN, USA
+Perham, MN, USA
+Perley, MN, USA
+Peterson, MN, USA
+Pierz, MN, USA
+Pillager, MN, USA
+Pine City, MN, USA
+Pine Island, MN, USA
+Pine River, MN, USA
+Pipestone, MN, USA
+Plainview, MN, USA
+Plato, MN, USA
+Plummer, MN, USA
+Ponemah, MN, USA
+Ponsford, MN, USA
+Porter, MN, USA
+Preston, MN, USA
+Princeton, MN, USA
+Prinsburg, MN, USA
+Prior Lake, MN, USA
+Puposky, MN, USA
+Racine, MN, USA
+Randall, MN, USA
+Randolph, MN, USA
+Ranier, MN, USA
+Raymond, MN, USA
+Reading, MN, USA
+Reads Landing, MN, USA
+Red Lake, MN, USA
+Red Lake Falls, MN, USA
+Red Wing, MN, USA
+Redby, MN, USA
+Redwood Falls, MN, USA
+Remer, MN, USA
+Renville, MN, USA
+Revere, MN, USA
+Rice, MN, USA
+Richmond, MN, USA
+Richville, MN, USA
+Richwood, MN, USA
+Rochert, MN, USA
+Rochester, MN, USA
+Rockford, MN, USA
+Rockville, MN, USA
+Rogers, MN, USA
+Rollingstone, MN, USA
+Roosevelt, MN, USA
+Roscoe, MN, USA
+Rose Creek, MN, USA
+Roseau, MN, USA
+Rosemount, MN, USA
+Rothsay, MN, USA
+Round Lake, MN, USA
+Royalton, MN, USA
+Rush City, MN, USA
+Rushford, MN, USA
+Rushmore, MN, USA
+Russell, MN, USA
+Ruthton, MN, USA
+Sabin, MN, USA
+Sacred Heart, MN, USA
+Saginaw, MN, USA
+Saint Bonifacius, MN, USA
+Saint Charles, MN, USA
+Saint Clair, MN, USA
+Saint Cloud, MN, USA
+Saint Francis, MN, USA
+Saint Hilaire, MN, USA
+Saint James, MN, USA
+Saint Joseph, MN, USA
+Saint Martin, MN, USA
+Saint Michael, MN, USA
+Saint Paul, MN, USA
+Saint Paul Park, MN, USA
+Saint Peter, MN, USA
+Saint Stephen, MN, USA
+Saint Vincent, MN, USA
+Salol, MN, USA
+Sanborn, MN, USA
+Sandstone, MN, USA
+Santiago, MN, USA
+Sargeant, MN, USA
+Sartell, MN, USA
+Sauk Centre, MN, USA
+Sauk Rapids, MN, USA
+Savage, MN, USA
+Sawyer, MN, USA
+Scandia, MN, USA
+Schroeder, MN, USA
+Seaforth, MN, USA
+Searles, MN, USA
+Sebeka, MN, USA
+Shafer, MN, USA
+Shakopee, MN, USA
+Shelly, MN, USA
+Sherburn, MN, USA
+Shevlin, MN, USA
+Side Lake, MN, USA
+Silver Bay, MN, USA
+Silver Lake, MN, USA
+Slayton, MN, USA
+Sleepy Eye, MN, USA
+Solway, MN, USA
+Soudan, MN, USA
+South Haven, MN, USA
+South International Falls, MN, USA
+South Saint Paul, MN, USA
+Spicer, MN, USA
+Spring Grove, MN, USA
+Spring Lake, MN, USA
+Spring Park, MN, USA
+Spring Valley, MN, USA
+Springfield, MN, USA
+Squaw Lake, MN, USA
+Stacy, MN, USA
+Stanchfield, MN, USA
+Staples, MN, USA
+Starbuck, MN, USA
+Steen, MN, USA
+Stephen, MN, USA
+Stewart, MN, USA
+Stewartville, MN, USA
+Stillwater, MN, USA
+Storden, MN, USA
+Strandquist, MN, USA
+Strathcona, MN, USA
+Sturgeon Lake, MN, USA
+Sunburg, MN, USA
+Swan River, MN, USA
+Swanville, MN, USA
+Swatara, MN, USA
+Taconite, MN, USA
+Talmoon, MN, USA
+Tamarack, MN, USA
+Taopi, MN, USA
+Taunton, MN, USA
+Taylors Falls, MN, USA
+Tenstrike, MN, USA
+Thief River Falls, MN, USA
+Tintah, MN, USA
+Tofte, MN, USA
+Tower, MN, USA
+Tracy, MN, USA
+Trail, MN, USA
+Trimont, MN, USA
+Truman, MN, USA
+Twig, MN, USA
+Twin Lakes, MN, USA
+Twin Valley, MN, USA
+Two Harbors, MN, USA
+Tyler, MN, USA
+Ulen, MN, USA
+Underwood, MN, USA
+Upsala, MN, USA
+Utica, MN, USA
+Vergas, MN, USA
+Vermillion, MN, USA
+Verndale, MN, USA
+Vernon Center, MN, USA
+Vesta, MN, USA
+Victoria, MN, USA
+Viking, MN, USA
+Villard, MN, USA
+Vining, MN, USA
+Virginia, MN, USA
+Wabasha, MN, USA
+Wabasso, MN, USA
+Waconia, MN, USA
+Wadena, MN, USA
+Wahkon, MN, USA
+Waite Park, MN, USA
+Waldorf, MN, USA
+Walker, MN, USA
+Walnut Grove, MN, USA
+Waltham, MN, USA
+Wanamingo, MN, USA
+Wanda, MN, USA
+Wannaska, MN, USA
+Warba, MN, USA
+Warren, MN, USA
+Warroad, MN, USA
+Warsaw, MN, USA
+Waseca, MN, USA
+Waskish, MN, USA
+Watertown, MN, USA
+Waterville, MN, USA
+Watkins, MN, USA
+Watson, MN, USA
+Waubun, MN, USA
+Waverly, MN, USA
+Wayzata, MN, USA
+Webster, MN, USA
+Welch, MN, USA
+Welcome, MN, USA
+Wells, MN, USA
+Wendell, MN, USA
+West Concord, MN, USA
+West Union, MN, USA
+Westbrook, MN, USA
+Wheaton, MN, USA
+White Earth, MN, USA
+Willernie, MN, USA
+Williams, MN, USA
+Willmar, MN, USA
+Willow River, MN, USA
+Wilmont, MN, USA
+Windom, MN, USA
+Winger, MN, USA
+Winnebago, MN, USA
+Winona, MN, USA
+Winsted, MN, USA
+Winthrop, MN, USA
+Winton, MN, USA
+Wirt, MN, USA
+Wolf Lake, MN, USA
+Wolverton, MN, USA
+Wood Lake, MN, USA
+Woodstock, MN, USA
+Worthington, MN, USA
+Wrenshall, MN, USA
+Wright, MN, USA
+Wykoff, MN, USA
+Wyoming, MN, USA
+Young America, MN, USA
+Zimmerman, MN, USA
+Zumbro Falls, MN, USA
+Zumbrota, MN, USA
