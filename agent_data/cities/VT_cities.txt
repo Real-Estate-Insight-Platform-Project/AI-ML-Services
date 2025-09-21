@@ -1,0 +1,286 @@
+Adamant, VT, USA
+Albany, VT, USA
+Alburgh, VT, USA
+Arlington, VT, USA
+Ascutney, VT, USA
+Averill, VT, USA
+Bakersfield, VT, USA
+Barnard, VT, USA
+Barnet, VT, USA
+Barre, VT, USA
+Barton, VT, USA
+Beebe Plain, VT, USA
+Beecher Falls, VT, USA
+Bellows Falls, VT, USA
+Belmont, VT, USA
+Belvidere Center, VT, USA
+Bennington, VT, USA
+Benson, VT, USA
+Bethel, VT, USA
+Bomoseen, VT, USA
+Bondville, VT, USA
+Bradford, VT, USA
+Brandon, VT, USA
+Brattleboro, VT, USA
+Bridgewater, VT, USA
+Bridgewater Corners, VT, USA
+Bridport, VT, USA
+Bristol, VT, USA
+Brookfield, VT, USA
+Brownsville, VT, USA
+Burlington, VT, USA
+Cabot, VT, USA
+Calais, VT, USA
+Cambridge, VT, USA
+Cambridgeport, VT, USA
+Canaan, VT, USA
+Castleton, VT, USA
+Cavendish, VT, USA
+Center Rutland, VT, USA
+Charlotte, VT, USA
+Chelsea, VT, USA
+Chester, VT, USA
+Chittenden, VT, USA
+Colchester, VT, USA
+Concord, VT, USA
+Corinth, VT, USA
+Coventry, VT, USA
+Craftsbury, VT, USA
+Craftsbury Common, VT, USA
+Cuttingsville, VT, USA
+Danby, VT, USA
+Danville, VT, USA
+Derby, VT, USA
+Derby Line, VT, USA
+Dorset, VT, USA
+East Arlington, VT, USA
+East Barre, VT, USA
+East Berkshire, VT, USA
+East Burke, VT, USA
+East Calais, VT, USA
+East Charleston, VT, USA
+East Corinth, VT, USA
+East Dorset, VT, USA
+East Dover, VT, USA
+East Fairfield, VT, USA
+East Hardwick, VT, USA
+East Haven, VT, USA
+East Middlebury, VT, USA
+East Montpelier, VT, USA
+East Poultney, VT, USA
+East Randolph, VT, USA
+East Ryegate, VT, USA
+East Saint Johnsbury, VT, USA
+East Thetford, VT, USA
+East Wallingford, VT, USA
+Eden, VT, USA
+Eden Mills, VT, USA
+Enosburg Falls, VT, USA
+Essex, VT, USA
+Essex Junction, VT, USA
+Fair Haven, VT, USA
+Fairfax, VT, USA
+Fairfield, VT, USA
+Fairlee, VT, USA
+Ferrisburgh, VT, USA
+Florence, VT, USA
+Forest Dale, VT, USA
+Franklin, VT, USA
+Gaysville, VT, USA
+Gilman, VT, USA
+Glover, VT, USA
+Grafton, VT, USA
+Granby, VT, USA
+Grand Isle, VT, USA
+Graniteville, VT, USA
+Granville, VT, USA
+Greensboro, VT, USA
+Greensboro Bend, VT, USA
+Groton, VT, USA
+Guildhall, VT, USA
+Hancock, VT, USA
+Hardwick, VT, USA
+Hartford, VT, USA
+Hartland, VT, USA
+Hartland Four Corners, VT, USA
+Highgate Center, VT, USA
+Highgate Springs, VT, USA
+Hinesburg, VT, USA
+Huntington, VT, USA
+Hyde Park, VT, USA
+Hydeville, VT, USA
+Irasburg, VT, USA
+Island Pond, VT, USA
+Isle La Motte, VT, USA
+Jacksonville, VT, USA
+Jamaica, VT, USA
+Jeffersonville, VT, USA
+Jericho, VT, USA
+Johnson, VT, USA
+Jonesville, VT, USA
+Killington, VT, USA
+Lake Elmore, VT, USA
+Londonderry, VT, USA
+Lowell, VT, USA
+Lower Waterford, VT, USA
+Ludlow, VT, USA
+Lunenburg, VT, USA
+Lyndon, VT, USA
+Lyndon Center, VT, USA
+Lyndonville, VT, USA
+Manchester, VT, USA
+Manchester Center, VT, USA
+Marlboro, VT, USA
+Marshfield, VT, USA
+Mc Indoe Falls, VT, USA
+Middlebury, VT, USA
+Middletown Springs, VT, USA
+Milton, VT, USA
+Monkton, VT, USA
+Montgomery, VT, USA
+Montgomery Center, VT, USA
+Montpelier, VT, USA
+Moretown, VT, USA
+Morgan, VT, USA
+Morrisville, VT, USA
+Moscow, VT, USA
+Mount Holly, VT, USA
+New Haven, VT, USA
+Newbury, VT, USA
+Newfane, VT, USA
+Newport, VT, USA
+Newport Center, VT, USA
+North Bennington, VT, USA
+North Clarendon, VT, USA
+North Concord, VT, USA
+North Ferrisburgh, VT, USA
+North Hartland, VT, USA
+North Hero, VT, USA
+North Hyde Park, VT, USA
+North Montpelier, VT, USA
+North Pomfret, VT, USA
+North Pownal, VT, USA
+North Springfield, VT, USA
+North Thetford, VT, USA
+North Troy, VT, USA
+Northfield, VT, USA
+Northfield Falls, VT, USA
+Norton, VT, USA
+Norwich, VT, USA
+Orleans, VT, USA
+Orwell, VT, USA
+Passumpsic, VT, USA
+Pawlet, VT, USA
+Peacham, VT, USA
+Perkinsville, VT, USA
+Peru, VT, USA
+Pittsfield, VT, USA
+Pittsford, VT, USA
+Plainfield, VT, USA
+Plymouth, VT, USA
+Post Mills, VT, USA
+Poultney, VT, USA
+Pownal, VT, USA
+Proctor, VT, USA
+Proctorsville, VT, USA
+Putney, VT, USA
+Quechee, VT, USA
+Randolph, VT, USA
+Randolph Center, VT, USA
+Reading, VT, USA
+Readsboro, VT, USA
+Richford, VT, USA
+Richmond, VT, USA
+Ripton, VT, USA
+Rochester, VT, USA
+Roxbury, VT, USA
+Rupert, VT, USA
+Rutland, VT, USA
+Saint Albans, VT, USA
+Saint Albans Bay, VT, USA
+Saint Johnsbury, VT, USA
+Saint Johnsbury Center, VT, USA
+Salisbury, VT, USA
+Saxtons River, VT, USA
+Shaftsbury, VT, USA
+Sharon, VT, USA
+Sheffield, VT, USA
+Shelburne, VT, USA
+Sheldon, VT, USA
+Sheldon Springs, VT, USA
+Shoreham, VT, USA
+South Barre, VT, USA
+South Burlington, VT, USA
+South Hero, VT, USA
+South Londonderry, VT, USA
+South Newfane, VT, USA
+South Pomfret, VT, USA
+South Royalton, VT, USA
+South Ryegate, VT, USA
+South Strafford, VT, USA
+South Woodstock, VT, USA
+Springfield, VT, USA
+Stamford, VT, USA
+Starksboro, VT, USA
+Stockbridge, VT, USA
+Stowe, VT, USA
+Strafford, VT, USA
+Sutton, VT, USA
+Swanton, VT, USA
+Taftsville, VT, USA
+Thetford, VT, USA
+Thetford Center, VT, USA
+Topsham, VT, USA
+Townshend, VT, USA
+Troy, VT, USA
+Tunbridge, VT, USA
+Underhill, VT, USA
+Underhill Center, VT, USA
+Vergennes, VT, USA
+Vernon, VT, USA
+Vershire, VT, USA
+Waitsfield, VT, USA
+Wallingford, VT, USA
+Wardsboro, VT, USA
+Warren, VT, USA
+Washington, VT, USA
+Waterbury, VT, USA
+Waterbury Center, VT, USA
+Waterville, VT, USA
+Websterville, VT, USA
+Wells, VT, USA
+Wells River, VT, USA
+West Burke, VT, USA
+West Charleston, VT, USA
+West Danville, VT, USA
+West Dover, VT, USA
+West Dummerston, VT, USA
+West Fairlee, VT, USA
+West Halifax, VT, USA
+West Hartford, VT, USA
+West Newbury, VT, USA
+West Pawlet, VT, USA
+West Rupert, VT, USA
+West Rutland, VT, USA
+West Topsham, VT, USA
+West Townshend, VT, USA
+West Wardsboro, VT, USA
+Westfield, VT, USA
+Westford, VT, USA
+Westminster, VT, USA
+Westminster Station, VT, USA
+Weston, VT, USA
+White River Junction, VT, USA
+Whiting, VT, USA
+Whitingham, VT, USA
+Wilder, VT, USA
+Williamstown, VT, USA
+Williamsville, VT, USA
+Williston, VT, USA
+Wilmington, VT, USA
+Windsor, VT, USA
+Winooski, VT, USA
+Wolcott, VT, USA
+Woodbury, VT, USA
+Woodstock, VT, USA
+Worcester, VT, USA
