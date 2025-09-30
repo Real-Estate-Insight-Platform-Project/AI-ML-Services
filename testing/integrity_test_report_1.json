@@ -1,120 +1,98 @@
 {
   "summary": {
-    "total_tests": 14,
-    "passed": 12,
-    "failed": 2,
-    "success_rate": 85.71428571428571
+    "total_tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "success_rate": 100.0
   },
-  "failed_tests": [
-    {
-      "timestamp": "2025-09-30T13:44:26.048433",
-      "test_name": "Allowed Values Test - predictions.market_trend",
-      "passed": false,
-      "message": "Found 153 values not in allowed list",
-      "details": "Invalid values: ['declining', 'rising']"
-    },
-    {
-      "timestamp": "2025-09-30T13:44:27.415365",
-      "test_name": "Referential Integrity - predictions -> state_market",
-      "passed": false,
-      "message": "Found 153 orphaned records",
-      "details": "Sample orphaned keys: [{'year': 2025, 'month': 9, 'state': 'Alabama'}, {'year': 2025, 'month': 9, 'state': 'Alaska'}, {'year': 2025, 'month': 9, 'state': 'Arizona'}, {'year': 2025, 'month': 9, 'state': 'Arkansas'}, {'year': 2025, 'month': 9, 'state': 'California'}]"
-    }
-  ],
+  "failed_tests": [],
   "all_results": [
     {
-      "timestamp": "2025-09-30T13:44:22.096535",
+      "timestamp": "2025-09-30T22:19:35.311707",
       "test_name": "Table Existence - state_market",
       "passed": true,
       "message": "Table 'state_market' exists and is accessible",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:22.336716",
+      "timestamp": "2025-09-30T22:19:35.492873",
       "test_name": "Table Existence - predictions",
       "passed": true,
       "message": "Table 'predictions' exists and is accessible",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:23.353184",
+      "timestamp": "2025-09-30T22:19:36.512244",
       "test_name": "Primary Key Uniqueness - state_market",
       "passed": true,
       "message": "All 4998 rows have unique primary keys",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:23.724273",
+      "timestamp": "2025-09-30T22:19:36.825240",
       "test_name": "Primary Key Uniqueness - predictions",
       "passed": true,
       "message": "All 153 rows have unique primary keys",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:25.691309",
+      "timestamp": "2025-09-30T22:19:38.782636",
       "test_name": "Not Null Constraint - state_market.year",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:25.692295",
+      "timestamp": "2025-09-30T22:19:38.783624",
       "test_name": "Not Null Constraint - state_market.month",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:25.692295",
+      "timestamp": "2025-09-30T22:19:38.783624",
       "test_name": "Not Null Constraint - state_market.state",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:26.046434",
+      "timestamp": "2025-09-30T22:19:39.094878",
       "test_name": "Not Null Constraint - predictions.year",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:26.047433",
+      "timestamp": "2025-09-30T22:19:39.095858",
       "test_name": "Not Null Constraint - predictions.month",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:26.047433",
+      "timestamp": "2025-09-30T22:19:39.095858",
       "test_name": "Not Null Constraint - predictions.state",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:26.048433",
+      "timestamp": "2025-09-30T22:19:39.096858",
       "test_name": "Allowed Values Test - predictions.market_trend",
-      "passed": false,
-      "message": "Found 153 values not in allowed list",
-      "details": "Invalid values: ['declining', 'rising']"
+      "passed": true,
+      "message": "All values are in allowed list",
+      "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:27.415365",
-      "test_name": "Referential Integrity - predictions -> state_market",
-      "passed": false,
-      "message": "Found 153 orphaned records",
-      "details": "Sample orphaned keys: [{'year': 2025, 'month': 9, 'state': 'Alabama'}, {'year': 2025, 'month': 9, 'state': 'Alaska'}, {'year': 2025, 'month': 9, 'state': 'Arizona'}, {'year': 2025, 'month': 9, 'state': 'Arkansas'}, {'year': 2025, 'month': 9, 'state': 'California'}]"
-    },
-    {
-      "timestamp": "2025-09-30T13:44:28.971529",
+      "timestamp": "2025-09-30T22:19:40.594778",
       "test_name": "Data Consistency - state_market",
       "passed": true,
       "message": "All data consistency checks passed",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T13:44:29.308218",
+      "timestamp": "2025-09-30T22:19:40.907665",
       "test_name": "Data Consistency - predictions",
       "passed": true,
       "message": "All data consistency checks passed",

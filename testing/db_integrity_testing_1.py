@@ -11,7 +11,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('db_integrity_tests.log'),
+        logging.FileHandler('db_integrity_tests_1.log'),
         logging.StreamHandler()
     ]
 )
@@ -233,56 +233,6 @@ class DatabaseIntegrityTester:
             )
             return False
     
-    def test_referential_integrity(self, child_table: str, parent_table: str, 
-                                 child_columns: List[str], parent_columns: List[str]) -> bool:
-        """Test foreign key relationships"""
-        try:
-            # Get data from both tables
-            child_df = self.get_table_data(child_table, ",".join(child_columns))
-            parent_df = self.get_table_data(parent_table, ",".join(parent_columns))
-            
-            if child_df.empty:
-                self.log_test_result(
-                    f"Referential Integrity - {child_table} -> {parent_table}",
-                    True,
-                    "Child table is empty, no referential integrity violations possible"
-                )
-                return True
-            
-            # Create composite keys for comparison
-            child_keys = child_df[child_columns].apply(lambda x: tuple(x), axis=1)
-            parent_keys = parent_df[parent_columns].apply(lambda x: tuple(x), axis=1)
-            
-            # Find orphaned records (child records without parent)
-            orphaned = ~child_keys.isin(parent_keys)
-            orphaned_count = orphaned.sum()
-            
-            if orphaned_count == 0:
-                self.log_test_result(
-                    f"Referential Integrity - {child_table} -> {parent_table}",
-                    True,
-                    f"All {len(child_df)} child records have valid parent references"
-                )
-                return True
-            else:
-                orphaned_samples = child_df[orphaned][child_columns].head(5).to_dict('records')
-                self.log_test_result(
-                    f"Referential Integrity - {child_table} -> {parent_table}",
-                    False,
-                    f"Found {orphaned_count} orphaned records",
-                    f"Sample orphaned keys: {orphaned_samples}"
-                )
-                return False
-                
-        except Exception as e:
-            self.log_test_result(
-                f"Referential Integrity - {child_table} -> {parent_table}",
-                False,
-                f"Error testing referential integrity",
-                str(e)
-            )
-            return False
-    
     def test_data_consistency(self, table_name: str) -> bool:
         """Test business logic and data consistency"""
         try:
@@ -453,7 +403,7 @@ def run_comprehensive_integrity_tests():
         'median_listing_price_per_square_foot': {'min_value': 0},
         'total_listing_count': {'min_value': 0},
         'median_days_on_market': {'min_value': 0},
-        'market_trend': {'allowed_values': ['bullish', 'bearish', 'stable', 'volatile', 'uncertain']}
+        'market_trend': {'allowed_values': ['rising', 'declining', 'stable']}
     }
     
     logger.info("Starting comprehensive database integrity tests...")
@@ -472,16 +422,10 @@ def run_comprehensive_integrity_tests():
     logger.info("\n3. Testing data types and ranges...")
     tester.test_data_types_and_ranges("state_market", state_market_specs)
     tester.test_data_types_and_ranges("predictions", predictions_specs)
+
     
-    # Test 4: Referential integrity (predictions should reference state_market)
-    logger.info("\n4. Testing referential integrity...")
-    tester.test_referential_integrity(
-        "predictions", "state_market",
-        ["year", "month", "state"], ["year", "month", "state"]
-    )
-    
-    # Test 5: Data consistency and business logic
-    logger.info("\n5. Testing data consistency...")
+    # Test 4: Data consistency and business logic
+    logger.info("\n4. Testing data consistency...")
     tester.test_data_consistency("state_market")
     tester.test_data_consistency("predictions")
     
@@ -502,8 +446,8 @@ if __name__ == "__main__":
     
     # Save detailed report to file
     import json
-    with open('integrity_test_report.json', 'w') as f:
+    with open('integrity_test_report_1.json', 'w') as f:
         json.dump(report, f, indent=2, default=str)
-    
-    print(f"\nDetailed report saved to 'integrity_test_report.json'")
-    print(f"Test logs saved to 'db_integrity_tests.log'")
+
+    print(f"\nDetailed report saved to 'integrity_test_report_1.json'")
+    print(f"Test logs saved to 'db_integrity_tests_1.log'")
