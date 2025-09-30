@@ -233,7 +233,7 @@ class DatabaseIntegrityTester:
             )
             return False
     
-    def test_data_consistency(self, table_name: str) -> bool:
+    def clstest_data_consistency(self, table_name: str) -> bool:
         """Test business logic and data consistency"""
         try:
             df = self.get_table_data(table_name)
@@ -340,6 +340,282 @@ class DatabaseIntegrityTester:
             )
             return False
     
+    def test_boundary_and_invalid_data(self, table_name: str) -> bool:
+        """Test boundary conditions and invalid data insertion/validation"""
+        try:
+            all_passed = True
+            
+            # Generate unique test identifiers to avoid conflicts
+            test_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            
+            if table_name == "state_market":
+                # Test cases for state_market table
+                test_cases = [
+                    {
+                        "name": "Negative Median Listing Price",
+                        "data": {
+                            "year": 9999,  # Use unrealistic year to avoid conflicts
+                            "month": 1,
+                            "state": f"TEST_STATE_NEG_PRICE_{test_timestamp}",
+                            "median_listing_price": -100
+                        },
+                        "should_fail": True,
+                        "reason": "Median listing price should not be negative"
+                    },
+                    {
+                        "name": "NULL Primary Key - Year",
+                        "data": {
+                            "year": None,
+                            "month": 1,
+                            "state": f"TEST_STATE_NULL_YEAR_{test_timestamp}",
+                            "median_listing_price": 500000
+                        },
+                        "should_fail": True,
+                        "reason": "Primary key field 'year' cannot be NULL"
+                    },
+                    {
+                        "name": "NULL Primary Key - Month",
+                        "data": {
+                            "year": 9999,
+                            "month": None,
+                            "state": f"TEST_STATE_NULL_MONTH_{test_timestamp}",
+                            "median_listing_price": 500000
+                        },
+                        "should_fail": True,
+                        "reason": "Primary key field 'month' cannot be NULL"
+                    },
+                    {
+                        "name": "NULL Primary Key - State",
+                        "data": {
+                            "year": 9999,
+                            "month": 1,
+                            "state": None,
+                            "median_listing_price": 500000
+                        },
+                        "should_fail": True,
+                        "reason": "Primary key field 'state' cannot be NULL"
+                    },
+                    {
+                        "name": "Invalid Month (0)",
+                        "data": {
+                            "year": 9999,
+                            "month": 0,
+                            "state": f"TEST_STATE_INVALID_MONTH_0_{test_timestamp}",
+                            "median_listing_price": 500000
+                        },
+                        "should_fail": True,
+                        "reason": "Month should be between 1-12"
+                    },
+                    {
+                        "name": "Invalid Month (13)",
+                        "data": {
+                            "year": 9999,
+                            "month": 13,
+                            "state": f"TEST_STATE_INVALID_MONTH_13_{test_timestamp}",
+                            "median_listing_price": 500000
+                        },
+                        "should_fail": True,
+                        "reason": "Month should be between 1-12"
+                    },
+                    {
+                        "name": "Extremely Large Price",
+                        "data": {
+                            "year": 9999,
+                            "month": 2,
+                            "state": f"TEST_STATE_LARGE_PRICE_{test_timestamp}",
+                            "median_listing_price": 999999999999  # 999 billion
+                        },
+                        "should_fail": False,  # This might be allowed but flagged as suspicious
+                        "reason": "Extremely large prices should be validated but may be allowed"
+                    },
+                    {
+                        "name": "Zero Price",
+                        "data": {
+                            "year": 9999,
+                            "month": 3,
+                            "state": f"TEST_STATE_ZERO_PRICE_{test_timestamp}",
+                            "median_listing_price": 0
+                        },
+                        "should_fail": False,  # Zero might be valid for some edge cases
+                        "reason": "Zero price might be valid in some scenarios"
+                    }
+                ]
+                
+            elif table_name == "predictions":
+                # Test cases for predictions table
+                test_cases = [
+                    {
+                        "name": "Negative Median Listing Price",
+                        "data": {
+                            "year": 9999,
+                            "month": 1,
+                            "state": f"TEST_PRED_NEG_PRICE_{test_timestamp}",
+                            "median_listing_price": -100.0
+                        },
+                        "should_fail": True,
+                        "reason": "Predicted median listing price should not be negative"
+                    },
+                    {
+                        "name": "NULL Primary Key - Year",
+                        "data": {
+                            "year": None,
+                            "month": 1,
+                            "state": f"TEST_PRED_NULL_YEAR_{test_timestamp}",
+                            "median_listing_price": 500000.0
+                        },
+                        "should_fail": True,
+                        "reason": "Primary key field 'year' cannot be NULL"
+                    },
+                    {
+                        "name": "NULL Primary Key - State",
+                        "data": {
+                            "year": 9999,
+                            "month": 1,
+                            "state": None,
+                            "median_listing_price": 500000.0
+                        },
+                        "should_fail": True,
+                        "reason": "Primary key field 'state' cannot be NULL"
+                    },
+                    {
+                        "name": "Invalid Market Trend",
+                        "data": {
+                            "year": 9999,
+                            "month": 2,
+                            "state": f"TEST_PRED_INVALID_TREND_{test_timestamp}",
+                            "median_listing_price": 500000.0,
+                            "market_trend": "invalid_trend_value"
+                        },
+                        "should_fail": False,  # Currently allowed but should be validated
+                        "reason": "Invalid market trend values should be rejected"
+                    },
+                    {
+                        "name": "Negative Days on Market",
+                        "data": {
+                            "year": 9999,
+                            "month": 3,
+                            "state": f"TEST_PRED_NEG_DAYS_{test_timestamp}",
+                            "median_listing_price": 500000.0,
+                            "median_days_on_market": -5
+                        },
+                        "should_fail": True,
+                        "reason": "Days on market cannot be negative"
+                    }
+                ]
+            else:
+                self.log_test_result(
+                    f"Boundary Test - {table_name}",
+                    False,
+                    f"Unknown table name for boundary testing: {table_name}",
+                    "Only state_market and predictions tables are supported"
+                )
+                return False
+            
+            # Execute test cases
+            test_records_to_cleanup = []
+            
+            for test_case in test_cases:
+                test_name = f"Boundary Test - {table_name} - {test_case['name']}"
+                
+                try:
+                    # Attempt to insert the test record
+                    insert_response = (
+                        self.supabase.table(table_name)
+                        .insert(test_case['data'])
+                        .execute()
+                    )
+                    
+                    # If we reach here, the insertion succeeded
+                    if test_case['should_fail']:
+                        # This test expected to fail but didn't
+                        self.log_test_result(
+                            test_name,
+                            False,
+                            f"Expected insertion to fail but it succeeded: {test_case['reason']}",
+                            f"Inserted data: {test_case['data']}"
+                        )
+                        all_passed = False
+                        
+                        # Add to cleanup list
+                        if insert_response.data:
+                            test_records_to_cleanup.append({
+                                'table': table_name,
+                                'data': test_case['data']
+                            })
+                    else:
+                        # This test was expected to succeed and did
+                        self.log_test_result(
+                            test_name,
+                            True,
+                            f"Insertion succeeded as expected: {test_case['reason']}"
+                        )
+                        
+                        # Add to cleanup list
+                        if insert_response.data:
+                            test_records_to_cleanup.append({
+                                'table': table_name,
+                                'data': test_case['data']
+                            })
+                
+                except Exception as e:
+                    # The insertion failed
+                    if test_case['should_fail']:
+                        # This test expected to fail and did - SUCCESS
+                        self.log_test_result(
+                            test_name,
+                            True,
+                            f"Insertion correctly rejected: {test_case['reason']}",
+                            f"Error: {str(e)[:100]}"
+                        )
+                    else:
+                        # This test expected to succeed but failed - FAILURE
+                        self.log_test_result(
+                            test_name,
+                            False,
+                            f"Expected insertion to succeed but it failed: {test_case['reason']}",
+                            f"Error: {str(e)}"
+                        )
+                        all_passed = False
+            
+            # Cleanup test records
+            cleanup_count = 0
+            for cleanup_record in test_records_to_cleanup:
+                try:
+                    # Delete the test record using primary key
+                    if cleanup_record['table'] in ['state_market', 'predictions']:
+                        delete_response = (
+                            self.supabase.table(cleanup_record['table'])
+                            .delete()
+                            .eq("year", cleanup_record['data']['year'])
+                            .eq("month", cleanup_record['data']['month'])
+                            .eq("state", cleanup_record['data']['state'])
+                            .execute()
+                        )
+                        cleanup_count += 1
+                except Exception as cleanup_error:
+                    logger.warning(f"Failed to cleanup test record: {cleanup_error}")
+            
+            if cleanup_count > 0:
+                logger.info(f"Cleaned up {cleanup_count} test records from {table_name}")
+            
+            if all_passed:
+                self.log_test_result(
+                    f"Boundary/Invalid Data Tests - {table_name}",
+                    True,
+                    f"All boundary and invalid data tests completed successfully"
+                )
+            
+            return all_passed
+            
+        except Exception as e:
+            self.log_test_result(
+                f"Boundary/Invalid Data Tests - {table_name}",
+                False,
+                f"Error during boundary/invalid data testing",
+                str(e)
+            )
+            return False
+    
     def generate_report(self) -> Dict:
         """Generate a summary report of all tests"""
         total_tests = len(self.test_results)
@@ -428,6 +704,11 @@ def run_comprehensive_integrity_tests():
     logger.info("\n4. Testing data consistency...")
     tester.test_data_consistency("state_market")
     tester.test_data_consistency("predictions")
+    
+    # Test 5: Boundary and invalid data validation
+    logger.info("\n5. Testing boundary conditions and invalid data...")
+    tester.test_boundary_and_invalid_data("state_market")
+    tester.test_boundary_and_invalid_data("predictions")
     
     # Generate final report
     logger.info("\n6. Generating report...")

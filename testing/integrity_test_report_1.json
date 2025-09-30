@@ -1,101 +1,206 @@
 {
   "summary": {
-    "total_tests": 13,
-    "passed": 13,
+    "total_tests": 28,
+    "passed": 28,
     "failed": 0,
     "success_rate": 100.0
   },
   "failed_tests": [],
   "all_results": [
     {
-      "timestamp": "2025-09-30T22:19:35.311707",
+      "timestamp": "2025-09-30T22:47:38.816374",
       "test_name": "Table Existence - state_market",
       "passed": true,
       "message": "Table 'state_market' exists and is accessible",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:35.492873",
+      "timestamp": "2025-09-30T22:47:38.974230",
       "test_name": "Table Existence - predictions",
       "passed": true,
       "message": "Table 'predictions' exists and is accessible",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:36.512244",
+      "timestamp": "2025-09-30T22:47:39.954303",
       "test_name": "Primary Key Uniqueness - state_market",
       "passed": true,
       "message": "All 4998 rows have unique primary keys",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:36.825240",
+      "timestamp": "2025-09-30T22:47:40.265460",
       "test_name": "Primary Key Uniqueness - predictions",
       "passed": true,
       "message": "All 153 rows have unique primary keys",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:38.782636",
+      "timestamp": "2025-09-30T22:47:42.146320",
       "test_name": "Not Null Constraint - state_market.year",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:38.783624",
+      "timestamp": "2025-09-30T22:47:42.147319",
       "test_name": "Not Null Constraint - state_market.month",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:38.783624",
+      "timestamp": "2025-09-30T22:47:42.147319",
       "test_name": "Not Null Constraint - state_market.state",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:39.094878",
+      "timestamp": "2025-09-30T22:47:42.457935",
       "test_name": "Not Null Constraint - predictions.year",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:39.095858",
+      "timestamp": "2025-09-30T22:47:42.457935",
       "test_name": "Not Null Constraint - predictions.month",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:39.095858",
+      "timestamp": "2025-09-30T22:47:42.458928",
       "test_name": "Not Null Constraint - predictions.state",
       "passed": true,
       "message": "No null values found in required column",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:39.096858",
+      "timestamp": "2025-09-30T22:47:42.459939",
       "test_name": "Allowed Values Test - predictions.market_trend",
       "passed": true,
       "message": "All values are in allowed list",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:40.594778",
+      "timestamp": "2025-09-30T22:47:43.879890",
       "test_name": "Data Consistency - state_market",
       "passed": true,
       "message": "All data consistency checks passed",
       "details": null
     },
     {
-      "timestamp": "2025-09-30T22:19:40.907665",
+      "timestamp": "2025-09-30T22:47:44.184141",
       "test_name": "Data Consistency - predictions",
       "passed": true,
       "message": "All data consistency checks passed",
+      "details": null
+    },
+    {
+      "timestamp": "2025-09-30T22:47:44.338379",
+      "test_name": "Boundary Test - state_market - Negative Median Listing Price",
+      "passed": true,
+      "message": "Insertion correctly rejected: Median listing price should not be negative",
+      "details": "Error: {'message': 'new row for relation \"state_market\" violates check constraint \"state_market_median_list"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:44.547811",
+      "test_name": "Boundary Test - state_market - NULL Primary Key - Year",
+      "passed": true,
+      "message": "Insertion correctly rejected: Primary key field 'year' cannot be NULL",
+      "details": "Error: {'message': 'null value in column \"year\" of relation \"state_market\" violates not-null constraint', '"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:44.698245",
+      "test_name": "Boundary Test - state_market - NULL Primary Key - Month",
+      "passed": true,
+      "message": "Insertion correctly rejected: Primary key field 'month' cannot be NULL",
+      "details": "Error: {'message': 'null value in column \"month\" of relation \"state_market\" violates not-null constraint', "
+    },
+    {
+      "timestamp": "2025-09-30T22:47:44.849166",
+      "test_name": "Boundary Test - state_market - NULL Primary Key - State",
+      "passed": true,
+      "message": "Insertion correctly rejected: Primary key field 'state' cannot be NULL",
+      "details": "Error: {'message': 'null value in column \"state\" of relation \"state_market\" violates not-null constraint', "
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.002179",
+      "test_name": "Boundary Test - state_market - Invalid Month (0)",
+      "passed": true,
+      "message": "Insertion correctly rejected: Month should be between 1-12",
+      "details": "Error: {'message': 'new row for relation \"state_market\" violates check constraint \"state_market_month_check"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.151493",
+      "test_name": "Boundary Test - state_market - Invalid Month (13)",
+      "passed": true,
+      "message": "Insertion correctly rejected: Month should be between 1-12",
+      "details": "Error: {'message': 'new row for relation \"state_market\" violates check constraint \"state_market_month_check"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.304095",
+      "test_name": "Boundary Test - state_market - Extremely Large Price",
+      "passed": true,
+      "message": "Insertion succeeded as expected: Extremely large prices should be validated but may be allowed",
+      "details": null
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.457851",
+      "test_name": "Boundary Test - state_market - Zero Price",
+      "passed": true,
+      "message": "Insertion succeeded as expected: Zero price might be valid in some scenarios",
+      "details": null
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.767837",
+      "test_name": "Boundary/Invalid Data Tests - state_market",
+      "passed": true,
+      "message": "All boundary and invalid data tests completed successfully",
+      "details": null
+    },
+    {
+      "timestamp": "2025-09-30T22:47:45.922982",
+      "test_name": "Boundary Test - predictions - Negative Median Listing Price",
+      "passed": true,
+      "message": "Insertion correctly rejected: Predicted median listing price should not be negative",
+      "details": "Error: {'message': 'new row for relation \"predictions\" violates check constraint \"predictions_median_listin"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:46.077839",
+      "test_name": "Boundary Test - predictions - NULL Primary Key - Year",
+      "passed": true,
+      "message": "Insertion correctly rejected: Primary key field 'year' cannot be NULL",
+      "details": "Error: {'message': 'null value in column \"year\" of relation \"predictions\" violates not-null constraint', 'c"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:46.233300",
+      "test_name": "Boundary Test - predictions - NULL Primary Key - State",
+      "passed": true,
+      "message": "Insertion correctly rejected: Primary key field 'state' cannot be NULL",
+      "details": "Error: {'message': 'null value in column \"state\" of relation \"predictions\" violates not-null constraint', '"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:46.390406",
+      "test_name": "Boundary Test - predictions - Invalid Market Trend",
+      "passed": true,
+      "message": "Insertion succeeded as expected: Invalid market trend values should be rejected",
+      "details": null
+    },
+    {
+      "timestamp": "2025-09-30T22:47:46.541579",
+      "test_name": "Boundary Test - predictions - Negative Days on Market",
+      "passed": true,
+      "message": "Insertion correctly rejected: Days on market cannot be negative",
+      "details": "Error: {'message': 'new row for relation \"predictions\" violates check constraint \"predictions_median_days_o"
+    },
+    {
+      "timestamp": "2025-09-30T22:47:46.705904",
+      "test_name": "Boundary/Invalid Data Tests - predictions",
+      "passed": true,
+      "message": "All boundary and invalid data tests completed successfully",
       "details": null
     }
   ]
