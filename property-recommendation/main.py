@@ -19,9 +19,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize clients
-supabase_client = SupabaseClient()
-recommendation_engine = PropertyRecommendationEngine()
+# Initialize clients with error handling
+try:
+    supabase_client = SupabaseClient()
+    recommendation_engine = PropertyRecommendationEngine()
+    print("✅ Supabase client initialized successfully")
+except Exception as e:
+    print(f"❌ Error initializing Supabase client: {e}")
+    supabase_client = None
+    recommendation_engine = None
 
 
 class RecommendationRequest(BaseModel):
@@ -38,16 +44,34 @@ class RecommendationResponse(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Property Recommendation API"}
+    return {"message": "Property Recommendation API", "status": "running"}
 
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    if supabase_client is None:
+        raise HTTPException(
+            status_code=500, detail="Supabase client not initialized")
+
+    # Test connection by fetching one property
+    try:
+        test_properties = supabase_client.get_properties(limit=1)
+        return {
+            "status": "healthy",
+            "supabase_connected": True,
+            "test_properties_count": len(test_properties)
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Supabase connection failed: {str(e)}")
 
 
 @app.post("/recommendations", response_model=RecommendationResponse)
 async def get_recommendations(request: RecommendationRequest):
+    if supabase_client is None or recommendation_engine is None:
+        raise HTTPException(
+            status_code=500, detail="Service not properly initialized")
+
     try:
         # Get target property
         target_property = supabase_client.get_property_by_id(
@@ -55,8 +79,12 @@ async def get_recommendations(request: RecommendationRequest):
         if not target_property:
             raise HTTPException(status_code=404, detail="Property not found")
 
-        # Get all active properties (you might want to cache this)
+        # Get all active properties
         all_properties = supabase_client.get_properties()
+
+        if not all_properties:
+            raise HTTPException(
+                status_code=404, detail="No properties found in database")
 
         # Get similar properties
         similar_properties = recommendation_engine.recommend_similar_properties(
@@ -72,6 +100,8 @@ async def get_recommendations(request: RecommendationRequest):
             total_recommendations=len(similar_properties)
         )
 
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Internal server error: {str(e)}")
@@ -86,6 +116,10 @@ async def get_properties(
     min_bedrooms: Optional[int] = None,
     min_bathrooms: Optional[float] = None
 ):
+    if supabase_client is None:
+        raise HTTPException(
+            status_code=500, detail="Service not properly initialized")
+
     filters = {
         "city": city,
         "property_type": property_type,
@@ -99,4 +133,6 @@ async def get_properties(
     return {"properties": properties}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    print("🚀 Starting Property Recommendation API...")
+    print("📝 Make sure you have set SUPABASE_URL and SUPABASE_KEY in your .env file")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
