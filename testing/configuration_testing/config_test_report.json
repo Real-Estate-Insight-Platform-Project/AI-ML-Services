@@ -1,0 +1,570 @@
+{
+  "report_metadata": {
+    "generated_at": "2025-10-05T00:15:05.468131",
+    "tool_version": "1.0.1",
+    "start_time": "2025-10-04T23:49:11.308049",
+    "end_time": "2025-10-05T00:15:05.468131",
+    "test_duration_seconds": 1554.160082,
+    "total_configurations": 12
+  },
+  "summary": {
+    "passed": 12,
+    "partial": 0,
+    "failed": 0,
+    "success_rate": 100.0
+  },
+  "configurations": [
+    {
+      "name": "py310-pg14-512m",
+      "python_version": "3.10",
+      "database_version": "14",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-04T23:49:11.372824",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 102.01,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 7.53,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 38.66,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.6006666666666667,
+          "max_cpu": 6.31,
+          "avg_memory_mb": 33.258,
+          "max_memory_mb": 33.26,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 1.661333333333333,
+          "max_cpu": 14.78,
+          "avg_memory_mb": 30.699333333333335,
+          "max_memory_mb": 32.02,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py310-pg14-1g",
+      "python_version": "3.10",
+      "database_version": "14",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-04T23:55:27.489035",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 16.49,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 4.3,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 40.1,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.36000000000000004,
+          "max_cpu": 3.14,
+          "avg_memory_mb": 33.10933333333333,
+          "max_memory_mb": 33.13,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.49600000000000005,
+          "max_cpu": 3.82,
+          "avg_memory_mb": 30.254666666666665,
+          "max_memory_mb": 31.46,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py310-pg16-512m",
+      "python_version": "3.10",
+      "database_version": "16",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-04T23:56:55.682994",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 6.78,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 5.52,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 1610.74,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.44133333333333336,
+          "max_cpu": 3.98,
+          "avg_memory_mb": 33.10266666666667,
+          "max_memory_mb": 33.14,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.5613333333333334,
+          "max_cpu": 5.04,
+          "avg_memory_mb": 31.743333333333332,
+          "max_memory_mb": 33.64,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py310-pg16-1g",
+      "python_version": "3.10",
+      "database_version": "16",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-04T23:58:28.731337",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 28.22,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 3.73,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 51.71,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.9986666666666667,
+          "max_cpu": 12.27,
+          "avg_memory_mb": 33.07066666666667,
+          "max_memory_mb": 33.1,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.47600000000000003,
+          "max_cpu": 5.24,
+          "avg_memory_mb": 30.612000000000002,
+          "max_memory_mb": 32.6,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py311-pg14-512m",
+      "python_version": "3.11",
+      "database_version": "14",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-04T23:59:55.289360",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 16.66,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 4.06,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 30.77,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.18733333333333332,
+          "max_cpu": 0.26,
+          "avg_memory_mb": 35.36,
+          "max_memory_mb": 35.36,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.902,
+          "max_cpu": 6.9,
+          "avg_memory_mb": 31.52,
+          "max_memory_mb": 32.49,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py311-pg14-1g",
+      "python_version": "3.11",
+      "database_version": "14",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:04:59.334627",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 9.06,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 4.29,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 34.88,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.69,
+          "max_cpu": 4.64,
+          "avg_memory_mb": 35.21666666666667,
+          "max_memory_mb": 35.22,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 1.1380000000000001,
+          "max_cpu": 9.35,
+          "avg_memory_mb": 30.256666666666664,
+          "max_memory_mb": 30.99,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py311-pg16-512m",
+      "python_version": "3.11",
+      "database_version": "16",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:06:33.493910",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 1.0,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 14.67,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 37.78,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.186,
+          "max_cpu": 0.27,
+          "avg_memory_mb": 35.17933333333334,
+          "max_memory_mb": 35.21,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.8973333333333334,
+          "max_cpu": 7.08,
+          "avg_memory_mb": 32.278,
+          "max_memory_mb": 34.55,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py311-pg16-1g",
+      "python_version": "3.11",
+      "database_version": "16",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:08:00.446260",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 11.87,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 3.93,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 28.35,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.8626666666666666,
+          "max_cpu": 5.31,
+          "avg_memory_mb": 35.17933333333334,
+          "max_memory_mb": 35.21,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 1.7346666666666666,
+          "max_cpu": 18.34,
+          "avg_memory_mb": 30.294,
+          "max_memory_mb": 32.36,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py312-pg14-512m",
+      "python_version": "3.12",
+      "database_version": "14",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:09:25.970843",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 10.73,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 0.0,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 30.84,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.6666666666666666,
+          "max_cpu": 3.79,
+          "avg_memory_mb": 36.22266666666667,
+          "max_memory_mb": 36.25,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.3686666666666667,
+          "max_cpu": 4.96,
+          "avg_memory_mb": 30.366666666666667,
+          "max_memory_mb": 31.14,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py312-pg14-1g",
+      "python_version": "3.12",
+      "database_version": "14",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:10:54.837210",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 11.08,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 3.66,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 139.74,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 1.7086666666666668,
+          "max_cpu": 19.3,
+          "avg_memory_mb": 34.59,
+          "max_memory_mb": 34.59,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.49733333333333335,
+          "max_cpu": 5.64,
+          "avg_memory_mb": 30.012666666666668,
+          "max_memory_mb": 30.88,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py312-pg16-512m",
+      "python_version": "3.12",
+      "database_version": "16",
+      "memory_limit": "512m",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:12:17.319305",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 13.36,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 4.42,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 33.24,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 0.446,
+          "max_cpu": 3.79,
+          "avg_memory_mb": 34.66266666666666,
+          "max_memory_mb": 34.67,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 0.8566666666666667,
+          "max_cpu": 7.18,
+          "avg_memory_mb": 30.696666666666665,
+          "max_memory_mb": 32.71,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    },
+    {
+      "name": "py312-pg16-1g",
+      "python_version": "3.12",
+      "database_version": "16",
+      "memory_limit": "1g",
+      "status": "passed",
+      "timestamp": "2025-10-05T00:13:40.314800",
+      "tests": {
+        "health_check": {
+          "passed": true,
+          "response_time_ms": 9.01,
+          "details": "Health endpoint returned expected response"
+        },
+        "read_test": {
+          "passed": true,
+          "response_time_ms": 4.26,
+          "details": "Read successful from /items"
+        },
+        "write_test": {
+          "passed": true,
+          "response_time_ms": 31.0,
+          "details": "Generic write operation successful"
+        }
+      },
+      "performance_metrics": {
+        "api": {
+          "avg_cpu": 1.0813333333333333,
+          "max_cpu": 7.99,
+          "avg_memory_mb": 34.56733333333333,
+          "max_memory_mb": 34.58,
+          "samples": 15
+        },
+        "db": {
+          "avg_cpu": 1.0533333333333335,
+          "max_cpu": 6.58,
+          "avg_memory_mb": 30.39333333333333,
+          "max_memory_mb": 32.33,
+          "samples": 15
+        }
+      },
+      "compatibility": {
+        "compatible": true,
+        "issues": []
+      },
+      "errors": []
+    }
+  ]
+}

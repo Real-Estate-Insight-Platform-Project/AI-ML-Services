@@ -1,0 +1,18 @@
+# Ignore log outputs and environment files
+logs/
+.env.example
+
+# Python virtual environment for Locust
+../.perfvenv/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log

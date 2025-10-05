@@ -1,0 +1,16 @@
+[tool.pytest.ini_options]
+addopts = "-q --maxfail=1 --disable-warnings --tb=short"
+testpaths = ["testing"]
+asyncio_mode = "auto"
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+    "slow: marks tests as slow running",
+]
+
+# Python path configuration to include service directories
+pythonpath = [
+    "agent-recommender-system",
+    "risk-map/app",
+    "sql-agent"
+]

@@ -1,3 +1,4 @@
+# main.py
 import os, re, math
 from dotenv import load_dotenv, find_dotenv
 from langchain_community.utilities import SQLDatabase
@@ -16,9 +17,9 @@ from geoalchemy2 import Geometry
 # Load environment variables
 load_dotenv(find_dotenv(), override=True)
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("SQL_AGENT_DATABASE_URL")
 LOG_SQL = (os.getenv("LOG_SQL", "false").lower() == "true")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 # SQLAlchemy engine with timeouts & read-only transactions
 engine = create_engine(
@@ -26,9 +27,7 @@ engine = create_engine(
     pool_pre_ping=True,
     pool_size=5,
     max_overflow=5,
-    connect_args={
-        "options": "-c statement_timeout=5000 -c idle_in_transaction_session_timeout=5000"
-    },
+    connect_args={"options": "-c statement_timeout=5000 -c idle_in_transaction_session_timeout=5000"},
 )
 
 @event.listens_for(engine, "connect")
@@ -37,15 +36,12 @@ def _enforce_readonly(dbapi_conn, record):
         c.execute("SET default_transaction_read_only = on;")
 
 # LangChain DB wrapper (ALLOWLIST tables for safety)
-# UPDATED: allow only these four tables (exclude 'profiles' and 'user_favorites')
+# allow only these four tables (exclude 'profiles' and 'user_favorites')
 ALLOWED_TABLES = ["nri_counties", "predictions", "properties", "state_market"]
 db = SQLDatabase(engine=engine, include_tables=ALLOWED_TABLES)
 
 # Deterministic LLM for reliable SQL generation
-llm = ChatGoogleGenerativeAI(
-    model=GEMINI_MODEL,
-    temperature=0,
-)
+llm = ChatGoogleGenerativeAI(model=GEMINI_MODEL, temperature=0)
 
 # Toolkit + runtime SQL guardrails (SELECT-only + LIMIT)
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
@@ -69,7 +65,6 @@ if LOG_SQL:
         return _guarded_run(sql, *a, **k)
     db.run = _logging_run
 
-
 # Pull LangChain Hub prompt AND inject live schema snippet + domain notes
 prompt_template = hub.pull("langchain-ai/sql-agent-system-prompt")
 base_system = prompt_template.format(dialect="PostgreSQL", top_k=5)
@@ -77,43 +72,107 @@ schema_snippet = db.get_table_info(ALLOWED_TABLES)
 
 domain_notes = """
 ### DOMAIN NOTES (READ FIRST)
-- You are querying a read-only PostgreSQL database. Only SELECT statements are allowed.
-- **ROW LIMIT POLICY:** For any query that can return multiple rows (e.g., property listings or historical rows), **always** include `LIMIT 10` (hard cap). 
-  - If the user requests more than 10 rows, still return only the first 10 and state that results are truncated to 10.
-  - Do **not** apply a LIMIT when the question clearly asks for a single value/aggregate (e.g., COUNT, AVG, MIN/MAX for a specific filter).
-- Use ONLY these allowed tables: `nri_counties`, `predictions`, `properties`, `state_market`. Do NOT use `profiles` or `user_favorites`.
-- Prefer aggregates for summaries and apply precise WHERE filters (by state/year/month/price/bedrooms) from the user’s question.
+- You query a read-only PostgreSQL. Only SELECT is allowed. If the user asks for non-read ops, refuse.
+- ROW LIMIT POLICY:
+  - For multi-row outputs (lists, time series, states, properties), ALWAYS include `LIMIT 10` (hard cap).
+  - If the user asks for more, still cap to 10 and state that results are truncated.
+  - Do NOT force a LIMIT when the answer is a single scalar/aggregate (COUNT/AVG/MIN/MAX for a specific filter).
+- Allowed tables only: `nri_counties`, `predictions`, `properties`, `state_market`.
+  - Never access or mention user/agent tables. Never expose emails, phone numbers, account IDs, or any PII.
 
-### TABLE PURPOSES & KEYS
-1) public.predictions — (FORECASTS)
-   - PK: (year, month, state).
-   - Columns: median_listing_price, average_listing_price, median_listing_price_per_square_foot, total_listing_count, median_days_on_market, market_trend.
-   - **BUSINESS RULE:** If “predictions” are requested without dates, return **current month and next two months** (3-month horizon) for the specified state(s).
-     Compute “current month” as `(extract(year from now()), extract(month from now()))`. Sort by (year, month) ASC. The 3-month horizon is already small; no LIMIT needed unless returning multiple states (then still apply LIMIT 10 to the row set).
+### TIME / PREDICTION RULES
+- Current year/month in SQL: `extract(year from now())::int`, `extract(month from now())::int`.
+- If the user requests “predictions” without an explicit year/month:
+  - Return **current month plus the next two months** (3-month horizon) from `predictions`.
+  - Sort by (year, month) ASC.
+- “Which states are predicted to have price growth this September?”:
+  - Interpret “price growth” as `market_trend = 'rising'` for the specified (year, month).
+  - If the user omits year/month, infer from `now()`.
 
-2) public.state_market — (HISTORICAL OBSERVATIONS)
-   - PK: (year, month, state).
-   - Use for historical trends, M/M and Y/Y comparisons, and time series. 
-   - When returning row-level history (e.g., many months or many states), **enforce `LIMIT 10`** and sort by `year DESC, month DESC` unless the user specifies an order.
+### TABLE PURPOSES
+1) public.predictions — FORECASTS at state–month grain. PK = (year, month, state).
+   Columns include: `median_listing_price`, `average_listing_price`,
+   `median_listing_price_per_square_foot`, `total_listing_count`,
+   `median_days_on_market`, `market_trend`.
+2) public.state_market — HISTORICAL state–month observations used for MoM/YoY and long trends.
+   For multi-row outputs: sort by `year DESC, month DESC`, LIMIT 10.
+3) public.nri_counties — FEMA NRI at county level. Use `AVG(risk_index_score)` grouped by `state_name` for state risk comparisons.
+4) public.properties — Listings catalog. Default ordering for listings: `ORDER BY created_at DESC NULLS LAST` unless the user asks otherwise.
 
-3) public.nri_counties — (RISK INDEX, COUNTY-LEVEL)
-   - PK: county_fips.
-   - risk_index_score is a 0–100 **percentile** (relative within county level). risk_index_rating is a qualitative bucket (“Very Low” … “Very High”).
-   - `predominant_hazard` is derived from the **highest Expected Annual Loss (EAL) total** among 18 hazards.
-
-4) public.properties — (LISTINGS CATALOG)
-   - PK: id (uuid). Columns include price, bedrooms, bathrooms, square_feet, property_type, listing_status, address, city, state, created_at/updated_at.
-   - For listing queries (e.g., “3+ bedrooms under $500k”), **always** `LIMIT 10` and default ordering `ORDER BY created_at DESC NULLS LAST` unless the user asks for a different order (e.g., price ASC).
+### HOW TO ANSWER COMMON QUESTIONS
+- “States where properties sell faster than 1 week”:
+  - Use the **state-level prediction** for the month in question (default = current month) and filter on `predictions.median_days_on_market < 7`.
+  - Do NOT ask for property-level sale data to answer this.
+- “Which states are predicted to have price growth this September?”:
+  - `SELECT state FROM predictions WHERE year=? AND month=? AND market_trend='rising' ORDER BY state LIMIT 10;`
+- When mixing historical vs predicted, label clearly which table each number comes from.
 
 ### JOIN & FILTER HINTS
-- State-level joins: `predictions.state` <-> `state_market.state` (text). County risk lives in `nri_counties`; aggregate by state via `state_name`/`state_fips` if needed.
-- Time filters use (year, month) pairs; sort by `year, month`.
-- When combining historical (state_market) with forecasts (predictions), show recent history first (limited to 10 rows if multi-row), then the 3-month forecast window.
+- State-level joins via text `state`. Risk comparisons: aggregate `nri_counties` by `state_name`.
+- Prefer precise WHERE filters by state/year/month/price/bed/bath.
 
 ### ANSWER STYLE
-- Clearly label **historical** (state_market) vs **predicted** (predictions).
-- Include units (currency for prices, counts as integers, ratios as % when appropriate).
-- If truncation occurs due to the 10-row cap, **say so explicitly** (e.g., “showing first 10 rows”).
+- Label **Historical (state_market)** vs **Predicted (predictions)** when both appear.
+- Show units: currency ($) for prices, integers for counts, and % for ratios when appropriate.
+- If truncated to 10 rows, explicitly say “showing first 10 rows”.
+
+### PROPERTY CARD FORMAT (STRICT)
+When returning **individual properties**, format EACH property EXACTLY as numbered list of properties , with four lines for each property, like this:
+   {{Title}}
+   {{Address}}, {{City}}, {{State}}
+   🛏 {{Bedrooms}} bed   🛁 {{Bathrooms}} bath   📐 {{SquareFeet}} sqft
+   💰 ${{Price}}
+
+- No IDs, emails, phone numbers, or internal fields.
+- Show up to 10 properties max.
+- If the query would produce more than 10 properties, return the first 10 and say results are truncated.
+
+
+### EXAMPLES (imitate these)
+-- Current month + next 2 months forecasts for California
+SELECT year, month, state, median_listing_price, median_days_on_market, market_trend
+FROM predictions
+WHERE state = 'California'
+  AND (year > extract(year from now())::int
+       OR (year = extract(year from now())::int AND month >= extract(month from now())::int))
+ORDER BY year, month
+LIMIT 10;
+
+-- States selling faster than 1 week this month
+SELECT state, median_days_on_market
+FROM predictions
+WHERE year  = extract(year from now())::int
+  AND month = extract(month from now())::int
+  AND median_days_on_market < 7
+ORDER BY median_days_on_market ASC
+LIMIT 10;
+
+-- “Price growth this September”
+SELECT state
+FROM predictions
+WHERE year = 2025 AND month = 9 AND market_trend = 'rising'
+ORDER BY state
+LIMIT 10;
+
+-- Risk-adjusted opportunity (low risk + rising)
+WITH risk AS (
+  SELECT state_name AS state, AVG(risk_index_score) AS avg_risk
+  FROM nri_counties
+  GROUP BY state_name
+)
+SELECT p.state, p.market_trend, r.avg_risk, p.median_listing_price
+FROM predictions p
+JOIN risk r ON r.state = p.state
+WHERE p.year = extract(year from now())::int
+  AND p.month = extract(month from now())::int
+  AND p.market_trend = 'rising'
+  AND r.avg_risk <= 40
+ORDER BY r.avg_risk ASC, p.median_listing_price ASC
+LIMIT 10;
+
+### PRIVACY & SAFETY
+- Never attempt to query or reveal emails, phone numbers, account identifiers, or any agent PII.
+- Only SELECTs are allowed. Refuse any non-SELECT request.
 """
 
 merged_system_prompt = (
@@ -146,15 +205,13 @@ agent = create_sql_agent(
 
 def _parse_markdown_table(md: str):
     """
-    Parse a simple Markdown table into list[dict]. 
+    Parse a simple Markdown table into list[dict].
     Expects header row and '---' separator. Ignores empty/short lines.
     """
     lines = [ln for ln in md.splitlines() if ln.strip()]
-    # Find the first header row that looks like a pipe table
     start = None
     for i, ln in enumerate(lines):
         if ln.strip().startswith("|") and ("|" in ln.strip()[1:]):
-            # Next line should be the separator (---)
             if i + 1 < len(lines) and set(lines[i + 1].replace("|", "").replace(" ", "")) <= set("-"):
                 start = i
                 break
@@ -165,7 +222,6 @@ def _parse_markdown_table(md: str):
     rows = []
     for ln in lines[start + 2:]:
         if not ln.strip().startswith("|"):
-            # stop at first non-table block
             break
         cols = [c.strip() for c in ln.split("|") if c.strip()]
         if len(cols) < 1:
@@ -179,7 +235,6 @@ def _parse_markdown_table(md: str):
 
 def _coerce_number(x):
     try:
-        # remove $ and commas
         s = str(x).replace("$", "").replace(",", "").strip()
         if s == "" or s.lower() == "n/a":
             return None
@@ -191,14 +246,13 @@ EM_SPACE = " "  # U+2003 for wide gap
 
 def format_properties(rows):
     """
-    rows: list[dict] with keys like Title, Price, Bedrooms, Bathrooms, Address, square_feet, etc.
-    Returns a numbered, card-like Markdown string (without IDs).
+    rows: list[dict] with keys like Title, Price, Bedrooms, Bathrooms, Address, square_feet, City, State, etc.
+    Returns a numbered, card-like Markdown string (without IDs), in the STRICT four-line format.
     Caps to first 10 entries.
     """
     if not rows:
         return None
 
-    # Normalize field names (case-insensitive)
     def g(row, *keys, default=""):
         for k in keys:
             for kk in row.keys():
@@ -209,66 +263,50 @@ def format_properties(rows):
     cards = []
     for idx, row in enumerate(rows[:10], start=1):
         title = g(row, "Title", "title", default="Unnamed Property")
+
+        # Location
+        address = g(row, "address", "street_address", "street address", "addr", "full_address", "location", default="")
+        city    = g(row, "city", "town", "locality", default="")
+        state   = g(row, "state", "state_code", "region", "province", default="")
+        location_line = f"{address}, {city}, {state}".strip(", ").replace(" ,", ",")
+
+        # Meta
+        bedrooms  = g(row, "Bedrooms", "bedrooms", default="")
+        bathrooms = g(row, "Bathrooms", "bathrooms", default="")
+        sqft      = g(row, "Square Feet", "square_feet", "sqft", default="")
+        sqn = _coerce_number(sqft)
+        sqft_disp = f"{int(sqn):,}" if (sqn is not None and not math.isnan(sqn)) else (str(sqft) if sqft else "")
+
+        meta_line = f"🛏 {bedrooms} bed"
+        if bathrooms:
+            meta_line += f"{EM_SPACE*3}🛁 {bathrooms} bath"
+        if sqft_disp:
+            meta_line += f"{EM_SPACE*3}📐 {sqft_disp} sqft"
+
+        # Price
         price_raw = g(row, "Price", "price", default="")
         price_num = _coerce_number(price_raw)
         price = f"${price_num:,.0f}" if price_num is not None else (price_raw or "N/A")
 
-        bedrooms = g(row, "Bedrooms", "bedrooms", default="")
-        bathrooms = g(row, "Bathrooms", "bathrooms", default="")
-        sqft = g(row, "Square Feet", "square_feet", "sqft", default="")
-
-        # --- Location fields (robust to header variants) ---
-        address = g(
-            row,
-            "address", "street_address", "street address", "addr", "full_address", "location",
-            default=""
-        )
-        city = g(row, "city", "town", "locality", default="")
-        state = g(row, "state", "state_code", "region", "province", default="")
-
-        # Build the card (address + city + state together)
-        location_line = ""
-        if address or city or state:
-            parts = []
-            if address: parts.append(address)
-            if city:    parts.append(city)
-            if state:   parts.append(state)
-            location_line = f"📍 {', '.join(parts)}\n"
-
-        # Build the meta info
-        meta_line = f"🛏 {bedrooms} bed"
-        if bathrooms:
-            meta_line += f"{EM_SPACE*3}🛁 {bathrooms} bath"
-        if sqft:
-            sqn = _coerce_number(sqft)
-            sqft_disp = f"{int(sqn):,}" if (sqn is not None and not math.isnan(sqn)) else str(sqft)
-            meta_line += f"{EM_SPACE*3}📐 {sqft_disp} sqft"
-
-        card = (
-            f"{idx}) {title}\n"
-            + location_line
-            + meta_line + "\n"
-            + f"💰 {price}\n"
-        )
+        # STRICT four-line card
+        card = f"{idx}) {title}\n{location_line}\n{meta_line}\n💰 {price}\n"
         cards.append(card)
 
-    return "\n\n".join(cards)
+    return "\n".join(cards)
 
 def try_beautify_properties(answer_text: str):
     """
     If the agent returned a markdown table that looks like property rows,
-    format them as numbered cards without IDs.
+    format them as numbered cards (STRICT four-line format) without IDs.
     """
     rows = _parse_markdown_table(answer_text)
     if not rows:
         return None
 
-    # Heuristic: if the table has a Title/Price column, it's likely properties.
     header_keys = {k.lower() for k in rows[0].keys()}
     if not (("title" in header_keys) and ("price" in header_keys)):
         return None
 
-    # Drop obvious ID fields from rows (not shown to users)
     for r in rows:
         for k in list(r.keys()):
             if k.strip().lower() in {"id", "uuid"}:
@@ -277,6 +315,46 @@ def try_beautify_properties(answer_text: str):
     pretty = format_properties(rows)
     return pretty
 
+def try_beautify_state_values(answer_text: str):
+    """
+    If the agent returned a simple two-column markdown table like:
+      | State | Average Listing Price |
+    convert it to clean lines:
+      Arizona — 💰 $719,693
+    Supports generic metric names (uses 💰 for price-ish columns, ⏱️ for days).
+    """
+    rows = _parse_markdown_table(answer_text)
+    if not rows:
+        return None
+
+    # Must look like exactly two columns and include 'state' as first or second
+    headers = list(rows[0].keys())
+    if len(headers) != 2:
+        return None
+
+    h1, h2 = headers[0].lower(), headers[1].lower()
+    if "state" not in (h1, h2):
+        return None
+
+    # Determine which is the metric column
+    metric_header = headers[1] if h1 == "state" else headers[0]
+    is_price = any(tok in metric_header.lower() for tok in ["price", "per square foot", "$"])
+    is_days  = any(tok in metric_header.lower() for tok in ["day", "dom"])
+
+    lines = []
+    for r in rows[:10]:
+        state = r.get("State") or r.get("state") or r.get(headers[0]) if headers[0].lower()=="state" else r.get(headers[1])
+        value = r.get(metric_header)
+
+        prefix = "—"
+        if is_price:
+            prefix = "— 💰"
+        elif is_days:
+            prefix = "— ⏱️"
+
+        lines.append(f"{state} {prefix} {value}")
+
+    return "\n".join(lines)
 
 # FastAPI setup
 app = FastAPI()
@@ -296,11 +374,15 @@ def ask_endpoint(request: QueryRequest):
     try:
         answer = agent.run(request.question)
 
-        # Try to beautify property results into card style (numbered, spaced)
+        # Try to beautify property results into STRICT card style (numbered, spaced)
         pretty = try_beautify_properties(answer)
         if pretty:
-            # Mention truncation if we likely capped to 10
             answer = "Here are the top matching properties (showing up to 10):\n\n" + pretty
+        else:
+            # Try to beautify state/value aggregates (two-column tables)
+            pretty_state = try_beautify_state_values(answer)
+            if pretty_state:
+                answer = "Here are the results:\n\n" + pretty_state
 
         return {"answer": answer}
     except Exception as e:
