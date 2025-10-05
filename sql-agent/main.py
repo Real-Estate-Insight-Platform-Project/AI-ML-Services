@@ -19,7 +19,7 @@ load_dotenv(find_dotenv(), override=True)
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 DATABASE_URL = os.getenv("SQL_AGENT_DATABASE_URL")
 LOG_SQL = (os.getenv("LOG_SQL", "false").lower() == "true")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 # SQLAlchemy engine with timeouts & read-only transactions
 engine = create_engine(
