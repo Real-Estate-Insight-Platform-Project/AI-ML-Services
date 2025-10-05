@@ -28,9 +28,9 @@ DEFAULT_CONFIG = {
     "health_path": "/health",
     "read_path": "/items",
     "write_path": "/items",
-    "db_versions": ["13", "14", "15", "16"],
+    "db_versions": ["14", "16"],
     "memory_limits": ["512m", "1g"],
-    "python_versions": ["3.12"],
+    "python_versions": ["3.10", "3.11", "3.12"],
     "api_port": 8080,
     "db_port": 5432,
     "timeout": 300,
@@ -40,8 +40,7 @@ DEFAULT_CONFIG = {
 }
 
 # Docker compose template for testing configurations
-COMPOSE_TEMPLATE = """version: '3.8'
-services:
+COMPOSE_TEMPLATE = """services:
   db:
     image: postgres:{db_version}
     environment:
@@ -161,8 +160,12 @@ def setup_logging(log_level: str = "INFO") -> logging.Logger:
     # Remove existing handlers
     logger.handlers.clear()
     
+    # Ensure log files are created in the configuration testing directory
+    config_test_dir = Path(__file__).parent
+    log_file_path = config_test_dir / "config_test.log"
+    
     # File handler
-    file_handler = logging.FileHandler("config_test.log", mode="w")
+    file_handler = logging.FileHandler(log_file_path, mode="w")
     file_handler.setLevel(logging.DEBUG)
     
     # Console handler
@@ -361,7 +364,14 @@ if __name__ == "__main__":
         issues = []
         
         # Use the standardized requirements.txt from project root
-        project_root = Path.cwd().parent if Path.cwd().name == "testing" else Path.cwd()
+        # Navigate up from testing/configuration_testing to project root
+        current_path = Path.cwd()
+        if current_path.name == "configuration_testing":
+            project_root = current_path.parent.parent
+        elif current_path.name == "testing":
+            project_root = current_path.parent
+        else:
+            project_root = current_path
         requirements_file = project_root / "requirements.txt"
         
         if not requirements_file.exists():
@@ -1139,6 +1149,11 @@ class ReportGenerator:
     def generate_json_report(self, summary: Dict[str, Any], output_path: str = "config_test_report.json") -> None:
         """Generate JSON report."""
         try:
+            # Ensure report is saved in the configuration testing directory
+            if not Path(output_path).is_absolute():
+                config_test_dir = Path(__file__).parent
+                output_path = str(config_test_dir / output_path)
+            
             # Create clean JSON structure
             report = {
                 "report_metadata": {
