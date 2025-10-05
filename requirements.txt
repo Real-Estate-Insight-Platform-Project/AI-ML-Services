@@ -60,3 +60,5 @@ python-dotenv==1.0.1
 python-multipart==0.0.9
 orjson==3.10.7
 geoalchemy2==0.15.2
+
+locust==2.41.2
