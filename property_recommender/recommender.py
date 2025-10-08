@@ -138,6 +138,8 @@ def transform_property_data(api_data: Dict[str, Any]) -> Optional[Dict[str, Any]
                 'property_hyperlink': result['href'],
                 'longitude_coordinates': float(result['location']['address']['coordinate']['lon']),
                 'latitude_coordinates': float(result['location']['address']['coordinate']['lat']),
+                'property_id': result['property_id'],
+                'listed_date': result['list_date'],
                 'created_at': datetime.now().isoformat(),
                 'updated_at': datetime.now().isoformat()
             }
@@ -188,12 +190,13 @@ def save_to_database(properties: list):
 
     for property_data in properties:
         try:
-            # Check if property already exists (based on address and city)
+            #  Check if property already exists using the unique property_id
             existing_property = supabase.table('properties').select('id').eq(
-                'address', property_data['address']).eq('city', property_data['city']).execute()
+                'property_id', property_data['property_id']).execute()
 
             if existing_property.data:
-                print(f"Property already exists: {property_data['title']}")
+                print(
+                    f"Property already exists: {property_data['title']} (Property ID: {property_data['property_id']})")
                 continue
 
             # Insert into Supabase if it doesn't exist
@@ -202,16 +205,19 @@ def save_to_database(properties: list):
 
             if response.data:
                 success_count += 1
-                print(f"Successfully saved property: {property_data['title']}")
+                print(
+                    f"Successfully saved property: {property_data['title']} (Property ID: {property_data['property_id']})")
             else:
                 error_count += 1
-                print(f"Failed to save property: {property_data['title']}")
+                print(
+                    f"Failed to save property: {property_data['title']} (Property ID: {property_data['property_id']})")
 
         except Exception as e:
             error_count += 1
-            print(f"Error saving property {property_data['title']}: {e}")
+            print(
+                f"Error saving property {property_data['title']} (Property ID: {property_data['property_id']}): {e}")
 
-    print(
+     print(
         f"Summary: {success_count} properties saved successfully, {error_count} failed")
     return success_count, error_count
 

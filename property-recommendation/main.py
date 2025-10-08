@@ -1,138 +1,172 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
-import uvicorn
+from sqlalchemy import create_engine, text
+import os
+from dotenv import load_dotenv
+from typing import List, Optional
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 
-from supabase_client import SupabaseClient
-from recommendation_engine import PropertyRecommendationEngine
+# Load environment variables from .env file
+load_dotenv()
 
-app = FastAPI(title="Property Recommendation API")
+# Database connection
+DATABASE_URL = os.getenv("POSTGRES_URL")
+if not DATABASE_URL:
+    raise RuntimeError("POSTGRES_URL is not set in the environment variables.")
 
-# CORS middleware
+engine = create_engine(DATABASE_URL)
+
+app = FastAPI()
+
+# Add CORS middleware
+origins = [
+    "http://localhost:3000",  # Your Next.js frontend
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000",
-                   "http://localhost:3001"],  # Add your frontend URL
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
 )
 
-# Initialize clients with error handling
-try:
-    supabase_client = SupabaseClient()
-    recommendation_engine = PropertyRecommendationEngine()
-    print("✅ Supabase client initialized successfully")
-except Exception as e:
-    print(f"❌ Error initializing Supabase client: {e}")
-    supabase_client = None
-    recommendation_engine = None
+
+class Property(BaseModel):
+    id: str
+    title: str
+    price: float
+    bedrooms: int
+    bathrooms: float
+    square_feet: int
+    latitude_coordinates: Optional[float] = None
+    longitude_coordinates: Optional[float] = None
+    property_image: Optional[str] = None
 
 
 class RecommendationRequest(BaseModel):
     property_id: str
-    filters: Optional[Dict[str, Any]] = None
-    limit: Optional[int] = 6
+    filters: Optional[dict] = None
+    limit: int = 6
 
 
 class RecommendationResponse(BaseModel):
-    target_property: Dict[str, Any]
-    similar_properties: List[Dict[str, Any]]
-    total_recommendations: int
+    target_property: Property
+    similar_properties: List[Property]
 
 
-@app.get("/")
-async def root():
-    return {"message": "Property Recommendation API", "status": "running"}
-
-
-@app.get("/health")
-async def health_check():
-    if supabase_client is None:
-        raise HTTPException(
-            status_code=500, detail="Supabase client not initialized")
-
-    # Test connection by fetching one property
-    try:
-        test_properties = supabase_client.get_properties(limit=1)
-        return {
-            "status": "healthy",
-            "supabase_connected": True,
-            "test_properties_count": len(test_properties)
-        }
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Supabase connection failed: {str(e)}")
+def get_property_by_id(property_id: str) -> Optional[Property]:
+    with engine.connect() as connection:
+        query = text("SELECT id, title, price, bedrooms, bathrooms, square_feet, latitude_coordinates, longitude_coordinates, property_image FROM properties WHERE id = :property_id")
+        result = connection.execute(
+            query, {"property_id": property_id}).fetchone()
+        if result:
+            # Manually map RowProxy to a dictionary before creating the Pydantic model
+            result_dict = {
+                "id": str(result.id),
+                "title": result.title,
+                "price": result.price,
+                "bedrooms": result.bedrooms,
+                "bathrooms": result.bathrooms,
+                "square_feet": result.square_feet,
+                "latitude_coordinates": result.latitude_coordinates,
+                "longitude_coordinates": result.longitude_coordinates,
+                "property_image": result.property_image,
+            }
+            return Property(**result_dict)
+        return None
 
 
 @app.post("/recommendations", response_model=RecommendationResponse)
-async def get_recommendations(request: RecommendationRequest):
-    if supabase_client is None or recommendation_engine is None:
-        raise HTTPException(
-            status_code=500, detail="Service not properly initialized")
+def get_recommendations(request: RecommendationRequest):
+    target_property = get_property_by_id(request.property_id)
+    if not target_property:
+        raise HTTPException(status_code=404, detail="Property not found")
 
-    try:
-        # Get target property
-        target_property = supabase_client.get_property_by_id(
-            request.property_id)
-        if not target_property:
-            raise HTTPException(status_code=404, detail="Property not found")
+    with engine.connect() as connection:
+        # Start building the query
+        query_str = """
+            SELECT
+                id,
+                title,
+                price,
+                bedrooms,
+                bathrooms,
+                square_feet,
+                latitude_coordinates,
+                longitude_coordinates,
+                property_image,
+                (
+                    6371 * acos(
+                        cos(radians(:lat)) * cos(radians(latitude_coordinates)) *
+                        cos(radians(longitude_coordinates) - radians(:lon)) +
+                        sin(radians(:lat)) * sin(radians(latitude_coordinates))
+                    )
+                ) AS distance
+            FROM
+                properties
+            WHERE
+                id != :target_id
+        """
+        params = {
+            "lat": target_property.latitude_coordinates,
+            "lon": target_property.longitude_coordinates,
+            "target_id": target_property.id,
+            "price": target_property.price,
+            "bedrooms": target_property.bedrooms,
+            "bathrooms": target_property.bathrooms,
+        }
 
-        # Get all active properties
-        all_properties = supabase_client.get_properties()
+        # Add filters to the query
+        if request.filters:
+            if request.filters.get("city"):
+                query_str += " AND city = :city"
+                params["city"] = request.filters["city"]
+            if request.filters.get("property_type"):
+                query_str += " AND property_type = :property_type"
+                params["property_type"] = request.filters["property_type"]
+            if request.filters.get("min_price"):
+                query_str += " AND price >= :min_price"
+                params["min_price"] = float(request.filters["min_price"])
+            if request.filters.get("max_price"):
+                query_str += " AND price <= :max_price"
+                params["max_price"] = float(request.filters["max_price"])
+            if request.filters.get("min_bedrooms"):
+                query_str += " AND bedrooms >= :min_bedrooms"
+                params["min_bedrooms"] = int(request.filters["min_bedrooms"])
+            if request.filters.get("min_bathrooms"):
+                query_str += " AND bathrooms >= :min_bathrooms"
+                params["min_bathrooms"] = float(
+                    request.filters["min_bathrooms"])
 
-        if not all_properties:
-            raise HTTPException(
-                status_code=404, detail="No properties found in database")
+        # Add ordering and limit
+        query_str += " ORDER BY distance ASC, abs(price - :price) ASC, abs(bedrooms - :bedrooms) ASC, abs(bathrooms - :bathrooms) ASC LIMIT :limit"
+        params["limit"] = request.limit
 
-        # Get similar properties
-        similar_properties = recommendation_engine.recommend_similar_properties(
-            target_property=target_property,
-            all_properties=all_properties,
-            filters=request.filters,
-            limit=request.limit
-        )
+        query = text(query_str)
+        similar_properties_result = connection.execute(
+            query, params).fetchall()
 
-        return RecommendationResponse(
-            target_property=target_property,
-            similar_properties=similar_properties,
-            total_recommendations=len(similar_properties)
-        )
+        similar_properties = [
+            Property(**{
+                "id": str(row.id),
+                "title": row.title,
+                "price": row.price,
+                "bedrooms": row.bedrooms,
+                "bathrooms": row.bathrooms,
+                "square_feet": row.square_feet,
+                "latitude_coordinates": row.latitude_coordinates,
+                "longitude_coordinates": row.longitude_coordinates,
+                "property_image": row.property_image,
+            }) for row in similar_properties_result
+        ]
 
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Internal server error: {str(e)}")
+    return RecommendationResponse(
+        target_property=target_property,
+        similar_properties=similar_properties,
+    )
 
-
-@app.get("/properties")
-async def get_properties(
-    city: Optional[str] = None,
-    property_type: Optional[str] = None,
-    min_price: Optional[int] = None,
-    max_price: Optional[int] = None,
-    min_bedrooms: Optional[int] = None,
-    min_bathrooms: Optional[float] = None
-):
-    if supabase_client is None:
-        raise HTTPException(
-            status_code=500, detail="Service not properly initialized")
-
-    filters = {
-        "city": city,
-        "property_type": property_type,
-        "min_price": min_price,
-        "max_price": max_price,
-        "min_bedrooms": min_bedrooms,
-        "min_bathrooms": min_bathrooms
-    }
-
-    properties = supabase_client.get_properties(filters)
-    return {"properties": properties}
 
 if __name__ == "__main__":
-    print("🚀 Starting Property Recommendation API...")
-    print("📝 Make sure you have set SUPABASE_URL and SUPABASE_KEY in your .env file")
+    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
