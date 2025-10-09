@@ -47,6 +47,9 @@ def calculate_metrics(y_true, y_hat):
 
     return rmse, rmsle, mae, mape, r2
 
+def get_project_root():
+    return Path().resolve().parent.parent
+
 def get_predictions(df,feature):
 
     # set mlflow tracking uri
@@ -57,14 +60,12 @@ def get_predictions(df,feature):
 
     df['date'] = pd.to_datetime(df['year'].astype(str) + '-' + df['month'].astype(str).str.zfill(2) + '-01')
     # sort
-    df = df.sort_values(['state','date']).reset_index(drop=True)
-
-    df = df.drop(columns=['state_id'])
+    df = df.sort_values(['state_num','date']).reset_index(drop=True)
 
     # Create covariate matrices
     grouped_ts = {}
 
-    for state, g in df.groupby('state'):
+    for state_num, g in df.groupby('state_num'):
         # create a TimeSeries with monthly frequency
         ts = TimeSeries.from_dataframe(
         g,
@@ -72,7 +73,7 @@ def get_predictions(df,feature):
         value_cols=feature,
         freq="MS",
         )
-        grouped_ts[state] = ts
+        grouped_ts[state_num] = ts
 
     past_cov_ts = {}
     future_cov_ts = {}
@@ -104,29 +105,29 @@ def get_predictions(df,feature):
         
     future_cov_cols = ['month','year']  # calendar features known ahead
 
-    for state, g in df.groupby('state'):
+    for state_num, g in df.groupby('state_num'):
         # Past covariates as a multivariate TimeSeries
         if all(c in g.columns for c in past_cov_cols):
-            past_cov_ts[state] = TimeSeries.from_dataframe(g, time_col='date', value_cols=past_cov_cols, freq='MS')
+            past_cov_ts[state_num] = TimeSeries.from_dataframe(g, time_col='date', value_cols=past_cov_cols, freq='MS')
         else:
-            past_cov_ts[state] = None
+            past_cov_ts[state_num] = None
 
         if all(c in g.columns for c in future_cov_cols):
-            future_cov_ts[state] = TimeSeries.from_dataframe(g, time_col='date', value_cols=future_cov_cols, freq='MS')
+            future_cov_ts[state_num] = TimeSeries.from_dataframe(g, time_col='date', value_cols=future_cov_cols, freq='MS')
         else:
-            future_cov_ts[state] = None
+            future_cov_ts[state_num] = None
 
     pipeline_dict = {}
     ts_transformed = {}
 
-    for state in grouped_ts:
+    for state_num in grouped_ts:
         log_transformer = InvertibleMapper(np.log1p, np.expm1)   # log1p for target, invertible
         scaler = Scaler()
         pipe = Pipeline([log_transformer, scaler])
         # fit_transform expects a TimeSeries (or list); we pass the one series
-        transformed = pipe.fit_transform(grouped_ts[state])
-        pipeline_dict[state] = pipe
-        ts_transformed[state] = transformed
+        transformed = pipe.fit_transform(grouped_ts[state_num])
+        pipeline_dict[state_num] = pipe
+        ts_transformed[state_num] = transformed
 
     n_predict = 3
     train_series = []
