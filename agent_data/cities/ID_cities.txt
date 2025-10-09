@@ -1,0 +1,264 @@
+Aberdeen, ID, USA
+Ahsahka, ID, USA
+Albion, ID, USA
+Almo, ID, USA
+American Falls, ID, USA
+Arbon, ID, USA
+Arco, ID, USA
+Arimo, ID, USA
+Ashton, ID, USA
+Athol, ID, USA
+Atomic City, ID, USA
+Avery, ID, USA
+Bancroft, ID, USA
+Banks, ID, USA
+Basalt, ID, USA
+Bayview, ID, USA
+Bellevue, ID, USA
+Bern, ID, USA
+Blackfoot, ID, USA
+Blanchard, ID, USA
+Bliss, ID, USA
+Bloomington, ID, USA
+Boise, ID, USA
+Bonners Ferry, ID, USA
+Bovill, ID, USA
+Bruneau, ID, USA
+Buhl, ID, USA
+Burley, ID, USA
+Calder, ID, USA
+Caldwell, ID, USA
+Cambridge, ID, USA
+Carey, ID, USA
+Careywood, ID, USA
+Carmen, ID, USA
+Cascade, ID, USA
+Castleford, ID, USA
+Cataldo, ID, USA
+Challis, ID, USA
+Chester, ID, USA
+Clark Fork, ID, USA
+Clarkia, ID, USA
+Clayton, ID, USA
+Clifton, ID, USA
+Cobalt, ID, USA
+Cocolalla, ID, USA
+Coeur D Alene, ID, USA
+Colburn, ID, USA
+Coolin, ID, USA
+Corral, ID, USA
+Cottonwood, ID, USA
+Council, ID, USA
+Craigmont, ID, USA
+Culdesac, ID, USA
+Dayton, ID, USA
+Deary, ID, USA
+Declo, ID, USA
+Desmet, ID, USA
+Dietrich, ID, USA
+Dingle, ID, USA
+Donnelly, ID, USA
+Dover, ID, USA
+Downey, ID, USA
+Driggs, ID, USA
+Dubois, ID, USA
+Eagle, ID, USA
+Eastport, ID, USA
+Eden, ID, USA
+Elk City, ID, USA
+Elk River, ID, USA
+Ellis, ID, USA
+Emmett, ID, USA
+Fairfield, ID, USA
+Felt, ID, USA
+Fenn, ID, USA
+Ferdinand, ID, USA
+Fernwood, ID, USA
+Filer, ID, USA
+Firth, ID, USA
+Fish Haven, ID, USA
+Fort Hall, ID, USA
+Franklin, ID, USA
+Fruitland, ID, USA
+Garden City, ID, USA
+Garden Valley, ID, USA
+Genesee, ID, USA
+Geneva, ID, USA
+Georgetown, ID, USA
+Gibbsonville, ID, USA
+Glenns Ferry, ID, USA
+Gooding, ID, USA
+Grace, ID, USA
+Grand View, ID, USA
+Grangeville, ID, USA
+Greencreek, ID, USA
+Greenleaf, ID, USA
+Hagerman, ID, USA
+Hailey, ID, USA
+Hamer, ID, USA
+Hammett, ID, USA
+Hansen, ID, USA
+Harrison, ID, USA
+Harvard, ID, USA
+Hayden, ID, USA
+Hazelton, ID, USA
+Heyburn, ID, USA
+Hill City, ID, USA
+Holbrook, ID, USA
+Homedale, ID, USA
+Hope, ID, USA
+Horseshoe Bend, ID, USA
+Howe, ID, USA
+Huston, ID, USA
+Idaho City, ID, USA
+Idaho Falls, ID, USA
+Indian Valley, ID, USA
+Inkom, ID, USA
+Iona, ID, USA
+Irwin, ID, USA
+Island Park, ID, USA
+Jerome, ID, USA
+Juliaetta, ID, USA
+Kamiah, ID, USA
+Kellogg, ID, USA
+Kendrick, ID, USA
+Ketchum, ID, USA
+Kimberly, ID, USA
+King Hill, ID, USA
+Kingston, ID, USA
+Kooskia, ID, USA
+Kootenai, ID, USA
+Kuna, ID, USA
+Laclede, ID, USA
+Lake Fork, ID, USA
+Lapwai, ID, USA
+Lava Hot Springs, ID, USA
+Leadore, ID, USA
+Lemhi, ID, USA
+Lenore, ID, USA
+Letha, ID, USA
+Lewiston, ID, USA
+Lewisville, ID, USA
+Lowman, ID, USA
+Lucile, ID, USA
+Mackay, ID, USA
+Macks Inn, ID, USA
+Malad City, ID, USA
+Malta, ID, USA
+Marsing, ID, USA
+May, ID, USA
+Mccall, ID, USA
+Mccammon, ID, USA
+Medimont, ID, USA
+Melba, ID, USA
+Menan, ID, USA
+Meridian, ID, USA
+Mesa, ID, USA
+Middleton, ID, USA
+Midvale, ID, USA
+Minidoka, ID, USA
+Monteview, ID, USA
+Montpelier, ID, USA
+Moore, ID, USA
+Moreland, ID, USA
+Moscow, ID, USA
+Mountain Home, ID, USA
+Mountain Home Afb, ID, USA
+Moyie Springs, ID, USA
+Mullan, ID, USA
+Murphy, ID, USA
+Murray, ID, USA
+Murtaugh, ID, USA
+Nampa, ID, USA
+Naples, ID, USA
+New Meadows, ID, USA
+New Plymouth, ID, USA
+Newdale, ID, USA
+Nezperce, ID, USA
+Nordman, ID, USA
+North Fork, ID, USA
+Notus, ID, USA
+Oakley, ID, USA
+Ola, ID, USA
+Oldtown, ID, USA
+Orofino, ID, USA
+Osburn, ID, USA
+Paris, ID, USA
+Parker, ID, USA
+Parma, ID, USA
+Paul, ID, USA
+Payette, ID, USA
+Peck, ID, USA
+Picabo, ID, USA
+Pierce, ID, USA
+Pinehurst, ID, USA
+Pingree, ID, USA
+Placerville, ID, USA
+Plummer, ID, USA
+Pocatello, ID, USA
+Pollock, ID, USA
+Ponderay, ID, USA
+Porthill, ID, USA
+Post Falls, ID, USA
+Potlatch, ID, USA
+Preston, ID, USA
+Priest River, ID, USA
+Princeton, ID, USA
+Rathdrum, ID, USA
+Reubens, ID, USA
+Rexburg, ID, USA
+Richfield, ID, USA
+Rigby, ID, USA
+Riggins, ID, USA
+Ririe, ID, USA
+Roberts, ID, USA
+Rockland, ID, USA
+Rogerson, ID, USA
+Rupert, ID, USA
+Sagle, ID, USA
+Saint Anthony, ID, USA
+Saint Charles, ID, USA
+Saint Maries, ID, USA
+Salmon, ID, USA
+Sandpoint, ID, USA
+Santa, ID, USA
+Shelley, ID, USA
+Shoshone, ID, USA
+Shoup, ID, USA
+Silverton, ID, USA
+Smelterville, ID, USA
+Soda Springs, ID, USA
+Spencer, ID, USA
+Spirit Lake, ID, USA
+Springfield, ID, USA
+Stanley, ID, USA
+Star, ID, USA
+Stites, ID, USA
+Sugar City, ID, USA
+Sun Valley, ID, USA
+Swan Lake, ID, USA
+Swan Valley, ID, USA
+Sweet, ID, USA
+Tendoy, ID, USA
+Tensed, ID, USA
+Terreton, ID, USA
+Teton, ID, USA
+Tetonia, ID, USA
+Thatcher, ID, USA
+Troy, ID, USA
+Twin Falls, ID, USA
+Ucon, ID, USA
+Victor, ID, USA
+Viola, ID, USA
+Wallace, ID, USA
+Warren, ID, USA
+Wayan, ID, USA
+Weippe, ID, USA
+Weiser, ID, USA
+Wendell, ID, USA
+Weston, ID, USA
+White Bird, ID, USA
+Wilder, ID, USA
+Winchester, ID, USA
+Worley, ID, USA
+Yellow Pine, ID, USA

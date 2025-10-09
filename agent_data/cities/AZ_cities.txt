@@ -1,0 +1,261 @@
+Aguila, AZ, USA
+Ajo, AZ, USA
+Alpine, AZ, USA
+Amado, AZ, USA
+Apache Junction, AZ, USA
+Arivaca, AZ, USA
+Arizona City, AZ, USA
+Arlington, AZ, USA
+Ash Fork, AZ, USA
+Avondale, AZ, USA
+Bagdad, AZ, USA
+Bapchule, AZ, USA
+Bellemont, AZ, USA
+Benson, AZ, USA
+Bisbee, AZ, USA
+Black Canyon City, AZ, USA
+Blue, AZ, USA
+Blue Gap, AZ, USA
+Bouse, AZ, USA
+Bowie, AZ, USA
+Buckeye, AZ, USA
+Bullhead City, AZ, USA
+Bylas, AZ, USA
+Cameron, AZ, USA
+Camp Verde, AZ, USA
+Carefree, AZ, USA
+Casa Grande, AZ, USA
+Cashion, AZ, USA
+Catalina, AZ, USA
+Cave Creek, AZ, USA
+Central, AZ, USA
+Chambers, AZ, USA
+Chandler, AZ, USA
+Chandler Heights, AZ, USA
+Chinle, AZ, USA
+Chino Valley, AZ, USA
+Chloride, AZ, USA
+Cibecue, AZ, USA
+Cibola, AZ, USA
+Clarkdale, AZ, USA
+Clay Springs, AZ, USA
+Claypool, AZ, USA
+Clifton, AZ, USA
+Cochise, AZ, USA
+Colorado City, AZ, USA
+Concho, AZ, USA
+Congress, AZ, USA
+Coolidge, AZ, USA
+Cornville, AZ, USA
+Cortaro, AZ, USA
+Cottonwood, AZ, USA
+Crown King, AZ, USA
+Dateland, AZ, USA
+Dennehotso, AZ, USA
+Dewey, AZ, USA
+Dolan Springs, AZ, USA
+Douglas, AZ, USA
+Dragoon, AZ, USA
+Duncan, AZ, USA
+Eagar, AZ, USA
+Eden, AZ, USA
+Ehrenberg, AZ, USA
+El Mirage, AZ, USA
+Elfrida, AZ, USA
+Elgin, AZ, USA
+Eloy, AZ, USA
+Flagstaff, AZ, USA
+Florence, AZ, USA
+Forest Lakes, AZ, USA
+Fort Apache, AZ, USA
+Fort Defiance, AZ, USA
+Fort Huachuca, AZ, USA
+Fort Mcdowell, AZ, USA
+Fort Mohave, AZ, USA
+Fort Thomas, AZ, USA
+Fountain Hills, AZ, USA
+Fredonia, AZ, USA
+Ganado, AZ, USA
+Gila Bend, AZ, USA
+Gilbert, AZ, USA
+Glendale, AZ, USA
+Globe, AZ, USA
+Gold Canyon, AZ, USA
+Golden Valley, AZ, USA
+Goodyear, AZ, USA
+Grand Canyon, AZ, USA
+Gray Mountain, AZ, USA
+Green Valley, AZ, USA
+Greer, AZ, USA
+Hackberry, AZ, USA
+Happy Jack, AZ, USA
+Hayden, AZ, USA
+Heber, AZ, USA
+Hereford, AZ, USA
+Higley, AZ, USA
+Holbrook, AZ, USA
+Hotevilla, AZ, USA
+Houck, AZ, USA
+Huachuca City, AZ, USA
+Hualapai, AZ, USA
+Humboldt, AZ, USA
+Indian Wells, AZ, USA
+Jerome, AZ, USA
+Joseph City, AZ, USA
+Kaibeto, AZ, USA
+Kayenta, AZ, USA
+Keams Canyon, AZ, USA
+Kearny, AZ, USA
+Kingman, AZ, USA
+Kirkland, AZ, USA
+Kykotsmovi Village, AZ, USA
+Lake Havasu City, AZ, USA
+Lake Montezuma, AZ, USA
+Lakeside, AZ, USA
+Laveen, AZ, USA
+Leupp, AZ, USA
+Litchfield Park, AZ, USA
+Littlefield, AZ, USA
+Lukachukai, AZ, USA
+Luke Air Force Base, AZ, USA
+Lukeville, AZ, USA
+Lupton, AZ, USA
+Mammoth, AZ, USA
+Many Farms, AZ, USA
+Marana, AZ, USA
+Marble Canyon, AZ, USA
+Maricopa, AZ, USA
+Mayer, AZ, USA
+Mc Neal, AZ, USA
+Mcnary, AZ, USA
+Meadview, AZ, USA
+Mesa, AZ, USA
+Miami, AZ, USA
+Mohave Valley, AZ, USA
+Morenci, AZ, USA
+Mormon Lake, AZ, USA
+Morristown, AZ, USA
+Mount Lemmon, AZ, USA
+Munds Park, AZ, USA
+Naco, AZ, USA
+Nazlini, AZ, USA
+New River, AZ, USA
+Nogales, AZ, USA
+North Rim, AZ, USA
+Nutrioso, AZ, USA
+Oatman, AZ, USA
+Oracle, AZ, USA
+Overgaard, AZ, USA
+Page, AZ, USA
+Palo Verde, AZ, USA
+Paradise Valley, AZ, USA
+Parker, AZ, USA
+Parks, AZ, USA
+Patagonia, AZ, USA
+Paulden, AZ, USA
+Payson, AZ, USA
+Peach Springs, AZ, USA
+Pearce, AZ, USA
+Peoria, AZ, USA
+Peridot, AZ, USA
+Petrified Forest Natl Pk, AZ, USA
+Phoenix, AZ, USA
+Picacho, AZ, USA
+Pima, AZ, USA
+Pine, AZ, USA
+Pinedale, AZ, USA
+Pinetop, AZ, USA
+Pinon, AZ, USA
+Pirtleville, AZ, USA
+Polacca, AZ, USA
+Pomerene, AZ, USA
+Prescott, AZ, USA
+Prescott Valley, AZ, USA
+Quartzsite, AZ, USA
+Queen Creek, AZ, USA
+Red Rock, AZ, USA
+Red Valley, AZ, USA
+Rillito, AZ, USA
+Rimrock, AZ, USA
+Rio Rico, AZ, USA
+Rio Verde, AZ, USA
+Rock Point, AZ, USA
+Roll, AZ, USA
+Roosevelt, AZ, USA
+Round Rock, AZ, USA
+Sacaton, AZ, USA
+Safford, AZ, USA
+Sahuarita, AZ, USA
+Saint David, AZ, USA
+Saint Johns, AZ, USA
+Saint Michaels, AZ, USA
+Salome, AZ, USA
+San Carlos, AZ, USA
+San Luis, AZ, USA
+San Manuel, AZ, USA
+San Simon, AZ, USA
+San Tan Valley, AZ, USA
+Sanders, AZ, USA
+Sasabe, AZ, USA
+Scottsdale, AZ, USA
+Second Mesa, AZ, USA
+Sedona, AZ, USA
+Seligman, AZ, USA
+Sells, AZ, USA
+Shonto, AZ, USA
+Show Low, AZ, USA
+Sierra Vista, AZ, USA
+Skull Valley, AZ, USA
+Snowflake, AZ, USA
+Solomon, AZ, USA
+Somerton, AZ, USA
+Sonoita, AZ, USA
+Springerville, AZ, USA
+Stanfield, AZ, USA
+Sun City, AZ, USA
+Sun City West, AZ, USA
+Sun Valley, AZ, USA
+Supai, AZ, USA
+Superior, AZ, USA
+Surprise, AZ, USA
+Tacna, AZ, USA
+Taylor, AZ, USA
+Teec Nos Pos, AZ, USA
+Tempe, AZ, USA
+Temple Bar Marina, AZ, USA
+Thatcher, AZ, USA
+Tolleson, AZ, USA
+Tombstone, AZ, USA
+Tonalea, AZ, USA
+Tonopah, AZ, USA
+Tonto Basin, AZ, USA
+Topawa, AZ, USA
+Topock, AZ, USA
+Tsaile, AZ, USA
+Tuba City, AZ, USA
+Tubac, AZ, USA
+Tucson, AZ, USA
+Tumacacori, AZ, USA
+Vail, AZ, USA
+Valentine, AZ, USA
+Valley Farms, AZ, USA
+Vernon, AZ, USA
+Waddell, AZ, USA
+Wellton, AZ, USA
+Wenden, AZ, USA
+Whiteriver, AZ, USA
+Wickenburg, AZ, USA
+Wikieup, AZ, USA
+Willcox, AZ, USA
+Williams, AZ, USA
+Willow Beach, AZ, USA
+Window Rock, AZ, USA
+Winkelman, AZ, USA
+Winslow, AZ, USA
+Wittmann, AZ, USA
+Woodruff, AZ, USA
+Yarnell, AZ, USA
+Young, AZ, USA
+Youngtown, AZ, USA
+Yucca, AZ, USA
+Yuma, AZ, USA
