@@ -110,8 +110,8 @@ def train_model():
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     # Delete all existing rows in the table before inserting new predictions
-    supabase.table("predictions").delete().gt("year", 0).execute()
-    supabase.table("predictions").insert(data_to_insert).execute()
+    supabase.table("state_predictions").delete().gt("year", 0).execute()
+    supabase.table("state_predictions").insert(data_to_insert).execute()
     print(f"{len(data_to_insert)} predictions pushed to Supabase (table overwritten)")
 
 # --------------- DAG ---------------- #
