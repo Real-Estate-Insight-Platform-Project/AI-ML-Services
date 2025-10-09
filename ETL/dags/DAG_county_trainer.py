@@ -12,12 +12,12 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-DATA_PATH = "/tmp/data1.csv" 
-DATA_PATH2 = "/tmp/data2.csv" 
+DATA_PATH = "/tmp/data3.csv" 
+DATA_PATH2 = "/tmp/data4.csv" 
 
 def download_dataset():
     """Download CSV dataset from URL"""
-    url = "https://econdata.s3-us-west-2.amazonaws.com/Reports/Core/RDC_Inventory_Core_Metrics_State.csv"
+    url = "https://econdata.s3-us-west-2.amazonaws.com/Reports/Core/RDC_Inventory_Core_Metrics_County.csv"
     df = pd.read_csv(url)
     df.to_csv(DATA_PATH, index=False)
 
@@ -25,17 +25,17 @@ def aggregate_data():
     """Load dataset, aggregate, and push to Supabase""" 
     df = pd.read_csv(DATA_PATH)
 
-    # Push preprocessed data to Supabase (state_market table)
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     from get_supabase_data import get_supabase_data
+    county_lookup = get_supabase_data("county_lookup") 
     state_lookup = get_supabase_data("state_lookup") 
 
     # Preprocess data
-    from preprocessing_1 import preprocess_data_1
-    df = preprocess_data_1(df,state_lookup)
+    from preprocessing_3 import preprocess_data_3
+    df = preprocess_data_3(df, county_lookup, state_lookup)
 
-    existing_data = get_supabase_data("state_market") 
+    existing_data = get_supabase_data("county_market") 
 
     # Create year_month composite keys for checking
     existing_data['year_month'] = existing_data['year'].astype(str) + '_' + existing_data['month'].astype(str)
@@ -53,7 +53,7 @@ def aggregate_data():
         new_data = pd.concat([existing_data, df]).drop_duplicates().reset_index(drop=True)
 
         data_to_insert = df.to_dict('records')
-        supabase.table("state_market").insert(data_to_insert).execute()
+        supabase.table("county_market").insert(data_to_insert).execute()
 
         print(f"{len(data_to_insert)} new records pushed to Supabase")
 
@@ -73,10 +73,10 @@ def train_model():
         "median_days_on_market"
     ]
 
-    from preprocessing_2 import preprocess_data_2
-    from model_trainer import get_predictions
+    from preprocessing_4 import preprocess_data_4
+    from model_trainer_2 import get_predictions
 
-    target_df = preprocess_data_2(df.copy())
+    target_df = preprocess_data_4(df.copy())
     prediction_df = target_df.copy()
 
     for feature in features:
@@ -85,20 +85,20 @@ def train_model():
 
     # Add market_trend column based on average_listing_price trend
     prediction_df['market_trend'] = 'stable'
-    
-    for state_num in prediction_df['state_num'].unique():
-        state_data = prediction_df[prediction_df['state_num'] == state_num]
-        
+
+    for county_num in prediction_df['county_num'].unique():
+        county_data = prediction_df[prediction_df['county_num'] == county_num]
+
         # Check if we have at least 3 months of predictions to analyze trend
-        if len(state_data) >= 3:
+        if len(county_data) >= 3:
             # Get the average_listing_price for the next 3 months
-            prices = state_data['average_listing_price'].iloc[:3].values
-            
+            prices = county_data['average_listing_price'].iloc[:3].values
+
             # Calculate if trend is rising, declining or stable
             if prices[2] > prices[0]:
-                prediction_df.loc[prediction_df['state_num'] == state_num, 'market_trend'] = 'rising'
+                prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'rising'
             elif prices[2] < prices[0]:
-                prediction_df.loc[prediction_df['state_num'] == state_num, 'market_trend'] = 'declining'
+                prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'declining'
 
     for col in features:
         if col in prediction_df.columns:
@@ -110,8 +110,8 @@ def train_model():
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     # Delete all existing rows in the table before inserting new predictions
-    supabase.table("state_predictions").delete().gt("year", 0).execute()
-    supabase.table("state_predictions").insert(data_to_insert).execute()
+    supabase.table("county_predictions").delete().gt("year", 0).execute()
+    supabase.table("county_predictions").insert(data_to_insert).execute()
     print(f"{len(data_to_insert)} predictions pushed to Supabase (table overwritten)")
 
 # --------------- DAG ---------------- #
@@ -123,7 +123,7 @@ default_args = {
 }
 
 dag = DAG(
-    "monthly_trainer",
+    "monthly_county_trainer",
     default_args=default_args,
     description="Download data, retrain model, push results",
     schedule="@monthly", 
