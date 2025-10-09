@@ -51,6 +51,9 @@ def preprocess_data_3(df, county_lookup, state_lookup):
         'average_listing_price',
         'total_listing_count'
     ]
+
+    df = df.fillna(method='ffill').fillna(method='bfill')
+    
     for col in int_columns:
         if col in df.columns:
             df[col] = df[col].astype('int32')
