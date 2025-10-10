@@ -1,11 +1,11 @@
 import pandas as pd
 
 def preprocess_data_2(df):
-    # Sort by state and month
-    df = df.sort_values(["state", "year", "month"])
+    # Sort by state_num and month
+    df = df.sort_values(["state_num", "year", "month"])
 
-    # Get latest record per state
-    latest_df = df.groupby("state").tail(1).reset_index(drop=True)
+    # Get latest record per state_num
+    latest_df = df.groupby("state_num").tail(1).reset_index(drop=True)
     
     # Create empty dataframe to store results
     result_df = pd.DataFrame()
@@ -23,10 +23,12 @@ def preprocess_data_2(df):
         input_df["year"] = new_year
         
         # Reorder columns
-        id_cols = ["year", "month", "state"]
+        id_cols = ["year", "month", "state_num"]
         input_df = input_df[id_cols]
-        
+
         # Add to results
         result_df = pd.concat([result_df, input_df], ignore_index=True)
+        for col in result_df.columns:
+            result_df[col] = result_df[col].astype(int)
     
     return result_df
