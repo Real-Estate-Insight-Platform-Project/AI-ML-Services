@@ -1,35 +1,38 @@
+import os
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import create_engine, text
-import os
 from dotenv import load_dotenv
 from typing import List, Optional
-from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
+from fastapi.middleware.cors import CORSMiddleware
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
-# Load environment variables from .env file
+# --- Environment and Database Setup ---
 load_dotenv()
-
-# Database connection
 DATABASE_URL = os.getenv("POSTGRES_URL")
 if not DATABASE_URL:
     raise RuntimeError("POSTGRES_URL is not set in the environment variables.")
-
 engine = create_engine(DATABASE_URL)
 
 app = FastAPI()
 
-# Add CORS middleware
-origins = [
-    "http://localhost:3000",  # Your Next.js frontend
-]
-
+# --- CORS Configuration ---
+origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# --- Pydantic Models ---
 
 
 class Property(BaseModel):
@@ -39,9 +42,10 @@ class Property(BaseModel):
     bedrooms: int
     bathrooms: float
     square_feet: int
+    property_image: Optional[str] = None
     latitude_coordinates: Optional[float] = None
     longitude_coordinates: Optional[float] = None
-    property_image: Optional[str] = None
+    similarity_score: Optional[float] = None
 
 
 class RecommendationRequest(BaseModel):
@@ -55,111 +59,150 @@ class RecommendationResponse(BaseModel):
     similar_properties: List[Property]
 
 
-def get_property_by_id(property_id: str) -> Optional[Property]:
+# --- In-Memory Cache for ML Model ---
+ml_data = {
+    "properties_df": pd.DataFrame(),
+    "similarity_matrix": None,
+}
+
+# --- Machine Learning Pipeline ---
+
+
+def build_feature_pipeline():
+    """Builds the scikit-learn pipeline for feature transformation."""
+    numerical_features = ['price', 'bedrooms', 'bathrooms', 'square_feet',
+                          'year_built', 'latitude_coordinates', 'longitude_coordinates']
+    categorical_features = ['property_type', 'city']
+    textual_features = 'text_features'  # Combined title and description
+
+    # Create transformers
+    numerical_transformer = MinMaxScaler()
+    categorical_transformer = OneHotEncoder(handle_unknown='ignore')
+    textual_transformer = TfidfVectorizer(
+        stop_words='english', max_features=500)
+
+    # Create a preprocessor with ColumnTransformer
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numerical_transformer, numerical_features),
+            ('cat', categorical_transformer, categorical_features),
+            ('text', textual_transformer, textual_features)
+        ],
+        remainder='drop'
+    )
+    return preprocessor
+
+
+@app.on_event("startup")
+def load_and_preprocess_data():
+    """Load data from the database and create the similarity matrix on startup."""
+    print("Loading properties and building recommendation model...")
     with engine.connect() as connection:
-        query = text("SELECT id, title, price, bedrooms, bathrooms, square_feet, latitude_coordinates, longitude_coordinates, property_image FROM properties WHERE id = :property_id")
-        result = connection.execute(
-            query, {"property_id": property_id}).fetchone()
-        if result:
-            # Manually map RowProxy to a dictionary before creating the Pydantic model
-            result_dict = {
-                "id": str(result.id),
-                "title": result.title,
-                "price": result.price,
-                "bedrooms": result.bedrooms,
-                "bathrooms": result.bathrooms,
-                "square_feet": result.square_feet,
-                "latitude_coordinates": result.latitude_coordinates,
-                "longitude_coordinates": result.longitude_coordinates,
-                "property_image": result.property_image,
-            }
-            return Property(**result_dict)
-        return None
+        query = text("SELECT id, title, description, price, bedrooms, bathrooms, square_feet, year_built, property_type, city, state, latitude_coordinates, longitude_coordinates, property_image, property_hyperlink FROM properties WHERE listing_status = 'active'")
+        properties_df = pd.read_sql(query, connection)
+
+    # --- Data Cleaning and Feature Engineering ---
+    properties_df['id'] = properties_df['id'].astype(str)
+
+    # Fill missing numerical values with the median of their respective columns
+    for col in ['price', 'bedrooms', 'bathrooms', 'square_feet', 'year_built', 'latitude_coordinates', 'longitude_coordinates']:
+        if properties_df[col].isnull().any():
+            median_val = properties_df[col].median()
+            properties_df[col].fillna(median_val, inplace=True)
+
+    # Combine text features
+    properties_df['description'] = properties_df['description'].fillna('')
+    properties_df['title'] = properties_df['title'].fillna('')
+    properties_df['text_features'] = properties_df['title'] + \
+        ' ' + properties_df['description']
+
+    # --- Build and Apply ML Pipeline ---
+    pipeline = build_feature_pipeline()
+    feature_matrix = pipeline.fit_transform(properties_df)
+
+    # --- Calculate Cosine Similarity ---
+    similarity_matrix = cosine_similarity(feature_matrix)
+
+    # --- Store in "cache" ---
+    ml_data["properties_df"] = properties_df
+    ml_data["similarity_matrix"] = similarity_matrix
+    print("Recommendation model built successfully.")
+
+
+# --- API Endpoints ---
+def get_property_by_id_from_df(property_id: str) -> Optional[pd.Series]:
+    """Retrieves a single property from the cached DataFrame."""
+    property_series = ml_data["properties_df"][ml_data["properties_df"]
+                                               ["id"] == property_id]
+    if not property_series.empty:
+        return property_series.iloc[0]
+    return None
 
 
 @app.post("/recommendations", response_model=RecommendationResponse)
 def get_recommendations(request: RecommendationRequest):
-    target_property = get_property_by_id(request.property_id)
-    if not target_property:
+    properties_df = ml_data["properties_df"]
+    similarity_matrix = ml_data["similarity_matrix"]
+
+    if properties_df.empty or similarity_matrix is None:
+        raise HTTPException(
+            status_code=503, detail="Recommendation model is not ready.")
+
+    target_property_series = get_property_by_id_from_df(request.property_id)
+    if target_property_series is None:
         raise HTTPException(status_code=404, detail="Property not found")
 
-    with engine.connect() as connection:
-        # Start building the query
-        query_str = """
-            SELECT
-                id,
-                title,
-                price,
-                bedrooms,
-                bathrooms,
-                square_feet,
-                latitude_coordinates,
-                longitude_coordinates,
-                property_image,
-                (
-                    6371 * acos(
-                        cos(radians(:lat)) * cos(radians(latitude_coordinates)) *
-                        cos(radians(longitude_coordinates) - radians(:lon)) +
-                        sin(radians(:lat)) * sin(radians(latitude_coordinates))
-                    )
-                ) AS distance
-            FROM
-                properties
-            WHERE
-                id != :target_id
-        """
-        params = {
-            "lat": target_property.latitude_coordinates,
-            "lon": target_property.longitude_coordinates,
-            "target_id": target_property.id,
-            "price": target_property.price,
-            "bedrooms": target_property.bedrooms,
-            "bathrooms": target_property.bathrooms,
-        }
+    # Convert pandas Series to Pydantic model
+    target_property = Property(**target_property_series.to_dict())
 
-        # Add filters to the query
-        if request.filters:
-            if request.filters.get("city"):
-                query_str += " AND city = :city"
-                params["city"] = request.filters["city"]
-            if request.filters.get("property_type"):
-                query_str += " AND property_type = :property_type"
-                params["property_type"] = request.filters["property_type"]
-            if request.filters.get("min_price"):
-                query_str += " AND price >= :min_price"
-                params["min_price"] = float(request.filters["min_price"])
-            if request.filters.get("max_price"):
-                query_str += " AND price <= :max_price"
-                params["max_price"] = float(request.filters["max_price"])
-            if request.filters.get("min_bedrooms"):
-                query_str += " AND bedrooms >= :min_bedrooms"
-                params["min_bedrooms"] = int(request.filters["min_bedrooms"])
-            if request.filters.get("min_bathrooms"):
-                query_str += " AND bathrooms >= :min_bathrooms"
-                params["min_bathrooms"] = float(
-                    request.filters["min_bathrooms"])
+    # Find the index of the target property in the DataFrame
+    try:
+        target_idx = properties_df.index[properties_df['id'] == request.property_id].tolist()[
+            0]
+    except IndexError:
+        raise HTTPException(
+            status_code=404, detail="Property not found in the model.")
 
-        # Add ordering and limit
-        query_str += " ORDER BY distance ASC, abs(price - :price) ASC, abs(bedrooms - :bedrooms) ASC, abs(bathrooms - :bathrooms) ASC LIMIT :limit"
-        params["limit"] = request.limit
+    # Get similarity scores for the target property
+    sim_scores = list(enumerate(similarity_matrix[target_idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-        query = text(query_str)
-        similar_properties_result = connection.execute(
-            query, params).fetchall()
+    # Get the indices of the most similar properties
+    similar_indices = [i[0] for i in sim_scores if i[0] != target_idx]
 
-        similar_properties = [
-            Property(**{
-                "id": str(row.id),
-                "title": row.title,
-                "price": row.price,
-                "bedrooms": row.bedrooms,
-                "bathrooms": row.bathrooms,
-                "square_feet": row.square_feet,
-                "latitude_coordinates": row.latitude_coordinates,
-                "longitude_coordinates": row.longitude_coordinates,
-                "property_image": row.property_image,
-            }) for row in similar_properties_result
-        ]
+    # Filter results based on request filters
+    filtered_df = properties_df.iloc[similar_indices].copy()
+    if request.filters:
+        filters = request.filters
+        if filters.get("city"):
+            filtered_df = filtered_df[filtered_df['city'] == filters["city"]]
+        if filters.get("property_type"):
+            filtered_df = filtered_df[filtered_df['property_type']
+                                      == filters["property_type"]]
+        if filters.get("min_price"):
+            filtered_df = filtered_df[filtered_df['price'] >= float(
+                filters["min_price"])]
+        if filters.get("max_price"):
+            filtered_df = filtered_df[filtered_df['price'] <= float(
+                filters["max_price"])]
+        if filters.get("min_bedrooms"):
+            filtered_df = filtered_df[filtered_df['bedrooms'] >= int(
+                filters["min_bedrooms"])]
+        if filters.get("min_bathrooms"):
+            filtered_df = filtered_df[filtered_df['bathrooms'] >= float(
+                filters["min_bathrooms"])]
+
+    # Get top N results after filtering
+    top_results_df = filtered_df.head(request.limit)
+
+    # Add similarity scores to the results
+    result_indices = top_results_df.index.tolist()
+    final_sim_scores = {idx: score for idx, score in sim_scores}
+    top_results_df['similarity_score'] = [final_sim_scores[i]
+                                          for i in result_indices]
+
+    similar_properties = [Property(**row)
+                          for index, row in top_results_df.iterrows()]
 
     return RecommendationResponse(
         target_property=target_property,
