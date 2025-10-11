@@ -15,7 +15,8 @@ modules = [
     "supabase",      # PyPI package name is supabase
     "requests",
     "darts",
-    "mlflow"
+    "mlflow",
+    "google.cloud.bigquery"
 ]
 
 package_name_map = {
