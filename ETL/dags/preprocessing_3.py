@@ -29,6 +29,9 @@ def preprocess_data_3(df, county_lookup, state_lookup):
     df = pd.merge(df, state_lookup[['state_id', 'state_num']], on='state_id', how='left')
     df.drop(columns=['state_id','state'], inplace=True, errors='ignore')
 
+    valid_fips = county_lookup['county_fips'].unique()
+    df = df[df['county_fips'].isin(valid_fips)]
+
     df = pd.merge(df, county_lookup[['county_fips', 'county_num']], on='county_fips', how='left')
     df.drop(columns=['county_fips', 'county_name'], inplace=True, errors='ignore')
     

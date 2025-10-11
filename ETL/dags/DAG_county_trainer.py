@@ -4,14 +4,31 @@ from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowSkipException
 import pandas as pd
 import os
-from supabase import create_client
-
-# Load environment variables
+import json
+from google.cloud import bigquery
+from google.oauth2 import service_account
+from get_bq_data import get_bq_data
+from preprocessing_3 import preprocess_data_3
+from upload_bq_data import upload_bq_data
+from preprocessing_4 import preprocess_data_4
+from model_trainer_2 import get_predictions
 from dotenv import load_dotenv
-load_dotenv()
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+load_dotenv()
+# Get credentials JSON from environment variable
+credentials_json_str = os.getenv('GOOGLE_CREDENTIALS_JSON')
+
+if credentials_json_str:
+    # Parse the JSON string and create credentials
+    credentials_dict = json.loads(credentials_json_str)
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+    client = bigquery.Client(credentials=credentials, project=credentials_dict['project_id'])
+else:
+    # Fallback: try to use service_keys.json file
+    credentials_path = os.path.join(os.path.dirname(__file__), 'service_keys.json')
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
+    client = bigquery.Client()
+    
 DATA_PATH = "/tmp/data3.csv" 
 DATA_PATH2 = "/tmp/data4.csv" 
 
@@ -25,17 +42,13 @@ def aggregate_data():
     """Load dataset, aggregate, and push to Supabase""" 
     df = pd.read_csv(DATA_PATH)
 
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-    from get_supabase_data import get_supabase_data
-    county_lookup = get_supabase_data("county_lookup") 
-    state_lookup = get_supabase_data("state_lookup") 
+    county_lookup = get_bq_data(client,"county_lookup") 
+    state_lookup = get_bq_data(client,"state_lookup") 
 
     # Preprocess data
-    from preprocessing_3 import preprocess_data_3
     df = preprocess_data_3(df, county_lookup, state_lookup)
 
-    existing_data = get_supabase_data("county_market") 
+    existing_data = get_bq_data(client,"county_market") 
 
     # Create year_month composite keys for checking
     existing_data['year_month'] = existing_data['year'].astype(str) + '_' + existing_data['month'].astype(str)
@@ -46,16 +59,15 @@ def aggregate_data():
     
     if df['year_month'].isin(existing_year_months).all():
         print("All records already exist in the database. No new data to insert.")
-        raise AirflowSkipException("Skipping remaining tasks as no new data was found")
+        existing_data = existing_data.drop('year_month', axis=1)
+        new_data = existing_data.copy()
+        # raise AirflowSkipException("Skipping remaining tasks as no new data was found")
     else:
         df = df.drop('year_month', axis=1)
         existing_data = existing_data.drop('year_month', axis=1)
         new_data = pd.concat([existing_data, df]).drop_duplicates().reset_index(drop=True)
 
-        data_to_insert = df.to_dict('records')
-        supabase.table("county_market").insert(data_to_insert).execute()
-
-        print(f"{len(data_to_insert)} new records pushed to Supabase")
+        upload_bq_data(client, "county_market", new_data, "WRITE_APPEND")
 
     # Save the aggregated data back to CSV for the next step
     new_data.to_csv(DATA_PATH, index=False)
@@ -72,9 +84,6 @@ def train_model():
         "total_listing_count",
         "median_days_on_market"
     ]
-
-    from preprocessing_4 import preprocess_data_4
-    from model_trainer_2 import get_predictions
 
     target_df = preprocess_data_4(df.copy())
     prediction_df = target_df.copy()
@@ -104,15 +113,7 @@ def train_model():
         if col in prediction_df.columns:
             prediction_df[col] = prediction_df[col].astype(int)
 
-    # Concatenate all predictions
-    data_to_insert = prediction_df.to_dict('records')
-
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-    # Delete all existing rows in the table before inserting new predictions
-    supabase.table("county_predictions").delete().gt("year", 0).execute()
-    supabase.table("county_predictions").insert(data_to_insert).execute()
-    print(f"{len(data_to_insert)} predictions pushed to Supabase (table overwritten)")
+    upload_bq_data(client, "county_predictions", prediction_df, "WRITE_TRUNCATE")
 
 # --------------- DAG ---------------- #
 
