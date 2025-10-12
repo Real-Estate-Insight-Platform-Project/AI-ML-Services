@@ -16,6 +16,39 @@ import mlflow.lightgbm
 import mlflow.xgboost
 from pathlib import Path
 
+def reduce_memory_usage(data):
+    """Compress DataFrame memory by converting data types"""
+    initial_memory = data.memory_usage(deep=True).sum() / (1024 ** 2)
+    print(f"Initial memory: {initial_memory:.2f} MB")
+    
+    for column in data.columns:
+        dtype = data[column].dtype
+        
+        if dtype != object and dtype.name != 'category':
+            min_val = data[column].min()
+            max_val = data[column].max()
+            
+            if 'int' in str(dtype):
+                if min_val >= -128 and max_val <= 127:
+                    data[column] = data[column].astype(np.int8)
+                elif min_val >= -32768 and max_val <= 32767:
+                    data[column] = data[column].astype(np.int16)
+                elif min_val >= -2147483648 and max_val <= 2147483647:
+                    data[column] = data[column].astype(np.int32)
+            elif 'float' in str(dtype):
+                data[column] = data[column].astype(np.float32)
+    
+    final_memory = data.memory_usage(deep=True).sum() / (1024 ** 2)
+    print(f"Final memory: {final_memory:.2f} MB")
+    print(f"Reduced by {100 * (initial_memory - final_memory) / initial_memory:.1f}%")
+    
+    return data
+
+def cleanup_resources():
+    """Force garbage collection and clear cache"""
+    gc.collect()
+    if hasattr(gc, 'freeze'):
+        gc.freeze()
 
 def add_month(test_futures, n_predict):
 
@@ -53,10 +86,13 @@ def get_project_root():
 def get_predictions(df,feature):
 
     # set mlflow tracking uri
-    mlflow.set_tracking_uri("http://host.docker.internal:5000")
-    mlflow.set_experiment(experiment_name="RealEstate_forcasting_2")
-    # mlflow.set_tracking_uri(uri=(get_project_root() / 'mlflow' / 'mlruns').as_uri())
-    # mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+    # mlflow.set_tracking_uri("http://host.docker.internal:5000")
+    # mlflow.set_experiment(experiment_name="RealEstate_forcasting_2")
+    mlflow.set_tracking_uri(uri=(get_project_root() / 'mlflow' / 'mlruns').as_uri())
+    mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+
+    # Memory optimization: reduce DataFrame memory usage
+    df = reduce_memory_usage(df.copy())
 
     df['date'] = pd.to_datetime(df['year'].astype(str) + '-' + df['month'].astype(str).str.zfill(2) + '-01')
     # sort
@@ -116,6 +152,10 @@ def get_predictions(df,feature):
             future_cov_ts[county_num] = TimeSeries.from_dataframe(g, time_col='date', value_cols=future_cov_cols, freq='MS')
         else:
             future_cov_ts[county_num] = None
+
+    # Memory cleanup after processing
+    del df
+    cleanup_resources()
 
     pipeline_dict = {}
     ts_transformed = {}
@@ -219,7 +259,9 @@ def get_predictions(df,feature):
     # End MLflow run
     mlflow.end_run()
 
-    gc.collect()
+    # Memory cleanup
+    del xgb_model
+    cleanup_resources()
 
     # LightGBM model training and validation
     with mlflow.start_run(run_name=f"LightGBM_Darts_Model_{feature}"):
@@ -285,6 +327,10 @@ def get_predictions(df,feature):
 
     # End MLflow run
     mlflow.end_run()
+
+    # Memory cleanup
+    del lgbm_model
+    cleanup_resources()
 
     # Predictions for next month
     train_series = []
@@ -352,5 +398,8 @@ def get_predictions(df,feature):
             y_hat.append(inv.values()[-1].item())
 
     y_hat = np.array(y_hat)
+
+    # Final cleanup
+    cleanup_resources()
 
     return y_hat
