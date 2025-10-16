@@ -99,13 +99,20 @@ def train_model():
         
         # Check if we have at least 3 months of predictions to analyze trend
         if len(state_data) >= 3:
-            # Get the average_listing_price for the next 3 months
-            prices = state_data['average_listing_price'].iloc[:3].values
+            # Get the median_listing_price for the next 3 months
+            prices = state_data['median_listing_price'].iloc[:3].values
             
-            # Calculate if trend is rising, declining or stable
-            if prices[2] > prices[0]:
+            # Calculate percentage changes between consecutive months
+            pct_change_1_to_2 = (prices[1] - prices[0]) / prices[0] if prices[0] != 0 else 0
+            pct_change_2_to_3 = (prices[2] - prices[1]) / prices[1] if prices[1] != 0 else 0
+            
+            # Sum the percentage changes
+            total_pct_change = pct_change_1_to_2 + pct_change_2_to_3
+            
+            # Determine trend based on total percentage change
+            if total_pct_change > 0.01:
                 prediction_df.loc[prediction_df['state_num'] == state_num, 'market_trend'] = 'rising'
-            elif prices[2] < prices[0]:
+            elif total_pct_change < -0.01:
                 prediction_df.loc[prediction_df['state_num'] == state_num, 'market_trend'] = 'declining'
 
     for col in features:
