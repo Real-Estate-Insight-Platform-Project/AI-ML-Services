@@ -75,6 +75,8 @@ def aggregate_data():
 def train_model():
     """Load dataset, train model, save predictions to Supabase"""
     df = pd.read_csv(DATA_PATH)
+    df = df[df['year'] >= 2022] # Focus on data from 2021 onwards
+    print(f"unique values: {df['year'].unique()}")
 
     # List of features to predict
     features = [

@@ -58,6 +58,8 @@ def aggregate_data():
     
     if df['year_month'].isin(existing_year_months).all():
         print("All records already exist in the database. No new data to insert.")
+        existing_data = existing_data.drop('year_month', axis=1)
+        new_data = existing_data.copy()
         # raise AirflowSkipException("Skipping remaining tasks as no new data was found")
     else:
         df = df.drop('year_month', axis=1)
