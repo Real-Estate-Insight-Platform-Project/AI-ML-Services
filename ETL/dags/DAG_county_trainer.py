@@ -67,7 +67,7 @@ def aggregate_data():
         existing_data = existing_data.drop('year_month', axis=1)
         new_data = pd.concat([existing_data, df]).drop_duplicates().reset_index(drop=True)
 
-        upload_bq_data(client, "county_market", new_data, "WRITE_APPEND")
+        upload_bq_data(client, "county_market", df, "WRITE_APPEND")
 
     # Save the aggregated data back to CSV for the next step
     new_data.to_csv(DATA_PATH, index=False)
@@ -75,6 +75,8 @@ def aggregate_data():
 def train_model():
     """Load dataset, train model, save predictions to Supabase"""
     df = pd.read_csv(DATA_PATH)
+    df = df[df['year'] >= 2022] # Focus on data from 2021 onwards
+    print(f"unique values: {df['year'].unique()}")
 
     # List of features to predict
     features = [
