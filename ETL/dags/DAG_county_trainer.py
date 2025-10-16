@@ -96,6 +96,7 @@ def train_model():
 
     # Add market_trend column based on average_listing_price trend
     prediction_df['market_trend'] = 'stable'
+    prediction_df['buyer_friendly'] = 0
 
     for county_num in prediction_df['county_num'].unique():
         county_data = prediction_df[prediction_df['county_num'] == county_num]
@@ -104,6 +105,12 @@ def train_model():
         if len(county_data) >= 3:
             # Get the median_listing_price for the next 3 months
             prices = county_data['median_listing_price'].iloc[:3].values
+
+            # Get total_listing_count and median_days_on_market for 1st and 3rd month
+            listing_count_1st = county_data['total_listing_count'].iloc[0]
+            listing_count_3rd = county_data['total_listing_count'].iloc[2]
+            days_on_market_1st = county_data['median_days_on_market'].iloc[0]
+            days_on_market_3rd = county_data['median_days_on_market'].iloc[2]
 
             # Calculate percentage changes between consecutive months
             pct_change_1_to_2 = (prices[1] - prices[0]) / prices[0] if prices[0] != 0 else 0
@@ -117,6 +124,12 @@ def train_model():
                 prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'rising'
             elif total_pct_change < -0.01:
                 prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'declining'
+
+                # If market is declining and both inventory and days on market are increasing,
+                # mark as buyer friendly
+                if (listing_count_3rd > listing_count_1st and 
+                    days_on_market_3rd > days_on_market_1st):
+                    prediction_df.loc[prediction_df['county_num'] == county_num, 'buyer_friendly'] = 1
 
     for col in features:
         if col in prediction_df.columns:
