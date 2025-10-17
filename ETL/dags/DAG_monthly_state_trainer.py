@@ -124,7 +124,7 @@ def train_model():
                 
                 # If market is declining and both inventory and days on market are increasing,
                 # mark as buyer friendly
-                if (listing_count_3rd > listing_count_1st and 
+                if (listing_count_3rd > listing_count_1st or 
                     days_on_market_3rd > days_on_market_1st):
                     prediction_df.loc[prediction_df['state_num'] == state_num, 'buyer_friendly'] = 1
 
