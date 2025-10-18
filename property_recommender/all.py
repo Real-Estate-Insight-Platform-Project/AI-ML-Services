@@ -76,18 +76,31 @@ US_STATES = [
     {"name": "Northern Mariana Islands", "abbr": "MP"}
 ]
 
+# Available sorting methods
+SORTING_METHODS = [
+    "relevance",
+    "newest",
+    "lowest_price",
+    "highest_price",
+    "open_house_date",
+    "price_reduced",
+    "largest_sqft",
+    "lot_size",
+    "photo_count"
+]
 
-def fetch_property_data(state_abbr: str, state_name: str, offset: int = 0):
-    """Fetch property data from the Realtor API for a specific state"""
+
+def fetch_property_data(state_abbr: str, state_name: str, offset: int = 0, sort_by: str = "photo_count"):
+    """Fetch property data from the Realtor API for a specific state with sorting"""
     url = "https://us-realtor.p.rapidapi.com/api/v1/property/list"
 
     querystring = {
         "location": state_name,
-        "limit": "10",  # Increased limit to get more properties per request
+        "limit": "50",
         "offset": str(offset),
         "state_code": state_abbr,
         "area_type": "state",
-        "sort_by": "photo_count"
+        "sort_by": sort_by
     }
 
     headers = {
@@ -100,7 +113,8 @@ def fetch_property_data(state_abbr: str, state_name: str, offset: int = 0):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching data for {state_name}: {e}")
+        print(
+            f"Error fetching data for {state_name} with sort '{sort_by}': {e}")
         return None
 
 
@@ -141,7 +155,8 @@ def transform_property_data(api_data: Dict[str, Any]) -> Optional[Dict[str, Any]
                 'property_id': result['property_id'],
                 'listed_date': result['list_date'],
                 'created_at': datetime.now().isoformat(),
-                'updated_at': datetime.now().isoformat()
+                'updated_at': datetime.now().isoformat(),
+                'sort_method': sort_by  # Track which sorting method was used
             }
 
             transformed_properties.append(property_data)
@@ -183,19 +198,20 @@ def save_to_database(properties: list):
     """Save properties to Supabase database"""
     if not properties:
         print("No properties to save")
-        return
+        return 0, 0
 
     success_count = 0
     error_count = 0
 
     for property_data in properties:
         try:
-            # Check if property already exists (based on address and city)
+            # Check if property already exists using the unique property_id
             existing_property = supabase.table('properties').select('id').eq(
-                'address', property_data['address']).eq('city', property_data['city']).execute()
+                'property_id', property_data['property_id']).execute()
 
             if existing_property.data:
-                print(f"Property already exists: {property_data['title']}")
+                print(
+                    f"Property already exists: {property_data['title']} (Property ID: {property_data['property_id']})")
                 continue
 
             # Insert into Supabase if it doesn't exist
@@ -204,49 +220,56 @@ def save_to_database(properties: list):
 
             if response.data:
                 success_count += 1
-                print(f"Successfully saved property: {property_data['title']}")
+                print(
+                    f"Successfully saved property: {property_data['title']} (Property ID: {property_data['property_id']})")
             else:
                 error_count += 1
-                print(f"Failed to save property: {property_data['title']}")
+                print(
+                    f"Failed to save property: {property_data['title']} (Property ID: {property_data['property_id']})")
 
         except Exception as e:
             error_count += 1
-            print(f"Error saving property {property_data['title']}: {e}")
+            print(
+                f"Error saving property {property_data['title']} (Property ID: {property_data['property_id']}): {e}")
 
     print(
         f"Summary: {success_count} properties saved successfully, {error_count} failed")
     return success_count, error_count
 
 
-def process_state(state: dict, max_properties: int = 200):
-    """Process properties for a single state"""
+def process_state_with_sorting(state: dict, sort_by: str = "photo_count", max_properties: int = 200):
+    """Process properties for a single state with specific sorting method"""
     state_name = state["name"]
     state_abbr = state["abbr"]
 
-    print(f"\nProcessing state: {state_name} ({state_abbr})")
+    print(
+        f"\nProcessing state: {state_name} ({state_abbr}) with sorting: '{sort_by}'")
 
     total_saved = 0
     total_errors = 0
     offset = 0
 
     while total_saved < max_properties:
-        print(f"Fetching properties with offset {offset}...")
+        print(
+            f"Fetching properties with offset {offset} and sort '{sort_by}'...")
 
-        # Fetch data from API
-        api_data = fetch_property_data(state_abbr, state_name, offset)
+        # Fetch data from API with specific sorting
+        api_data = fetch_property_data(state_abbr, state_name, offset, sort_by)
 
         if not api_data:
-            print(f"No data returned for {state_name}")
+            print(f"No data returned for {state_name} with sort '{sort_by}'")
             break
 
         # Transform data
         properties = transform_property_data(api_data)
 
         if not properties:
-            print(f"No properties found for {state_name} at offset {offset}")
+            print(
+                f"No properties found for {state_name} at offset {offset} with sort '{sort_by}'")
             break
 
-        print(f"Found {len(properties)} properties for {state_name}")
+        print(
+            f"Found {len(properties)} properties for {state_name} with sort '{sort_by}'")
 
         # Save to database
         saved, errors = save_to_database(properties)
@@ -264,28 +287,111 @@ def process_state(state: dict, max_properties: int = 200):
         time.sleep(1)
 
     print(
-        f"Finished processing {state_name}. Total saved: {total_saved}, Total errors: {total_errors}")
+        f"Finished processing {state_name} with sort '{sort_by}'. Total saved: {total_saved}, Total errors: {total_errors}")
     return total_saved, total_errors
 
 
-def main():
-    """Main function to orchestrate the process for all states"""
+def process_state_all_sorting_methods(state: dict, max_properties_per_sort: int = 100):
+    """Process properties for a single state using all sorting methods"""
+    total_saved = 0
+    total_errors = 0
+
+    for sort_method in SORTING_METHODS:
+        saved, errors = process_state_with_sorting(
+            state, sort_method, max_properties_per_sort)
+        total_saved += saved
+        total_errors += errors
+
+        # Add delay between different sorting methods
+        time.sleep(2)
+
+    return total_saved, total_errors
+
+
+def main_single_sorting(sort_by: str = "photo_count", max_properties_per_state: int = 100):
+    """Main function to process all states with a single sorting method"""
     total_properties_saved = 0
     total_errors = 0
 
+    print(f"Starting data collection with sorting method: '{sort_by}'")
+
     for state in US_STATES:
-        saved, errors = process_state(state)
+        saved, errors = process_state_with_sorting(
+            state, sort_by, max_properties_per_state)
         total_properties_saved += saved
         total_errors += errors
 
         # Add a longer delay between states to avoid API rate limits
         time.sleep(2)
 
-    print(f"\nFinal Summary:")
+    print(f"\nFinal Summary for sorting '{sort_by}':")
+    print(
+        f"Total properties saved across all states: {total_properties_saved}")
+    print(f"Total errors: {total_errors}")
+
+
+def main_all_sorting_methods(max_properties_per_sort: int = 50):
+    """Main function to process all states with all sorting methods"""
+    total_properties_saved = 0
+    total_errors = 0
+
+    print("Starting data collection with ALL sorting methods")
+
+    for state in US_STATES:
+        saved, errors = process_state_all_sorting_methods(
+            state, max_properties_per_sort)
+        total_properties_saved += saved
+        total_errors += errors
+
+        # Add a longer delay between states to avoid API rate limits
+        time.sleep(3)
+
+    print(f"\nFinal Summary for ALL sorting methods:")
+    print(
+        f"Total properties saved across all states: {total_properties_saved}")
+    print(f"Total errors: {total_errors}")
+
+
+def main_custom_sorting(sorting_methods: List[str], max_properties_per_sort: int = 100):
+    """Main function to process with custom sorting methods"""
+    total_properties_saved = 0
+    total_errors = 0
+
+    print(
+        f"Starting data collection with custom sorting methods: {sorting_methods}")
+
+    for state in US_STATES:
+        state_saved = 0
+        state_errors = 0
+
+        for sort_method in sorting_methods:
+            saved, errors = process_state_with_sorting(
+                state, sort_method, max_properties_per_sort)
+            state_saved += saved
+            state_errors += errors
+            time.sleep(2)  # Delay between sorting methods
+
+        total_properties_saved += state_saved
+        total_errors += state_errors
+
+        # Delay between states
+        time.sleep(3)
+
+    print(f"\nFinal Summary for custom sorting methods {sorting_methods}:")
     print(
         f"Total properties saved across all states: {total_properties_saved}")
     print(f"Total errors: {total_errors}")
 
 
 if __name__ == "__main__":
-    main()
+    # Choose one of the following execution methods:
+
+    # Method 1: Run with a single sorting method
+    # main_single_sorting("photo_count", max_properties_per_state=2)
+
+    # Method 2: Run with all sorting methods (will take longer but get more diverse data)
+    main_all_sorting_methods(max_properties_per_sort=3)
+
+    # Method 3: Run with custom selection of sorting methods
+    # custom_sorts = ["newest", "lowest_price", "highest_price", "price_reduced"]
+    # main_custom_sorting(custom_sorts, max_properties_per_sort=75)
