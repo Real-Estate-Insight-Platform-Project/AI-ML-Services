@@ -528,99 +528,97 @@ def get_predictions(df,feature):
     del linear_model
     cleanup_resources()
 
+    # Random Forest model training and validation
+    with mlflow.start_run(run_name=f"RandomForest_Darts_Model_{feature}"):
 
-    # # Random Forest model training and validation
-    # with mlflow.start_run(run_name=f"RandomForest_Darts_Model_{feature}"):
+        rf_lags = 12
+        rf_lags_past = list(range(-24, 0))
+        rf_lags_future = list(range(1, 2))
+        rf_output_chunk_length = n_predict
+        rf_n_estimators = 200
+        rf_max_depth = 10
+        rf_min_samples_split = 2
+        rf_min_samples_leaf = 1
+        rf_random_state = 42
 
-    #     rf_lags = 12
-    #     rf_lags_past = list(range(-24, 0))
-    #     rf_lags_future = list(range(1, 2))
-    #     rf_output_chunk_length = n_predict
-    #     rf_n_estimators = 200
-    #     rf_max_depth = 10
-    #     rf_min_samples_split = 2
-    #     rf_min_samples_leaf = 1
-    #     rf_random_state = 42
+        mlflow.log_params({
+            "lags": rf_lags,
+            "lags_past_covariates": rf_lags_past,
+            "lags_future_covariates": rf_lags_future,
+            "output_chunk_length": rf_output_chunk_length,
+            "n_estimators": rf_n_estimators,
+            "max_depth": rf_max_depth,
+            "min_samples_split": rf_min_samples_split,
+            "min_samples_leaf": rf_min_samples_leaf,
+            "random_state": rf_random_state,
+        })
 
-    #     mlflow.log_params({
-    #         "lags": rf_lags,
-    #         "lags_past_covariates": rf_lags_past,
-    #         "lags_future_covariates": rf_lags_future,
-    #         "output_chunk_length": rf_output_chunk_length,
-    #         "n_estimators": rf_n_estimators,
-    #         "max_depth": rf_max_depth,
-    #         "min_samples_split": rf_min_samples_split,
-    #         "min_samples_leaf": rf_min_samples_leaf,
-    #         "random_state": rf_random_state,
-    #     })
+        rf_model = RandomForestModel(
+            lags=rf_lags,
+            lags_past_covariates=rf_lags_past,
+            lags_future_covariates=rf_lags_future,
+            output_chunk_length=rf_output_chunk_length,
+            n_estimators=rf_n_estimators,
+            max_depth=rf_max_depth,
+            min_samples_split=rf_min_samples_split,
+            min_samples_leaf=rf_min_samples_leaf,
+            random_state=rf_random_state,
+        )
 
-    #     rf_model = RandomForestModel(
-    #         lags=rf_lags,
-    #         lags_past_covariates=rf_lags_past,
-    #         lags_future_covariates=rf_lags_future,
-    #         output_chunk_length=rf_output_chunk_length,
-    #         n_estimators=rf_n_estimators,
-    #         max_depth=rf_max_depth,
-    #         min_samples_split=rf_min_samples_split,
-    #         min_samples_leaf=rf_min_samples_leaf,
-    #         random_state=rf_random_state,
-    #     )
+        rf_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures
+        )
 
-    #     rf_model.fit(
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=train_futures
-    #     )
+        preds = rf_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+        )
 
-    #     preds = rf_model.predict(
-    #         n=n_predict,
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=test_futures
-    #     )
+        y_true, y_hat = [], []
+        for j in range(n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-    #     y_true, y_hat = [], []
-    #     for j in range(n_predict):
-    #         for i, sname in enumerate(ts_transformed):
-    #             pred_ts = preds[i][j]
-    #             inv = pipeline_dict[sname].inverse_transform(pred_ts)
-    #             y_hat.append(inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-    #             true_val = val_series[i][j]
-    #             true_inv = pipeline_dict[sname].inverse_transform(true_val)
-    #             y_true.append(true_inv.values()[-1].item())
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["random_forest"][j] = list(y_hat)
 
-    #         if not meta_y_true[j]:
-    #             meta_y_true[j] = list(y_true)
-    #         meta_predictions["random_forest"][j] = list(y_hat)
+            rf_rmse, rf_rmsle, rf_mae, rf_mape, rf_r2 = calculate_metrics(y_true, y_hat)
 
-    #         rf_rmse, rf_rmsle, rf_mae, rf_mape, rf_r2 = calculate_metrics(y_true, y_hat)
+            print(
+                f"Validation RMSE: {rf_rmse:.4f}, RMSLE: {rf_rmsle:.4f}, "
+                f"MAE: {rf_mae:.4f}, MAPE: {rf_mape:.2f}%, R²: {rf_r2:.4f}"
+            )
 
-    #         print(
-    #             f"Validation RMSE: {rf_rmse:.4f}, RMSLE: {rf_rmsle:.4f}, "
-    #             f"MAE: {rf_mae:.4f}, MAPE: {rf_mape:.2f}%, R²: {rf_r2:.4f}"
-    #         )
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": rf_rmse,
+                f"RMSLE_{j+1}_month_ahead": rf_rmsle,
+                f"MAE_{j+1}_month_ahead": rf_mae,
+                f"MAPE_{j+1}_month_ahead": rf_mape,
+                f"R2_{j+1}_month_ahead": rf_r2
+            })
 
-    #         mlflow.log_metrics({
-    #             f"RMSE_{j+1}_month_ahead": rf_rmse,
-    #             f"RMSLE_{j+1}_month_ahead": rf_rmsle,
-    #             f"MAE_{j+1}_month_ahead": rf_mae,
-    #             f"MAPE_{j+1}_month_ahead": rf_mape,
-    #             f"R2_{j+1}_month_ahead": rf_r2
-    #         })
+            y_true, y_hat = [], []
 
-    #         y_true, y_hat = [], []
+        # Log trained model
+        # mlflow.random_forest.log_model(rf_model.model, artifact_path=f"RandomForest_Darts_Model_{feature}")
 
-    #     # Log trained model
-    #     # mlflow.random_forest.log_model(rf_model.model, artifact_path=f"RandomForest_Darts_Model_{feature}")
+    # End MLflow run
+    mlflow.end_run()
 
-    # # End MLflow run
-    # mlflow.end_run()
-
-    # # Memory cleanup
-    # del rf_model
-    # cleanup_resources()
-
+    # Memory cleanup
+    del rf_model
+    cleanup_resources()
 
     # # Meta-model stacking using base model predictions
     # available_models = [name for name, preds in meta_predictions.items() if any(len(h) > 0 for h in preds)]
