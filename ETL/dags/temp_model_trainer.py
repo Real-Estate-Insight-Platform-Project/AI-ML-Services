@@ -497,9 +497,9 @@ def get_predictions(df,feature):
                 true_inv = pipeline_dict[sname].inverse_transform(true_val)
                 y_true.append(true_inv.values()[-1].item())
 
-            if not meta_y_true[j]:
-                meta_y_true[j] = list(y_true)
-            meta_predictions["linear_regression"][j] = list(y_hat)
+            # if not meta_y_true[j]:
+            #     meta_y_true[j] = list(y_true)
+            # meta_predictions["linear_regression"][j] = list(y_hat)
 
             linear_rmse, linear_rmsle, linear_mae, linear_mape, linear_r2 = calculate_metrics(y_true, y_hat)
 
