@@ -426,9 +426,9 @@ def get_predictions(df,feature):
                 true_inv = pipeline_dict[sname].inverse_transform(true_val)
                 y_true.append(true_inv.values()[-1].item())
 
-            if not meta_y_true[j]:
-                meta_y_true[j] = list(y_true)
-            meta_predictions["LSTM"][j] = list(y_hat)
+            # if not meta_y_true[j]:
+            #     meta_y_true[j] = list(y_true)
+            # meta_predictions["LSTM"][j] = list(y_hat)
 
             lgb_rmse, lgb_rmsle, lgb_mae, lgb_mape, lgb_r2 = calculate_metrics(y_true, y_hat)
 
@@ -497,9 +497,9 @@ def get_predictions(df,feature):
                 true_inv = pipeline_dict[sname].inverse_transform(true_val)
                 y_true.append(true_inv.values()[-1].item())
 
-            # if not meta_y_true[j]:
-            #     meta_y_true[j] = list(y_true)
-            # meta_predictions["linear_regression"][j] = list(y_hat)
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["linear_regression"][j] = list(y_hat)
 
             linear_rmse, linear_rmsle, linear_mae, linear_mape, linear_r2 = calculate_metrics(y_true, y_hat)
 
@@ -535,7 +535,7 @@ def get_predictions(df,feature):
         rf_lags_past = list(range(-24, 0))
         rf_lags_future = list(range(1, 2))
         rf_output_chunk_length = n_predict
-        rf_n_estimators = 200
+        rf_n_estimators = 100
         rf_max_depth = 10
         rf_min_samples_split = 2
         rf_min_samples_leaf = 1
