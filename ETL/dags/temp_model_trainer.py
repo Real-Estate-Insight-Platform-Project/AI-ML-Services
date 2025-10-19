@@ -196,79 +196,79 @@ def get_predictions(df,feature):
     test_futures = add_month(test_futures, n_predict)
     test_futures = add_month(test_futures, n_predict)
 
-    # # XGBoost model training and validation
-    # with mlflow.start_run(run_name=f"XGB_Darts_Model_{feature}"):
+    # XGBoost model training and validation
+    with mlflow.start_run(run_name=f"XGB_Darts_Model_{feature}"):
 
-    #     # Log model hyperparameters
-    #     mlflow.log_params({
-    #         "lags": 12,
-    #         "lags_past_covariates": list(range(-24, 0)),
-    #         "lags_future_covariates": list(range(1, 2)),
-    #         "output_chunk_length": n_predict,
-    #         "random_state": 42
-    #     })
+        # Log model hyperparameters
+        mlflow.log_params({
+            "lags": 12,
+            "lags_past_covariates": list(range(-24, 0)),
+            "lags_future_covariates": list(range(1, 2)),
+            "output_chunk_length": n_predict,
+            "random_state": 42
+        })
 
-    #     xgb_model = XGBModel(
-    #         lags=12,
-    #         lags_past_covariates=list(range(-24, 0)),
-    #         lags_future_covariates=list(range(1, 2)),
-    #         output_chunk_length=n_predict,
-    #         random_state=42
-    #     )
+        xgb_model = XGBModel(
+            lags=12,
+            lags_past_covariates=list(range(-24, 0)),
+            lags_future_covariates=list(range(1, 2)),
+            output_chunk_length=n_predict,
+            random_state=42
+        )
 
-    #     xgb_model.fit(
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=train_futures,
-    #         verbose=True
-    #     )
+        xgb_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures,
+            verbose=True
+        )
 
-    #     preds = xgb_model.predict(
-    #         n=n_predict,
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=test_futures
-    #     )
+        preds = xgb_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+        )
 
-    #     y_true, y_hat = [], []
-    #     for j in range (n_predict):
-    #         for i, sname in enumerate(ts_transformed):
-    #             pred_ts = preds[i][j]
-    #             inv = pipeline_dict[sname].inverse_transform(pred_ts)
-    #             y_hat.append(inv.values()[-1].item())
+        y_true, y_hat = [], []
+        for j in range (n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-    #             true_val = val_series[i][j]
-    #             true_inv = pipeline_dict[sname].inverse_transform(true_val)
-    #             y_true.append(true_inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-            # if not meta_y_true[j]:
-            #     meta_y_true[j] = list(y_true)
-            # meta_predictions["XGB"][j] = list(y_hat)
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["XGB"][j] = list(y_hat)
     
-    #         xgb_rmse, xgb_rmsle, xgb_mae, xgb_mape, xgb_r2 = calculate_metrics(y_true, y_hat)
+            xgb_rmse, xgb_rmsle, xgb_mae, xgb_mape, xgb_r2 = calculate_metrics(y_true, y_hat)
 
-    #         print(f"Validation RMSE: {xgb_rmse:.4f}, RMSLE: {xgb_rmsle:.4f}, "
-    #             f"MAE: {xgb_mae:.4f}, MAPE: {xgb_mape:.2f}%, R²: {xgb_r2:.4f}")
+            print(f"Validation RMSE: {xgb_rmse:.4f}, RMSLE: {xgb_rmsle:.4f}, "
+                f"MAE: {xgb_mae:.4f}, MAPE: {xgb_mape:.2f}%, R²: {xgb_r2:.4f}")
 
-    #         mlflow.log_metrics({
-    #             f"RMSE_{j+1}_month_ahead": xgb_rmse,
-    #             f"RMSLE_{j+1}_month_ahead": xgb_rmsle,
-    #             f"MAE_{j+1}_month_ahead": xgb_mae,
-    #             f"MAPE_{j+1}_month_ahead": xgb_mape,
-    #             f"R2_{j+1}_month_ahead": xgb_r2
-    #         })
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": xgb_rmse,
+                f"RMSLE_{j+1}_month_ahead": xgb_rmsle,
+                f"MAE_{j+1}_month_ahead": xgb_mae,
+                f"MAPE_{j+1}_month_ahead": xgb_mape,
+                f"R2_{j+1}_month_ahead": xgb_r2
+            })
 
-    #         y_true, y_hat = [], []
+            y_true, y_hat = [], []
 
-    #     # Log trained model
-    #     # mlflow.xgboost.log_model(xgb_model.model, artifact_path=f"XGB_Darts_Model_{feature}")
+        # Log trained model
+        # mlflow.xgboost.log_model(xgb_model.model, artifact_path=f"XGB_Darts_Model_{feature}")
 
-    # # End MLflow run
-    # mlflow.end_run()
+    # End MLflow run
+    mlflow.end_run()
 
-    # # Memory cleanup
-    # del xgb_model
-    # cleanup_resources()
+    # Memory cleanup
+    del xgb_model
+    cleanup_resources()
 
     # # LightGBM model training and validation
     # with mlflow.start_run(run_name=f"LightGBM_Darts_Model_{feature}"):
