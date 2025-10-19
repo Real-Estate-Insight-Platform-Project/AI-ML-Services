@@ -455,78 +455,78 @@ def get_predictions(df,feature):
     del block_rnn
     cleanup_resources()
 
-    # # Linear Regression model training and validation
-    # with mlflow.start_run(run_name=f"LinearRegression_Darts_Model_{feature}"):
+    # Linear Regression model training and validation
+    with mlflow.start_run(run_name=f"LinearRegression_Darts_Model_{feature}"):
 
-    #     # Log model hyperparameters
-    #     mlflow.log_params({
-    #         "lags": 12,
-    #         "lags_past_covariates": list(range(-24, 0)),
-    #         "lags_future_covariates": list(range(1, 2)),
-    #         "output_chunk_length": n_predict
-    #     })
+        # Log model hyperparameters
+        mlflow.log_params({
+            "lags": 12,
+            "lags_past_covariates": list(range(-24, 0)),
+            "lags_future_covariates": list(range(1, 2)),
+            "output_chunk_length": n_predict
+        })
 
-    #     linear_model = LinearRegressionModel(
-    #         lags=12,
-    #         lags_past_covariates=list(range(-24, 0)),
-    #         lags_future_covariates=list(range(1, 2)),
-    #         output_chunk_length=n_predict
-    #     )
+        linear_model = LinearRegressionModel(
+            lags=12,
+            lags_past_covariates=list(range(-24, 0)),
+            lags_future_covariates=list(range(1, 2)),
+            output_chunk_length=n_predict
+        )
 
-    #     linear_model.fit(
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=train_futures
-    #     )
+        linear_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures
+        )
 
-    #     preds = linear_model.predict(
-    #         n=n_predict,
-    #         series=train_series,
-    #         past_covariates=train_pasts,
-    #         future_covariates=test_futures
-    #     )
+        preds = linear_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+        )
 
-    #     y_true, y_hat = [], []
-    #     for j in range(n_predict):
-    #         for i, sname in enumerate(ts_transformed):
-    #             pred_ts = preds[i][j]
-    #             inv = pipeline_dict[sname].inverse_transform(pred_ts)
-    #             y_hat.append(inv.values()[-1].item())
+        y_true, y_hat = [], []
+        for j in range(n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-    #             true_val = val_series[i][j]
-    #             true_inv = pipeline_dict[sname].inverse_transform(true_val)
-    #             y_true.append(true_inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-    #         if not meta_y_true[j]:
-    #             meta_y_true[j] = list(y_true)
-    #         meta_predictions["linear_regression"][j] = list(y_hat)
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["linear_regression"][j] = list(y_hat)
 
-    #         linear_rmse, linear_rmsle, linear_mae, linear_mape, linear_r2 = calculate_metrics(y_true, y_hat)
+            linear_rmse, linear_rmsle, linear_mae, linear_mape, linear_r2 = calculate_metrics(y_true, y_hat)
 
-    #         print(
-    #             f"Validation RMSE: {linear_rmse:.4f}, RMSLE: {linear_rmsle:.4f}, "
-    #             f"MAE: {linear_mae:.4f}, MAPE: {linear_mape:.2f}%, R²: {linear_r2:.4f}"
-    #         )
+            print(
+                f"Validation RMSE: {linear_rmse:.4f}, RMSLE: {linear_rmsle:.4f}, "
+                f"MAE: {linear_mae:.4f}, MAPE: {linear_mape:.2f}%, R²: {linear_r2:.4f}"
+            )
 
-    #         mlflow.log_metrics({
-    #             f"RMSE_{j+1}_month_ahead": linear_rmse,
-    #             f"RMSLE_{j+1}_month_ahead": linear_rmsle,
-    #             f"MAE_{j+1}_month_ahead": linear_mae,
-    #             f"MAPE_{j+1}_month_ahead": linear_mape,
-    #             f"R2_{j+1}_month_ahead": linear_r2
-    #         })
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": linear_rmse,
+                f"RMSLE_{j+1}_month_ahead": linear_rmsle,
+                f"MAE_{j+1}_month_ahead": linear_mae,
+                f"MAPE_{j+1}_month_ahead": linear_mape,
+                f"R2_{j+1}_month_ahead": linear_r2
+            })
 
-    #         y_true, y_hat = [], []
+            y_true, y_hat = [], []
 
-    #     # Log trained model
-    #     # mlflow.linear_regression.log_model(linear_model.model, artifact_path=f"LinearRegression_Darts_Model_{feature}")
+        # Log trained model
+        # mlflow.linear_regression.log_model(linear_model.model, artifact_path=f"LinearRegression_Darts_Model_{feature}")
 
-    # # End MLflow run
-    # mlflow.end_run()
+    # End MLflow run
+    mlflow.end_run()
 
-    # # Memory cleanup
-    # del linear_model
-    # cleanup_resources()
+    # Memory cleanup
+    del linear_model
+    cleanup_resources()
 
 
     # # Random Forest model training and validation
