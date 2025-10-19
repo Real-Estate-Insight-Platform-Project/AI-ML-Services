@@ -88,7 +88,7 @@ def get_predictions(df,feature):
     # set mlflow tracking uri
     mlflow.set_tracking_uri("http://host.docker.internal:5000")
     mlflow.set_experiment(experiment_name="RealEstate_forcasting_2")
-    # mlflow.set_tracking_uri(uri=(get_project_root() / 'mlflow' / 'mlruns').as_uri())
+    # mlflow.set_tracking_uri("http://127.0.0.1:5000")
     # mlflow.set_experiment(experiment_name="RealEstate_forcasting")
 
     # Memory optimization: reduce DataFrame memory usage
