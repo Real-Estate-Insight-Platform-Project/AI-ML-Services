@@ -620,53 +620,53 @@ def get_predictions(df,feature):
     del rf_model
     cleanup_resources()
 
-    # # Meta-model stacking using base model predictions
-    # available_models = [name for name, preds in meta_predictions.items() if any(len(h) > 0 for h in preds)]
+    # Meta-model stacking using base model predictions
+    available_models = [name for name, preds in meta_predictions.items() if any(len(h) > 0 for h in preds)]
 
-    # if available_models:
-    #     with mlflow.start_run(run_name=f"MetaLinearRegression_Darts_Model_{feature}"):
-    #         mlflow.log_params({
-    #             "meta_model": "LinearRegression",
-    #             "meta_base_models": ",".join(sorted(available_models)),
-    #             "meta_horizons": n_predict,
-    #         })
+    if available_models:
+        with mlflow.start_run(run_name=f"MetaLinearRegression_Darts_Model_{feature}"):
+            mlflow.log_params({
+                "meta_model": "LinearRegression",
+                "meta_base_models": ",".join(sorted(available_models)),
+                "meta_horizons": n_predict,
+            })
 
-    #         for horizon_idx in range(n_predict):
-    #             y_true_vals = meta_y_true[horizon_idx]
-    #             if not y_true_vals:
-    #                 continue
+            for horizon_idx in range(n_predict):
+                y_true_vals = meta_y_true[horizon_idx]
+                if not y_true_vals:
+                    continue
 
-    #             horizon_models = [
-    #                 model_name
-    #                 for model_name in available_models
-    #                 if len(meta_predictions[model_name][horizon_idx]) == len(y_true_vals)
-    #             ]
+                horizon_models = [
+                    model_name
+                    for model_name in available_models
+                    if len(meta_predictions[model_name][horizon_idx]) == len(y_true_vals)
+                ]
 
-    #             if not horizon_models:
-    #                 continue
+                if not horizon_models:
+                    continue
 
-    #             X = np.column_stack([
-    #                 meta_predictions[model_name][horizon_idx]
-    #                 for model_name in horizon_models
-    #             ])
+                X = np.column_stack([
+                    meta_predictions[model_name][horizon_idx]
+                    for model_name in horizon_models
+                ])
 
-    #             y_array = np.array(y_true_vals)
+                y_array = np.array(y_true_vals)
 
-    #             meta_model = LinearRegression()
-    #             meta_model.fit(X, y_array)
-    #             meta_preds = meta_model.predict(X)
+                meta_model = LinearRegression()
+                meta_model.fit(X, y_array)
+                meta_preds = meta_model.predict(X)
 
-    #             meta_rmse, meta_rmsle, meta_mae, meta_mape, meta_r2 = calculate_metrics(y_array, meta_preds)
+                meta_rmse, meta_rmsle, meta_mae, meta_mape, meta_r2 = calculate_metrics(y_array, meta_preds)
 
-    #             mlflow.log_metrics({
-    #                 f"Meta_RMSE_{horizon_idx + 1}_month_ahead": meta_rmse,
-    #                 f"Meta_RMSLE_{horizon_idx + 1}_month_ahead": meta_rmsle,
-    #                 f"Meta_MAE_{horizon_idx + 1}_month_ahead": meta_mae,
-    #                 f"Meta_MAPE_{horizon_idx + 1}_month_ahead": meta_mape,
-    #                 f"Meta_R2_{horizon_idx + 1}_month_ahead": meta_r2,
-    #             })
+                mlflow.log_metrics({
+                    f"Meta_RMSE_{horizon_idx + 1}_month_ahead": meta_rmse,
+                    f"Meta_RMSLE_{horizon_idx + 1}_month_ahead": meta_rmsle,
+                    f"Meta_MAE_{horizon_idx + 1}_month_ahead": meta_mae,
+                    f"Meta_MAPE_{horizon_idx + 1}_month_ahead": meta_mape,
+                    f"Meta_R2_{horizon_idx + 1}_month_ahead": meta_r2,
+                })
 
-    #     mlflow.end_run()
-    #     cleanup_resources()
-    # else:
-    #     print("Meta model skipped: no base model predictions available to stack.")
+        mlflow.end_run()
+        cleanup_resources()
+    else:
+        print("Meta model skipped: no base model predictions available to stack.")
