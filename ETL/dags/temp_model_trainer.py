@@ -343,118 +343,117 @@ def get_predictions(df,feature):
     del lgbm_model
     cleanup_resources()
 
+    # BlockRNN model training and validation
+    with mlflow.start_run(run_name=f"LSTM_Darts_Model_{feature}"):
 
-    # # BlockRNN model training and validation
-    # with mlflow.start_run(run_name=f"LSTM_Darts_Model_{feature}"):
+        import torch
 
-    #     import torch
+        # detect GPU
+        use_gpu = torch.cuda.is_available()
+        if use_gpu:
+            # use one GPU (change devices to -1 or a list to use more)
+            pl_trainer_kwargs = {"accelerator": "gpu", "devices": 1, "auto_select_gpus": True}
+        else:
+            pl_trainer_kwargs = {"accelerator": "cpu"}
 
-    #     # detect GPU
-    #     use_gpu = torch.cuda.is_available()
-    #     if use_gpu:
-    #         # use one GPU (change devices to -1 or a list to use more)
-    #         pl_trainer_kwargs = {"accelerator": "gpu", "devices": 1, "auto_select_gpus": True}
-    #     else:
-    #         pl_trainer_kwargs = {"accelerator": "cpu"}
+        input_chunk_length = 12
+        output_chunk_length = n_predict
+        model_type = "LSTM"
+        hidden_dim = 16
+        n_rnn_layers = 2
+        dropout_rate = 0.1
+        output_chunk_shift = 0
+        optimizer_lr = 1e-3
+        epochs = 20
 
-    #     input_chunk_length = 12
-    #     output_chunk_length = n_predict
-    #     model_type = "LSTM"
-    #     hidden_dim = 16
-    #     n_rnn_layers = 2
-    #     dropout_rate = 0.1
-    #     output_chunk_shift = 0
-    #     optimizer_lr = 1e-3
-    #     epochs = 20
+        log_params = {
+            "model": model_type,
+            "input_chunk_length": input_chunk_length,
+            "output_chunk_length": output_chunk_length,
+            "hidden_dim": hidden_dim,
+            "n_rnn_layers": n_rnn_layers,
+            "dropout": dropout_rate,
+            "output_chunk_shift": output_chunk_shift,
+            "optimizer_lr": optimizer_lr,
+            "epochs": epochs,
+            "accelerator": pl_trainer_kwargs.get("accelerator"),
+            "use_gpu": use_gpu,
+        }
 
-    #     log_params = {
-    #         "model": model_type,
-    #         "input_chunk_length": input_chunk_length,
-    #         "output_chunk_length": output_chunk_length,
-    #         "hidden_dim": hidden_dim,
-    #         "n_rnn_layers": n_rnn_layers,
-    #         "dropout": dropout_rate,
-    #         "output_chunk_shift": output_chunk_shift,
-    #         "optimizer_lr": optimizer_lr,
-    #         "epochs": epochs,
-    #         "accelerator": pl_trainer_kwargs.get("accelerator"),
-    #         "use_gpu": use_gpu,
-    #     }
+        if "devices" in pl_trainer_kwargs:
+            log_params["devices"] = pl_trainer_kwargs["devices"]
+        if "auto_select_gpus" in pl_trainer_kwargs:
+            log_params["auto_select_gpus"] = pl_trainer_kwargs["auto_select_gpus"]
 
-    #     if "devices" in pl_trainer_kwargs:
-    #         log_params["devices"] = pl_trainer_kwargs["devices"]
-    #     if "auto_select_gpus" in pl_trainer_kwargs:
-    #         log_params["auto_select_gpus"] = pl_trainer_kwargs["auto_select_gpus"]
+        mlflow.log_params(log_params)
 
-    #     mlflow.log_params(log_params)
+        block_rnn = BlockRNNModel(
+            input_chunk_length=input_chunk_length,
+            output_chunk_length=output_chunk_length,
+            model=model_type,
+            hidden_dim=hidden_dim,
+            n_rnn_layers=n_rnn_layers,
+            dropout=dropout_rate,
+            # Optional: output_chunk_shift if you want to leave a gap so the model doesn't peek right up to the target
+            output_chunk_shift=output_chunk_shift,
+            # Loss function, optimizer, etc.
+            optimizer_kwargs={"lr": optimizer_lr},
+            # Use GPU if available
+            pl_trainer_kwargs=pl_trainer_kwargs
+        )
 
-    #     block_rnn = BlockRNNModel(
-    #         input_chunk_length=input_chunk_length,
-    #         output_chunk_length=output_chunk_length,
-    #         model=model_type,
-    #         hidden_dim=hidden_dim,
-    #         n_rnn_layers=n_rnn_layers,
-    #         dropout=dropout_rate,
-    #         # Optional: output_chunk_shift if you want to leave a gap so the model doesn't peek right up to the target
-    #         output_chunk_shift=output_chunk_shift,
-    #         # Loss function, optimizer, etc.
-    #         optimizer_kwargs={"lr": optimizer_lr},
-    #         # Use GPU if available
-    #         pl_trainer_kwargs=pl_trainer_kwargs
-    #     )
+        block_rnn.fit(
+            series = train_series, 
+            past_covariates = train_pasts, 
+            verbose = True,
+            epochs = epochs
+        )
 
-    #     block_rnn.fit(
-    #         series = train_series, 
-    #         past_covariates = train_pasts, 
-    #         verbose = True,
-    #         epochs = epochs
-    #     )
+        preds = block_rnn.predict(
+            n = n_predict,
+            series = train_series,
+            past_covariates = train_pasts
+        )
 
-    #     preds = block_rnn.predict(
-    #         n = n_predict,
-    #         series = train_series,
-    #         past_covariates = train_pasts
-    #     )
+        y_true, y_hat = [], []
+        for j in range (n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
 
-    #     y_true, y_hat = [], []
-    #     for j in range (n_predict):
-    #         for i, sname in enumerate(ts_transformed):
-    #             pred_ts = preds[i][j]
-    #             inv = pipeline_dict[sname].inverse_transform(pred_ts)
-    #             y_hat.append(inv.values()[-1].item())
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
 
-    #             true_val = val_series[i][j]
-    #             true_inv = pipeline_dict[sname].inverse_transform(true_val)
-    #             y_true.append(true_inv.values()[-1].item())
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["LSTM"][j] = list(y_hat)
 
-            # if not meta_y_true[j]:
-            #     meta_y_true[j] = list(y_true)
-            # meta_predictions["LSTM"][j] = list(y_hat)
+            lgb_rmse, lgb_rmsle, lgb_mae, lgb_mape, lgb_r2 = calculate_metrics(y_true, y_hat)
 
-            # lgb_rmse, lgb_rmsle, lgb_mae, lgb_mape, lgb_r2 = calculate_metrics(y_true, y_hat)
+            print(f"Validation RMSE: {lgb_rmse:.4f}, RMSLE: {lgb_rmsle:.4f}, "
+                f"MAE: {lgb_mae:.4f}, MAPE: {lgb_mape:.2f}%, R²: {lgb_r2:.4f}")
 
-    #         print(f"Validation RMSE: {lgb_rmse:.4f}, RMSLE: {lgb_rmsle:.4f}, "
-    #             f"MAE: {lgb_mae:.4f}, MAPE: {lgb_mape:.2f}%, R²: {lgb_r2:.4f}")
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": lgb_rmse,
+                f"RMSLE_{j+1}_month_ahead": lgb_rmsle,
+                f"MAE_{j+1}_month_ahead": lgb_mae,
+                f"MAPE_{j+1}_month_ahead": lgb_mape,
+                f"R2_{j+1}_month_ahead": lgb_r2
+            })
 
-    #         mlflow.log_metrics({
-    #             f"RMSE_{j+1}_month_ahead": lgb_rmse,
-    #             f"RMSLE_{j+1}_month_ahead": lgb_rmsle,
-    #             f"MAE_{j+1}_month_ahead": lgb_mae,
-    #             f"MAPE_{j+1}_month_ahead": lgb_mape,
-    #             f"R2_{j+1}_month_ahead": lgb_r2
-    #         })
+            y_true, y_hat = [], []
 
-    #         y_true, y_hat = [], []
+        # Log trained model
+        # mlflow.block_rnn.log_model(block_rnn.model, artifact_path=f"BlockRNN_Darts_Model_{feature}")
 
-    #     # Log trained model
-    #     # mlflow.block_rnn.log_model(block_rnn.model, artifact_path=f"BlockRNN_Darts_Model_{feature}")
+    # End MLflow run
+    mlflow.end_run()
 
-    # # End MLflow run
-    # mlflow.end_run()
-
-    # # Memory cleanup
-    # del block_rnn
-    # cleanup_resources()
+    # Memory cleanup
+    del block_rnn
+    cleanup_resources()
 
     # # Linear Regression model training and validation
     # with mlflow.start_run(run_name=f"LinearRegression_Darts_Model_{feature}"):
