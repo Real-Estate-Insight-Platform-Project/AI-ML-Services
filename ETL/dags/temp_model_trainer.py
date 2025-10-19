@@ -659,11 +659,11 @@ def get_predictions(df,feature):
                 meta_rmse, meta_rmsle, meta_mae, meta_mape, meta_r2 = calculate_metrics(y_array, meta_preds)
 
                 mlflow.log_metrics({
-                    f"Meta_RMSE_{horizon_idx + 1}_month_ahead": meta_rmse,
-                    f"Meta_RMSLE_{horizon_idx + 1}_month_ahead": meta_rmsle,
-                    f"Meta_MAE_{horizon_idx + 1}_month_ahead": meta_mae,
-                    f"Meta_MAPE_{horizon_idx + 1}_month_ahead": meta_mape,
-                    f"Meta_R2_{horizon_idx + 1}_month_ahead": meta_r2,
+                    f"RMSE_{horizon_idx + 1}_month_ahead": meta_rmse,
+                    f"RMSLE_{horizon_idx + 1}_month_ahead": meta_rmsle,
+                    f"MAE_{horizon_idx + 1}_month_ahead": meta_mae,
+                    f"MAPE_{horizon_idx + 1}_month_ahead": meta_mape,
+                    f"R2_{horizon_idx + 1}_month_ahead": meta_r2,
                 })
 
         mlflow.end_run()
