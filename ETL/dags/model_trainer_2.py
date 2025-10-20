@@ -169,7 +169,6 @@ def get_predictions(df,feature, n_predict):
         pipeline_dict[county_num] = pipe
         ts_transformed[county_num] = transformed
 
-    n_predict = 3
     train_series = []
     val_series = []
     train_pasts = []
