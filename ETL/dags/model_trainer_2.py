@@ -83,7 +83,7 @@ def calculate_metrics(y_true, y_hat):
 def get_project_root():
     return Path().resolve().parent.parent
 
-def get_predictions(df,feature):
+def get_predictions(df,feature, n_predict):
 
     # set mlflow tracking uri
     mlflow.set_tracking_uri("http://host.docker.internal:5000")
