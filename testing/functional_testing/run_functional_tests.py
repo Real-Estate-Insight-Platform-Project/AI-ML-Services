@@ -51,7 +51,7 @@ def setup_environment():
 SERVICES = {
     'agent': {
         'name': 'Agent Recommender System',
-        'path': Path(__file__).parent.parent.parent / 'agent-recommender-system',
+        'path': Path(__file__).parent.parent.parent / 'agent-finder-approach-1',
         'test_path': Path(__file__).parent / 'agent_recommender'
     },
     'risk': {

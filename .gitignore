@@ -215,3 +215,4 @@ myenv
 .env
 mlruns
 mlartifacts
+cache
