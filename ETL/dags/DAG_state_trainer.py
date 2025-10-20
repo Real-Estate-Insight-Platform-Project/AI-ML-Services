@@ -212,8 +212,7 @@ def get_insights():
     preds = normalize_days_on_market(preds)
     preds.drop(columns=['median_listing_price', 'median_days_on_market'], inplace=True)
     preds['IOI'] = (preds['appreciation']) + (0.2 * preds['liquidity']) - (0.3 * preds['volatility'])
-    # preds['IOI'] = preds['IOI'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-    preds['IOI'] = (preds['IOI'] - preds['IOI'].mean()) / preds['IOI'].std()
+    preds['IOI'] = preds['IOI'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
     preds['IOI'] = preds['IOI'] * 100
 
     upload_bq_data(client, "state_investment_insights", preds, "WRITE_TRUNCATE")
