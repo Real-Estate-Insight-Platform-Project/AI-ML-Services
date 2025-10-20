@@ -84,11 +84,11 @@ def train_model():
         "median_days_on_market"
     ]
 
-    target_df = preprocess_data_2(df.copy())
+    target_df = preprocess_data_2(4, df.copy())
     prediction_df = target_df.copy()
 
     for feature in features:
-        predictions = get_predictions(df, feature)
+        predictions = get_predictions(df, feature, 3)
         prediction_df[feature] = predictions
 
     # Add market_trend column based on average_listing_price trend

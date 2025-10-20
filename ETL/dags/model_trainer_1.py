@@ -84,13 +84,13 @@ def calculate_metrics(y_true, y_hat):
 def get_project_root():
     return Path().resolve().parent.parent
 
-def get_predictions(df,feature):
+def get_predictions(df,feature, n_predict):
 
     # set mlflow tracking uri
-    mlflow.set_tracking_uri("http://host.docker.internal:5000")
-    mlflow.set_experiment(experiment_name="RealEstate_forcasting")
-    # mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    # mlflow.set_tracking_uri("http://host.docker.internal:5000")
     # mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_experiment(experiment_name="RealEstate_forcasting")
 
     # Memory optimization: reduce DataFrame memory usage
     df = reduce_memory_usage(df.copy())
@@ -164,7 +164,6 @@ def get_predictions(df,feature):
         pipeline_dict[state_num] = pipe
         ts_transformed[state_num] = transformed
 
-    n_predict = 3
     train_series = []
     val_series = []
     train_pasts = []
