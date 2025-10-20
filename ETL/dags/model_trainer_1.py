@@ -16,6 +16,40 @@ import mlflow.lightgbm
 import mlflow.xgboost
 from pathlib import Path
 
+def reduce_memory_usage(data):
+    """Compress DataFrame memory by converting data types"""
+    initial_memory = data.memory_usage(deep=True).sum() / (1024 ** 2)
+    print(f"Initial memory: {initial_memory:.2f} MB")
+    
+    for column in data.columns:
+        dtype = data[column].dtype
+        
+        if dtype != object and dtype.name != 'category':
+            min_val = data[column].min()
+            max_val = data[column].max()
+            
+            if 'int' in str(dtype):
+                if min_val >= -128 and max_val <= 127:
+                    data[column] = data[column].astype(np.int8)
+                elif min_val >= -32768 and max_val <= 32767:
+                    data[column] = data[column].astype(np.int16)
+                elif min_val >= -2147483648 and max_val <= 2147483647:
+                    data[column] = data[column].astype(np.int32)
+            elif 'float' in str(dtype):
+                data[column] = data[column].astype(np.float32)
+    
+    final_memory = data.memory_usage(deep=True).sum() / (1024 ** 2)
+    print(f"Final memory: {final_memory:.2f} MB")
+    print(f"Reduced by {100 * (initial_memory - final_memory) / initial_memory:.1f}%")
+    
+    return data
+
+def cleanup_resources():
+    """Force garbage collection and clear cache"""
+    gc.collect()
+    if hasattr(gc, 'freeze'):
+        gc.freeze()
+
 
 def add_month(test_futures, n_predict):
 
@@ -47,24 +81,28 @@ def calculate_metrics(y_true, y_hat):
 
     return rmse, rmsle, mae, mape, r2
 
-def get_predictions(df,feature):
+def get_project_root():
+    return Path().resolve().parent.parent
+
+def get_predictions(df,feature, n_predict):
 
     # set mlflow tracking uri
     mlflow.set_tracking_uri("http://host.docker.internal:5000")
     mlflow.set_experiment(experiment_name="RealEstate_forcasting")
-    # mlflow.set_tracking_uri(uri=(get_project_root() / 'mlflow' / 'mlruns').as_uri())
+    # mlflow.set_tracking_uri("http://127.0.0.1:5000")
     # mlflow.set_experiment(experiment_name="RealEstate_forcasting")
+
+    # Memory optimization: reduce DataFrame memory usage
+    df = reduce_memory_usage(df.copy())
 
     df['date'] = pd.to_datetime(df['year'].astype(str) + '-' + df['month'].astype(str).str.zfill(2) + '-01')
     # sort
-    df = df.sort_values(['state','date']).reset_index(drop=True)
-
-    df = df.drop(columns=['state_id'])
+    df = df.sort_values(['state_num','date']).reset_index(drop=True)
 
     # Create covariate matrices
     grouped_ts = {}
 
-    for state, g in df.groupby('state'):
+    for state_num, g in df.groupby('state_num'):
         # create a TimeSeries with monthly frequency
         ts = TimeSeries.from_dataframe(
         g,
@@ -72,7 +110,7 @@ def get_predictions(df,feature):
         value_cols=feature,
         freq="MS",
         )
-        grouped_ts[state] = ts
+        grouped_ts[state_num] = ts
 
     past_cov_ts = {}
     future_cov_ts = {}
@@ -82,21 +120,15 @@ def get_predictions(df,feature):
         'median_days_on_market', 'median_days_on_market_mm',
         'median_days_on_market_yy', 'new_listing_count', 'new_listing_count_mm',
         'new_listing_count_yy', 'price_increased_count',
-        'price_increased_count_mm', 'price_increased_count_yy',
-        'price_increased_share', 'price_increased_share_mm',
-        'price_increased_share_yy', 'price_reduced_count',
-        'price_reduced_count_mm', 'price_reduced_count_yy',
-        'price_reduced_share', 'price_reduced_share_mm',
-        'price_reduced_share_yy', 'pending_listing_count',
+        'price_increased_share', 'price_reduced_count',
+        'price_reduced_share', 'pending_listing_count',
         'pending_listing_count_mm', 'pending_listing_count_yy',
         'median_listing_price_per_square_foot',
         'median_listing_price_per_square_foot_mm',
-        'median_listing_price_per_square_foot_yy', 'median_square_feet',
-        'median_square_feet_mm', 'median_square_feet_yy',
+        'median_listing_price_per_square_foot_yy',
         'average_listing_price', 'average_listing_price_mm',
         'average_listing_price_yy', 'total_listing_count',
-        'total_listing_count_mm', 'total_listing_count_yy', 'pending_ratio',
-        'pending_ratio_mm', 'pending_ratio_yy']
+        'total_listing_count_mm', 'total_listing_count_yy']
     
     # Remove the target feature from past_cov_cols
     if feature in past_cov_cols:
@@ -104,31 +136,34 @@ def get_predictions(df,feature):
         
     future_cov_cols = ['month','year']  # calendar features known ahead
 
-    for state, g in df.groupby('state'):
+    for state_num, g in df.groupby('state_num'):
         # Past covariates as a multivariate TimeSeries
         if all(c in g.columns for c in past_cov_cols):
-            past_cov_ts[state] = TimeSeries.from_dataframe(g, time_col='date', value_cols=past_cov_cols, freq='MS')
+            past_cov_ts[state_num] = TimeSeries.from_dataframe(g, time_col='date', value_cols=past_cov_cols, freq='MS')
         else:
-            past_cov_ts[state] = None
+            past_cov_ts[state_num] = None
 
         if all(c in g.columns for c in future_cov_cols):
-            future_cov_ts[state] = TimeSeries.from_dataframe(g, time_col='date', value_cols=future_cov_cols, freq='MS')
+            future_cov_ts[state_num] = TimeSeries.from_dataframe(g, time_col='date', value_cols=future_cov_cols, freq='MS')
         else:
-            future_cov_ts[state] = None
+            future_cov_ts[state_num] = None
+
+    # Memory cleanup after processing
+    del df
+    cleanup_resources()
 
     pipeline_dict = {}
     ts_transformed = {}
 
-    for state in grouped_ts:
+    for state_num in grouped_ts:
         log_transformer = InvertibleMapper(np.log1p, np.expm1)   # log1p for target, invertible
         scaler = Scaler()
         pipe = Pipeline([log_transformer, scaler])
         # fit_transform expects a TimeSeries (or list); we pass the one series
-        transformed = pipe.fit_transform(grouped_ts[state])
-        pipeline_dict[state] = pipe
-        ts_transformed[state] = transformed
+        transformed = pipe.fit_transform(grouped_ts[state_num])
+        pipeline_dict[state_num] = pipe
+        ts_transformed[state_num] = transformed
 
-    n_predict = 3
     train_series = []
     val_series = []
     train_pasts = []
@@ -218,7 +253,9 @@ def get_predictions(df,feature):
     # End MLflow run
     mlflow.end_run()
 
-    gc.collect()
+    # Memory cleanup
+    del xgb_model
+    cleanup_resources()
 
     # LightGBM model training and validation
     with mlflow.start_run(run_name=f"LightGBM_Darts_Model_{feature}"):
@@ -284,6 +321,10 @@ def get_predictions(df,feature):
 
     # End MLflow run
     mlflow.end_run()
+
+    # Memory cleanup
+    del lgbm_model
+    cleanup_resources()
 
     # Predictions for next month
     train_series = []
@@ -352,4 +393,7 @@ def get_predictions(df,feature):
 
     y_hat = np.array(y_hat)
 
+    # Final cleanup
+    cleanup_resources()
+    
     return y_hat

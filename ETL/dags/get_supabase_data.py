@@ -8,7 +8,7 @@ load_dotenv()
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-def get_supabase_data():
+def get_supabase_data(column_name):
     supabase = create_client(url, key)
 
     batch_size = 1000
@@ -17,7 +17,7 @@ def get_supabase_data():
 
     while True:
         response = (
-            supabase.table("state_market")
+            supabase.table(column_name)
             .select("*")
             .range(offset, offset + batch_size - 1)
             .execute()
