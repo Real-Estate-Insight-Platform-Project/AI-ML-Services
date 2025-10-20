@@ -4,6 +4,8 @@ from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowSkipException
 import pandas as pd
 import os
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
 import json
 from google.cloud import bigquery
 from google.oauth2 import service_account
@@ -87,11 +89,11 @@ def train_model():
         "median_days_on_market"
     ]
 
-    target_df = preprocess_data_4(df.copy())
+    target_df = preprocess_data_4(4, df.copy())
     prediction_df = target_df.copy()
 
     for feature in features:
-        predictions = get_predictions(df, feature)
+        predictions = get_predictions(df, feature, 3)
         prediction_df[feature] = predictions
 
     # Add market_trend column based on average_listing_price trend
@@ -137,6 +139,88 @@ def train_model():
 
     upload_bq_data(client, "county_predictions", prediction_df, "WRITE_TRUNCATE")
 
+def get_insights():
+
+    df = pd.read_csv(DATA_PATH)
+    df = df[df['year'] >= 2022] # Focus on data from 2021 onwards
+
+    target_df = preprocess_data_4(25, df.copy())
+    prediction_df = target_df.copy()
+
+    features = [
+        "median_listing_price",
+        "median_days_on_market"
+    ]
+    
+    for feature in features:
+        predictions = get_predictions(df, feature, 24)
+        prediction_df[feature] = predictions
+
+    for col in features:
+        if col in prediction_df.columns:
+            prediction_df[col] = prediction_df[col].astype(int)
+
+    preds = prediction_df.copy()
+
+    latest_df = df.groupby("county_num").tail(1).reset_index(drop=True)
+    preds['year_month'] = (preds['year'] - 2025) * 12 + preds['month'] - 9
+    preds.drop(columns=['year', 'month'], inplace=True)
+    cols_order = ['year_month', 'county_num', 'state_num', 'median_listing_price', 'median_days_on_market']
+    preds = preds[cols_order]
+    preds = preds[preds['year_month'].isin([3,6,12])]
+    preds.loc[preds['year_month'] == 12, 'median_listing_price'] = preds.loc[preds['year_month'] == 12, 'median_listing_price'] * 1.15
+    preds.loc[preds['year_month'] == 6, 'median_listing_price'] = preds.loc[preds['year_month'] == 6, 'median_listing_price'] * 1.1
+
+    preds['appreciation'] = 0.0
+    for index, row in preds.iterrows():
+        county_num = row['county_num']
+        
+        current_price = latest_df[(latest_df['county_num'] == county_num)]['median_listing_price'].values[0]
+        predicted_price = row['median_listing_price']
+        
+        appreciation = ((predicted_price - current_price) / current_price) * 100
+        preds.loc[index, 'appreciation'] = appreciation
+
+    def calculate_volatility(df):
+        volatility = {}
+        for county in df['county_num'].unique():
+            county_data = df[df['county_num'] == county].sort_values(by=['year', 'month'])
+            if len(county_data) >= 12:
+                last_12_mm = county_data['median_listing_price_mm'].tail(12).values
+                volatility[county] = np.std(last_12_mm) * 100
+            else:
+                volatility[county] = np.nan  # Not enough data to calculate volatility
+        return volatility
+
+    volatility_data = calculate_volatility(df)
+
+    preds['volatility'] = 0.0  # Initialize Volatility column
+
+    for index, row in preds.iterrows():
+        county_num = row['county_num']
+        if county_num in volatility_data:
+            preds.loc[index, 'volatility'] = volatility_data[county_num]
+        else:
+            preds.loc[index, 'volatility'] = np.nan
+
+    def normalize_days_on_market(preds):
+        inv_days = preds.groupby('year_month')['median_days_on_market'].transform(
+            lambda s: np.where(s != 0, 1 / s, 1)
+        )
+
+        scaler = MinMaxScaler()
+        preds = preds.copy()
+        preds['liquidity'] = scaler.fit_transform(inv_days.to_frame()) * 100
+        return preds
+
+    preds = normalize_days_on_market(preds)
+    preds.drop(columns=['median_listing_price', 'median_days_on_market'], inplace=True)
+    preds['IOI'] = (preds['appreciation']) + (0.2 * preds['liquidity']) - (0.3 * preds['volatility'])
+    preds['IOI'] = preds.groupby('year_month')['IOI'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
+    preds['IOI'] = preds['IOI'] * 100
+
+    upload_bq_data(client, "county_investment_insights", preds, "WRITE_TRUNCATE")
+
 # --------------- DAG ---------------- #
 
 default_args = {
@@ -173,5 +257,11 @@ train_task = PythonOperator(
     dag=dag,
 )
 
+insights_task = PythonOperator(
+    task_id='get_investment_insights',
+    python_callable=get_insights,
+    dag=dag,
+)
+
 # DAG pipeline
-download_task >> aggregate_task >> train_task
+download_task >> aggregate_task >> train_task >> insights_task
