@@ -1,0 +1,37 @@
+# Requirements for Real Estate Agent Scoring System
+pandas>=1.5.0
+numpy>=1.21.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+scikit-learn>=1.1.0
+textblob>=0.17.0
+xgboost>=1.6.0
+plotly>=5.10.0
+jupyter>=1.0.0
+
+# Additional NLP libraries for advanced sentiment analysis
+nltk>=3.7
+spacy>=3.4.0
+transformers>=4.20.0
+torch>=1.12.0
+
+# Advanced semantic analysis libraries
+sentence-transformers>=2.2.2
+wordcloud>=1.9.2
+scipy>=1.10.0
+networkx>=3.0
+folium>=0.14.0
+
+# # Agent Scoring System Specific (Python 3.12 compatible versions)
+# plotly==5.24.1
+# jupyter==1.0.0
+# textblob==0.18.0.post0
+# nltk==3.9.1
+# spacy==3.7.5
+# transformers==4.44.2
+# torch==2.4.1
+# sentence-transformers==2.7.0
+# wordcloud==1.9.3
+# scipy==1.13.1
+# networkx==3.3
+# folium==0.16.0
