@@ -140,7 +140,7 @@ def get_insights():
 
     df = pd.read_csv(DATA_PATH)
 
-    target_df = preprocess_data_2(25, df.copy())
+    target_df = preprocess_data_2(13, df.copy())
     prediction_df = target_df.copy()
 
     features = [
@@ -149,7 +149,7 @@ def get_insights():
     ]
     
     for feature in features:
-        predictions = get_predictions(df, feature, 24)
+        predictions = get_predictions(df, feature, 12)
         prediction_df[feature] = predictions
 
     for col in features:
