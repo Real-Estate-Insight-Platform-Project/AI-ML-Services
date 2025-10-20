@@ -136,6 +136,10 @@ def train_model():
 
     upload_bq_data(client, "state_predictions", prediction_df, "WRITE_TRUNCATE")
 
+def get_insights():
+
+    df = pd.read_csv(DATA_PATH)
+
     target_df = preprocess_data_2(25, df.copy())
     prediction_df = target_df.copy()
 
@@ -249,5 +253,11 @@ train_task = PythonOperator(
     dag=dag,
 )
 
+insights_task = PythonOperator(
+    task_id='get_investment_insights',
+    python_callable=get_insights,
+    dag=dag,
+)   
+
 # DAG pipeline
-download_task >> aggregate_task >> train_task
+download_task >> aggregate_task >> train_task >> insights_task
