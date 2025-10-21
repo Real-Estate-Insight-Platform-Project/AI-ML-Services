@@ -353,7 +353,8 @@ services:
   mlflow:
     image: ghcr.io/mlflow/mlflow:latest
     container_name: mlflow
-    ports: []
+    ports: 
+      - "5000:5000"
     volumes:
       - ./mlflow:/mlflow
       - mlflow-artifact-store:/mlflow/artifacts
@@ -369,16 +370,6 @@ services:
       --allowed-hosts "*" 
       --gunicorn-opts="--forwarded-allow-ips='*' --proxy-allow-from='*'"
     restart: always
- 
-  nginx:
-    image: nginx:latest
-    container_name: mlflow-nginx
-    ports:
-      - "5000:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - mlflow
 
 volumes:
   postgres-db-volume:
