@@ -7,8 +7,8 @@ from httpx import AsyncClient
 from fastapi.testclient import TestClient
 import pandas as pd
 
-# Add agent-recommender-system to Python path
-agent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'agent-recommender-system'))
+# Add agent-finder-approach-1 to Python path
+agent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'agent-finder-approach-1'))
 sys.path.insert(0, agent_path)
 
 # Set test environment variables
@@ -36,7 +36,7 @@ with patch('supabase.create_client', return_value=mock_supabase_client):
         import importlib.util
         import importlib
         
-        # Import main module from the agent-recommender-system directory
+        # Import main module from the agent-finder-approach-1 directory
         main_path = os.path.join(agent_path, 'main.py')
         spec = importlib.util.spec_from_file_location("main", main_path)
         main = importlib.util.module_from_spec(spec)
