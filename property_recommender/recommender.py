@@ -83,7 +83,7 @@ def fetch_property_data(state_abbr: str, state_name: str, offset: int = 0):
 
     querystring = {
         "location": state_name,
-        "limit": "50",  # Increased limit to get more properties per request
+        "limit": "10",  # Increased limit to get more properties per request
         "offset": str(offset),
         "state_code": state_abbr,
         "area_type": "state",
@@ -190,13 +190,12 @@ def save_to_database(properties: list):
 
     for property_data in properties:
         try:
-            #  Check if property already exists using the unique property_id
+            # Check if property already exists (based on address and city)
             existing_property = supabase.table('properties').select('id').eq(
-                'property_id', property_data['property_id']).execute()
+                'address', property_data['address']).eq('city', property_data['city']).execute()
 
             if existing_property.data:
-                print(
-                    f"Property already exists: {property_data['title']} (Property ID: {property_data['property_id']})")
+                print(f"Property already exists: {property_data['title']}")
                 continue
 
             # Insert into Supabase if it doesn't exist
@@ -205,19 +204,16 @@ def save_to_database(properties: list):
 
             if response.data:
                 success_count += 1
-                print(
-                    f"Successfully saved property: {property_data['title']} (Property ID: {property_data['property_id']})")
+                print(f"Successfully saved property: {property_data['title']}")
             else:
                 error_count += 1
-                print(
-                    f"Failed to save property: {property_data['title']} (Property ID: {property_data['property_id']})")
+                print(f"Failed to save property: {property_data['title']}")
 
         except Exception as e:
             error_count += 1
-            print(
-                f"Error saving property {property_data['title']} (Property ID: {property_data['property_id']}): {e}")
+            print(f"Error saving property {property_data['title']}: {e}")
 
-     print(
+    print(
         f"Summary: {success_count} properties saved successfully, {error_count} failed")
     return success_count, error_count
 
