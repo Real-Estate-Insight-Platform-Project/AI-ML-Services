@@ -215,4 +215,5 @@ myenv
 .env
 mlruns
 mlartifacts
+cache
 ETL/dags/service_keys.json
