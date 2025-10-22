@@ -123,9 +123,6 @@ services:
     command: ["api-server"]
     ports:
       - "8080:8080"
-    environment:
-      - AIRFLOW__WEBSERVER__BASE_URL=http://34.60.117.42/airflow
-      - AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX=True
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 30s
