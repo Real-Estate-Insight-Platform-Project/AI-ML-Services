@@ -229,7 +229,7 @@ dag = DAG(
     "monthly_state_trainer",
     default_args=default_args,
     description="Download data, retrain model, push results",
-    schedule="@hourly", 
+    schedule="@daily", 
     catchup=False
 )
 

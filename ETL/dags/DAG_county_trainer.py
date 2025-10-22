@@ -233,7 +233,7 @@ dag = DAG(
     "monthly_county_trainer",
     default_args=default_args,
     description="Download data, retrain model, push results",
-    schedule="@monthly", 
+    schedule="@daily", 
     catchup=False
 )
 
