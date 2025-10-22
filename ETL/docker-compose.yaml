@@ -63,6 +63,7 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
+    FORWARDED_ALLOW_IPS: "*"
     # Add these two lines for nginx proxy support
     AIRFLOW__WEBSERVER__BASE_URL: '/airflow'
     AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: 'true'
@@ -123,7 +124,7 @@ services:
 
   airflow-apiserver:
     <<: *airflow-common
-    command: api-server
+    command: ["api-server", "--proxy-headers"]
     ports:
       - "8080:8080"
     healthcheck:
