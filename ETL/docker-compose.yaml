@@ -121,23 +121,24 @@ services:
   airflow-apiserver:
     <<: *airflow-common
     # command: ["api-server"]
-    command: >
-      api-server
-      --allowed-hosts "*" 
+    command: webserver
     ports:
       - "8080:8080"
+    environment:
+      - AIRFLOW__WEBSERVER__BASE_URL=http://34.60.117.42/airflow
+      - AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX=True
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/version"]
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
     restart: always
-
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+
 
   airflow-scheduler:
     <<: *airflow-common
