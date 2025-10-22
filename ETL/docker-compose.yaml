@@ -120,7 +120,12 @@ services:
 
   airflow-apiserver:
     <<: *airflow-common
-    command: ["api-server", "--allowed-hosts", "*"]
+    # command: ["api-server"]
+    command: >
+      api-server
+      --host 0.0.0.0
+      --port 5000
+      --allowed-hosts "*" 
     ports:
       - "8080:8080"
     healthcheck:
