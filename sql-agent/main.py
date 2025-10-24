@@ -38,11 +38,11 @@ BQ_LOCATION = os.getenv("BQ_LOCATION")
 # Make GOOGLE_APPLICATION_CREDENTIALS absolute if it's a relative path
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'service_keys.json'
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL")
 WEBSITE_BASE_URL = os.getenv("WEBSITE_BASE_URL", "https://yourdomain.com/property")
 
 # Redis configuration
-REDIS_URL = os.getenv("REDIS_URL", "redis://default:JHDhNLIc5ze3Djzv2GJ5kONxbN0Nf7Li@redis-16155.c264.ap-south-1-1.ec2.redns.redis-cloud.com:16155")
+REDIS_URL = os.getenv("REDIS_URL")
 REDIS_SESSION_TTL = int(os.getenv("REDIS_SESSION_TTL", "3600"))  # 1 hour default
 
 # Initialize clients
