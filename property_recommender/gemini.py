@@ -12,6 +12,8 @@ load_dotenv()
 # Supabase configuration
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')
+RAPIDAPI_HOST = os.getenv('RAPIDAPI_HOST')
 
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -84,8 +86,8 @@ def fetch_property_data(state_abbr: str, state_name: str, sort_by: str, offset: 
     }
 
     headers = {
-        "x-rapidapi-key": "52e25f44e9mshb7283b0e0f19e38p131f53jsnfed76e63d4fe",
-        "x-rapidapi-host": "us-realtor.p.rapidapi.com"
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": RAPIDAPI_HOST
     }
 
     try:
@@ -267,3 +269,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# wanted
