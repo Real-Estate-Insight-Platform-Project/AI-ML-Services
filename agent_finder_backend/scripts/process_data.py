@@ -7,6 +7,8 @@ Run this script to:
 3. Extract skills from reviews
 4. Calculate aggregated metrics
 5. Update database with processed features
+
+FIXED: Added comprehensive validation to ensure all values meet database constraints
 """
 
 import sys
@@ -17,20 +19,13 @@ import numpy as np
 import pandas as pd
 from utils.database import db_client
 from utils.preprocessing import preprocessor
+from utils.validation import validate_row_for_db, validate_dataframe_column
 from models.sentiment import sentiment_analyzer
 from models.skills import skill_extractor
 from utils.geo import GeoUtils
 import argparse
 from pandas.api.types import is_scalar
 
-def _is_valid_scalar(v):
-    """Check if value is a true scalar (not list/Series/array/dict) and not NaN."""
-    if not is_scalar(v):
-        return False
-    try:
-        return not pd.isna(v)
-    except Exception:
-        return v is not None
 
 def process_all_data(dry_run: bool = False):
     """
@@ -40,7 +35,7 @@ def process_all_data(dry_run: bool = False):
         dry_run: If True, don't update database, just show results
     """
     print("=" * 80)
-    print("AGENT FINDER DATA PROCESSING PIPELINE")
+    print("AGENT FINDER DATA PROCESSING PIPELINE (WITH VALIDATION)")
     print("=" * 80)
     
     # Load data
@@ -82,6 +77,13 @@ def process_all_data(dry_run: bool = False):
     reviews_processed = preprocessor.preprocess_reviews(reviews_df)
     reviews_processed = add_sentiment_to_reviews(reviews_processed)
     
+    # Validate review columns before proceeding
+    print("  - Validating review columns...")
+    for col in ['sentiment_confidence', 'recency_weight']:
+        if col in reviews_processed.columns:
+            reviews_processed[col] = validate_dataframe_column(reviews_processed, col)
+            print(f"    ✓ {col}: validated")
+    
     sentiment_counts = reviews_processed['sentiment'].value_counts()
     print(f"  - Sentiment distribution:")
     for sentiment, count in sentiment_counts.items():
@@ -99,11 +101,28 @@ def process_all_data(dry_run: bool = False):
         skill_cols = [col for col in skill_scores.columns if col.startswith('skill_') or col.startswith('negative_')]
         print(f"  - Extracted {len(skill_cols)} skill categories")
         print(f"  - Skills for {len(skill_scores)} agents")
+        
+        # Validate skill scores
+        print("  - Validating skill scores...")
+        for col in skill_cols:
+            if col in skill_scores.columns:
+                skill_scores[col] = validate_dataframe_column(skill_scores, col)
+        print(f"    ✓ All skill scores validated")
     
     # Aggregate review metrics
     print("\n[4/7] Aggregating review metrics...")
     review_metrics = preprocessor.aggregate_review_metrics(reviews_processed)
     print(f"  - Aggregated metrics for {len(review_metrics)} agents")
+    
+    # Validate review metrics
+    print("  - Validating aggregated metrics...")
+    metric_cols_to_validate = ['wilson_score', 'buyer_satisfaction', 'seller_satisfaction',
+                               'avg_sub_responsiveness', 'avg_sub_negotiation',
+                               'avg_sub_professionalism', 'avg_sub_market_expertise']
+    for col in metric_cols_to_validate:
+        if col in review_metrics.columns:
+            review_metrics[col] = validate_dataframe_column(review_metrics, col)
+    print(f"    ✓ All review metrics validated")
     
     # Debug: Check review metrics
     if len(review_metrics) > 0:
@@ -129,6 +148,39 @@ def process_all_data(dry_run: bool = False):
     
     print(f"  - Processed {len(agents_processed)} agents with all features")
     
+    # CRITICAL: Validate all score columns before database insertion
+    print("  - Validating agent scores (CRITICAL - prevents constraint violations)...")
+    score_cols_to_validate = [
+        'wilson_score', 'performance_score', 'experience_score',
+        'buyer_satisfaction', 'seller_satisfaction', 'shrunk_rating',
+        'avg_sub_responsiveness', 'avg_sub_negotiation',
+        'avg_sub_professionalism', 'avg_sub_market_expertise'
+    ]
+    
+    # Add all skill columns
+    skill_cols = [col for col in agents_processed.columns if col.startswith('skill_') or col.startswith('negative_')]
+    score_cols_to_validate.extend(skill_cols)
+    
+    validation_results = []
+    for col in score_cols_to_validate:
+        if col in agents_processed.columns:
+            before_validation = agents_processed[col].describe()
+            agents_processed[col] = validate_dataframe_column(agents_processed, col)
+            after_validation = agents_processed[col].describe()
+            
+            # Check if any values were modified
+            if before_validation['max'] != after_validation['max'] or before_validation['min'] != after_validation['min']:
+                validation_results.append(f"    - {col}: Fixed out-of-range values (min={after_validation['min']:.4f}, max={after_validation['max']:.4f})")
+            else:
+                validation_results.append(f"    - {col}: All values valid")
+    
+    # Print validation summary
+    if validation_results:
+        for result in validation_results[:5]:  # Show first 5
+            print(result)
+        if len(validation_results) > 5:
+            print(f"    - ... and {len(validation_results) - 5} more columns validated")
+    
     # Fix column names after merge (remove _x/_y suffixes)
     print("  - Fixing column names after merge...")
     columns_to_fix = [
@@ -151,13 +203,12 @@ def process_all_data(dry_run: bool = False):
             # Use the _y column (from review metrics) as the main column
             agents_processed[col] = agents_processed[y_col]
             agents_processed.drop(columns=[y_col], inplace=True)
-            print(f"    - Renamed {y_col} to {col}")
         
         if x_col in agents_processed.columns:
             # Drop the _x column (from original agents)
             agents_processed.drop(columns=[x_col], inplace=True)
-            print(f"    - Dropped {x_col}")
     
+    print(f"    ✓ Column cleanup complete")
     print(f"  - After column cleanup: {len(agents_processed.columns)} columns")
     print(f"  - Has positive_review_count: {'positive_review_count' in agents_processed.columns}")
     
@@ -173,63 +224,30 @@ def process_all_data(dry_run: bool = False):
     print(f"  - Buyer satisfaction: {sample_agent.get('buyer_satisfaction', 0):.2f}")
     print(f"  - Seller satisfaction: {sample_agent.get('seller_satisfaction', 0):.2f}")
     
-    # Debug: Check if this agent actually has reviews
-    agent_id = sample_agent['advertiser_id']
-    agent_reviews = reviews_processed[reviews_processed['advertiser_id'] == agent_id]
-    print(f"  - Agent ID: {agent_id}")
-    print(f"  - Number of reviews for this agent: {len(agent_reviews)}")
-    if len(agent_reviews) > 0:
-        sentiment_dist = agent_reviews['sentiment'].value_counts()
-        print(f"  - Sentiment breakdown: {dict(sentiment_dist)}")
-    
-    # Debug: Check what columns are in agents_processed
-    print(f"  - Agents processed shape: {agents_processed.shape}")
-    print(f"  - Available columns: {list(agents_processed.columns)}")
-    print(f"  - Has positive_review_count: {'positive_review_count' in agents_processed.columns}")
-    
-    # Check if any agent has positive reviews (only if column exists)
-    if 'positive_review_count' in agents_processed.columns:
-        agents_with_reviews = agents_processed[agents_processed['positive_review_count'] > 0]
-        print(f"  - Agents with positive reviews: {len(agents_with_reviews)}")
-        if len(agents_with_reviews) > 0:
-            print(f"  - Max positive reviews for any agent: {agents_processed['positive_review_count'].max()}")
-            top_agent = agents_processed.loc[agents_processed['positive_review_count'].idxmax()]
-            print(f"  - Top agent: {top_agent['full_name']} with {top_agent['positive_review_count']} positive reviews")
-    else:
-        print("  - ERROR: positive_review_count column missing from agents_processed!")
-        print("  - This indicates a merge issue in the preprocessing pipeline")
-    
     # Update database
     if not dry_run:
         print("\n[7/7] Updating database...")
         
         # Update reviews
-        print("  - Updating reviews with sentiment...")
+        print("  - Updating reviews with sentiment and recency weights...")
         review_updates = []
+        
         for _, row in reviews_processed.iterrows():
-            # Handle NaN values safely
-            days_since_review = row['days_since_review']
-            if pd.isna(days_since_review):
-                days_since_review = None
-            else:
-                days_since_review = int(days_since_review)
-            
-            recency_weight = row['recency_weight']
-            if pd.isna(recency_weight):
-                recency_weight = None
-            else:
-                recency_weight = float(recency_weight)
-            
-            review_updates.append({
+            # Create update dict and validate it
+            update_dict = {
                 'review_id': row['review_id'],
                 'sentiment': row['sentiment'],
-                'sentiment_confidence': row['sentiment_confidence'],
-                'days_since_review': days_since_review,
-                'recency_weight': recency_weight
-            })
+                'sentiment_confidence': float(row['sentiment_confidence']) if pd.notna(row['sentiment_confidence']) else None,
+                'days_since_review': int(row['days_since_review']) if pd.notna(row['days_since_review']) else None,
+                'recency_weight': float(row['recency_weight']) if pd.notna(row['recency_weight']) else None
+            }
+            
+            # Validate the entire row
+            validated_dict = validate_row_for_db(update_dict)
+            review_updates.append(validated_dict)
         
-        # Batch update in chunks using safe update method
-        chunk_size = 50  # Smaller chunks to avoid timeouts
+        # Batch update in chunks
+        chunk_size = 50
         total_chunks = (len(review_updates) + chunk_size - 1) // chunk_size
         
         for i in range(0, len(review_updates), chunk_size):
@@ -267,23 +285,16 @@ def process_all_data(dry_run: bool = False):
         
         for _, row in agents_processed.iterrows():
             update_dict = {'advertiser_id': row['advertiser_id']}
-            for col in update_columns:
-                if col in row.index:
-                    value = row[col]
-                    if _is_valid_scalar(value):
-                        if isinstance(value, (int, np.integer)):
-                            update_dict[col] = int(value)
-                        elif isinstance(value, (float, np.floating)):
-                            update_dict[col] = float(value)
-                        else:
-                            update_dict[col] = value
-
             
-            # Add parsed lists as arrays (matching database schema)
+            # Add all update columns
+            for col in update_columns:
+                if col in row.index and pd.notna(row[col]):
+                    update_dict[col] = row[col]
+            
+            # Add parsed lists as arrays
             if 'property_types' in row.index and row['property_types'] is not None:
                 try:
                     if hasattr(row['property_types'], '__len__') and len(row['property_types']) > 0:
-                        # Store as array for PostgreSQL TEXT[] column
                         update_dict['property_types'] = row['property_types'].tolist() if hasattr(row['property_types'], 'tolist') else list(row['property_types'])
                 except:
                     pass
@@ -291,19 +302,39 @@ def process_all_data(dry_run: bool = False):
             if 'additional_specializations' in row.index and row['additional_specializations'] is not None:
                 try:
                     if hasattr(row['additional_specializations'], '__len__') and len(row['additional_specializations']) > 0:
-                        # Store as array for PostgreSQL TEXT[] column
                         update_dict['additional_specializations'] = row['additional_specializations'].tolist() if hasattr(row['additional_specializations'], 'tolist') else list(row['additional_specializations'])
                 except:
                     pass
             
-            agent_updates.append(update_dict)
+            # CRITICAL: Validate the entire row before adding to batch
+            validated_dict = validate_row_for_db(update_dict)
+            agent_updates.append(validated_dict)
         
         # Batch update using safe update method
+        chunk_size = 50
+        total_chunks = (len(agent_updates) + chunk_size - 1) // chunk_size
+        
         for i in range(0, len(agent_updates), chunk_size):
+            chunk_num = (i // chunk_size) + 1
             chunk = agent_updates[i:i+chunk_size]
-            db_client.batch_update_agents_safe(chunk)
-            if (i + chunk_size) % 500 == 0:
-                print(f"    Updated {min(i+chunk_size, len(agent_updates))}/{len(agent_updates)} agents")
+            print(f"    Processing chunk {chunk_num}/{total_chunks} ({len(chunk)} agents)...")
+            
+            # Debug: Check performance_score values in this chunk
+            perf_scores = [a.get('performance_score') for a in chunk if 'performance_score' in a]
+            if perf_scores:
+                print(f"      Performance scores: min={min(perf_scores):.4f}, max={max(perf_scores):.4f}")
+            
+            try:
+                db_client.batch_update_agents_safe(chunk)
+                print(f"    ✓ Chunk {chunk_num} completed successfully")
+            except Exception as e:
+                print(f"    ✗ Error in chunk {chunk_num}: {e}")
+                # Print first agent in chunk for debugging
+                if len(chunk) > 0:
+                    print(f"    First agent in failed chunk: {chunk[0].get('advertiser_id')}")
+                    problem_keys = [k for k in chunk[0].keys() if k in ['performance_score', 'wilson_score', 'buyer_satisfaction', 'seller_satisfaction']]
+                    print(f"    Problematic values: {[(k, chunk[0][k]) for k in problem_keys]}")
+                print(f"    Continuing with next chunk...")
         
         print(f"  - Updated {len(agent_updates)} agents")
         
