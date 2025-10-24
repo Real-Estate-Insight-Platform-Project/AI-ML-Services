@@ -1,0 +1,48 @@
+AGENT SCORING DECISION TREE RULES
+==================================================
+|--- experience_years_first <= 18.82
+|   |--- experience_years_first <= 0.81
+|   |   |--- market_expertise_score <= 0.05
+|   |   |   |--- transaction_volume_normalized <= 0.01
+|   |   |   |   |--- value: [64.66]
+|   |   |   |--- transaction_volume_normalized >  0.01
+|   |   |   |   |--- value: [50.09]
+|   |   |--- market_expertise_score >  0.05
+|   |   |   |--- sentiment_score_mean <= -0.70
+|   |   |   |   |--- value: [38.23]
+|   |   |   |--- sentiment_score_mean >  -0.70
+|   |   |   |   |--- value: [69.72]
+|   |--- experience_years_first >  0.81
+|   |   |--- experience_years_first <= 5.24
+|   |   |   |--- experience_years_calc_normalized <= 0.05
+|   |   |   |   |--- value: [10.08]
+|   |   |   |--- experience_years_calc_normalized >  0.05
+|   |   |   |   |--- value: [38.48]
+|   |   |--- experience_years_first >  5.24
+|   |   |   |--- sentiment_score_mean <= 0.97
+|   |   |   |   |--- value: [63.09]
+|   |   |   |--- sentiment_score_mean >  0.97
+|   |   |   |   |--- value: [45.04]
+|--- experience_years_first >  18.82
+|   |--- experience_years_first <= 24.49
+|   |   |--- professionalism_communication_mean <= 4.99
+|   |   |   |--- review_rating_mean_normalized <= 0.99
+|   |   |   |   |--- value: [70.05]
+|   |   |   |--- review_rating_mean_normalized >  0.99
+|   |   |   |   |--- value: [74.29]
+|   |   |--- professionalism_communication_mean >  4.99
+|   |   |   |--- sentiment_score_mean <= 0.93
+|   |   |   |   |--- value: [69.34]
+|   |   |   |--- sentiment_score_mean >  0.93
+|   |   |   |   |--- value: [66.70]
+|   |--- experience_years_first >  24.49
+|   |   |--- professional_competence_score <= 0.88
+|   |   |   |--- experience_years_calc_normalized <= 0.86
+|   |   |   |   |--- value: [74.67]
+|   |   |   |--- experience_years_calc_normalized >  0.86
+|   |   |   |   |--- value: [54.56]
+|   |   |--- professional_competence_score >  0.88
+|   |   |   |--- client_satisfaction_score <= 1.00
+|   |   |   |   |--- value: [79.89]
+|   |   |   |--- client_satisfaction_score >  1.00
+|   |   |   |   |--- value: [92.19]

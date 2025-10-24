@@ -10,7 +10,7 @@ markers = [
 
 # Python path configuration to include service directories
 pythonpath = [
-    "agent-recommender-system",
+    "agent-finder-approach-1",
     "risk-map/app",
     "sql-agent"
 ]
