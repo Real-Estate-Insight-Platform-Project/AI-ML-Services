@@ -312,7 +312,7 @@ class AgentScorer:
         )
         
         agents_df['negative_penalty'] = agents_df.apply(
-            self.calculate_negative_penalty,
+            self.calculate_negative_quality_penalty,
             axis=1
         )
         
