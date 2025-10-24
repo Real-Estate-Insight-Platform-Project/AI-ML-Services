@@ -80,64 +80,64 @@ def train_model():
     df = df[df['year'] >= 2022] # Focus on data from 2021 onwards
     print(f"unique values: {df['year'].unique()}")
 
-    # # List of features to predict
-    # features = [
-    #     "median_listing_price",
-    #     "average_listing_price",
-    #     "median_listing_price_per_square_foot",
-    #     "total_listing_count",
-    #     "median_days_on_market"
-    # ]
+    # List of features to predict
+    features = [
+        "median_listing_price",
+        "average_listing_price",
+        "median_listing_price_per_square_foot",
+        "total_listing_count",
+        "median_days_on_market"
+    ]
 
-    # target_df = preprocess_data_4(4, df.copy())
-    # prediction_df = target_df.copy()
+    target_df = preprocess_data_4(4, df.copy())
+    prediction_df = target_df.copy()
 
-    # for feature in features:
-    #     predictions = get_predictions(df, feature, 3)
-    #     prediction_df[feature] = predictions
+    for feature in features:
+        predictions = get_predictions(df, feature, 3)
+        prediction_df[feature] = predictions
 
-    # # Add market_trend column based on average_listing_price trend
-    # prediction_df['market_trend'] = 'stable'
-    # prediction_df['buyer_friendly'] = 0
+    # Add market_trend column based on average_listing_price trend
+    prediction_df['market_trend'] = 'stable'
+    prediction_df['buyer_friendly'] = 0
 
-    # for county_num in prediction_df['county_num'].unique():
-    #     county_data = prediction_df[prediction_df['county_num'] == county_num]
+    for county_num in prediction_df['county_num'].unique():
+        county_data = prediction_df[prediction_df['county_num'] == county_num]
 
-    #     # Check if we have at least 3 months of predictions to analyze trend
-    #     if len(county_data) >= 3:
-    #         # Get the median_listing_price for the next 3 months
-    #         prices = county_data['median_listing_price'].iloc[:3].values
+        # Check if we have at least 3 months of predictions to analyze trend
+        if len(county_data) >= 3:
+            # Get the median_listing_price for the next 3 months
+            prices = county_data['median_listing_price'].iloc[:3].values
 
-    #         # Get total_listing_count and median_days_on_market for 1st and 3rd month
-    #         listing_count_1st = county_data['total_listing_count'].iloc[0]
-    #         listing_count_3rd = county_data['total_listing_count'].iloc[2]
-    #         days_on_market_1st = county_data['median_days_on_market'].iloc[0]
-    #         days_on_market_3rd = county_data['median_days_on_market'].iloc[2]
+            # Get total_listing_count and median_days_on_market for 1st and 3rd month
+            listing_count_1st = county_data['total_listing_count'].iloc[0]
+            listing_count_3rd = county_data['total_listing_count'].iloc[2]
+            days_on_market_1st = county_data['median_days_on_market'].iloc[0]
+            days_on_market_3rd = county_data['median_days_on_market'].iloc[2]
 
-    #         # Calculate percentage changes between consecutive months
-    #         pct_change_1_to_2 = (prices[1] - prices[0]) / prices[0] if prices[0] != 0 else 0
-    #         pct_change_2_to_3 = (prices[2] - prices[1]) / prices[1] if prices[1] != 0 else 0
+            # Calculate percentage changes between consecutive months
+            pct_change_1_to_2 = (prices[1] - prices[0]) / prices[0] if prices[0] != 0 else 0
+            pct_change_2_to_3 = (prices[2] - prices[1]) / prices[1] if prices[1] != 0 else 0
 
-    #         # Sum the percentage changes
-    #         total_pct_change = pct_change_1_to_2 + pct_change_2_to_3
+            # Sum the percentage changes
+            total_pct_change = pct_change_1_to_2 + pct_change_2_to_3
 
-    #         # Calculate if trend is rising, declining or stable
-    #         if total_pct_change > 0.01:
-    #             prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'rising'
-    #         elif total_pct_change < -0.01:
-    #             prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'declining'
+            # Calculate if trend is rising, declining or stable
+            if total_pct_change > 0.01:
+                prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'rising'
+            elif total_pct_change < -0.01:
+                prediction_df.loc[prediction_df['county_num'] == county_num, 'market_trend'] = 'declining'
 
-    #             # If market is declining and both inventory and days on market are increasing,
-    #             # mark as buyer friendly
-    #             if (listing_count_3rd > listing_count_1st or 
-    #                 days_on_market_3rd > days_on_market_1st):
-    #                 prediction_df.loc[prediction_df['county_num'] == county_num, 'buyer_friendly'] = 1
+                # If market is declining and both inventory and days on market are increasing,
+                # mark as buyer friendly
+                if (listing_count_3rd > listing_count_1st or 
+                    days_on_market_3rd > days_on_market_1st):
+                    prediction_df.loc[prediction_df['county_num'] == county_num, 'buyer_friendly'] = 1
 
-    # for col in features:
-    #     if col in prediction_df.columns:
-    #         prediction_df[col] = prediction_df[col].astype(int)
+    for col in features:
+        if col in prediction_df.columns:
+            prediction_df[col] = prediction_df[col].astype(int)
 
-    # upload_bq_data(client, "county_predictions", prediction_df, "WRITE_TRUNCATE")
+    upload_bq_data(client, "county_predictions", prediction_df, "WRITE_TRUNCATE")
 
 def get_insights():
 
@@ -216,8 +216,7 @@ def get_insights():
     preds = normalize_days_on_market(preds)
     preds.drop(columns=['median_listing_price', 'median_days_on_market'], inplace=True)
     preds['IOI'] = (preds['appreciation']) + (0.2 * preds['liquidity']) - (0.3 * preds['volatility'])
-    # preds['IOI'] = preds['IOI'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
-    preds['IOI'] = (preds['IOI'] - preds['IOI'].mean()) / preds['IOI'].std()
+    preds['IOI'] = preds['IOI'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))
     preds['IOI'] = preds['IOI'] * 100
 
     upload_bq_data(client, "county_investment_insights", preds, "WRITE_TRUNCATE")
@@ -234,7 +233,7 @@ dag = DAG(
     "monthly_county_trainer",
     default_args=default_args,
     description="Download data, retrain model, push results",
-    schedule="@monthly", 
+    schedule="@daily", 
     catchup=False
 )
 
