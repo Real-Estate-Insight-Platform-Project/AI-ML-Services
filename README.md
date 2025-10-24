@@ -14,13 +14,6 @@ A modular, service-oriented platform for real estate insights, integrating forec
 
 ### Forecasting Engine
 - **Description**: Stacking ensemble model for predicting real estate metrics at state and county levels using Darts framework.
-- **How to run**:
-  ```bash
-  cd forecasting_engine
-  pip install -r requirements.txt
-  jupyter notebook
-  # Open and run modeling.ipynb or preprocessing.ipynb
-  ```
 
 ### Agent Finder
 - **Description**: ML-powered real estate agent recommendation system using text embeddings and Bayesian calibration.
