@@ -233,24 +233,43 @@ class DatabaseClient:
         
         cleaned = {}
         for key, value in data.items():
-            if pd.isna(value) or value is None:
-                cleaned[key] = None
-            elif isinstance(value, (np.floating, float)):
-                # Convert floats to integers for count/integer columns
-                if any(x in key.lower() for x in ['count', 'active_listings', 'recently_sold', 'days_since', 'experience_years', 'sub_responsiveness_count', 'sub_negotiation_count', 'sub_professionalism_count', 'sub_market_expertise_count']):
-                    cleaned[key] = int(round(value)) if not pd.isna(value) else None
-                # Convert floats to integers for price columns (bigint)
-                elif any(x in key.lower() for x in ['price', 'min_price', 'max_price']):
-                    cleaned[key] = int(round(value)) if not pd.isna(value) else None
-                else:
-                    # Keep as float for scores, ratings, etc.
-                    cleaned[key] = float(value) if not pd.isna(value) else None
-            elif isinstance(value, (np.integer, int)):
-                cleaned[key] = int(value)
-            elif isinstance(value, str):
-                cleaned[key] = value
+            # Handle arrays and lists (for property_types, etc.)
+            if isinstance(value, (list, np.ndarray)):
+                cleaned[key] = list(value) if value is not None else None
+            # Handle scalar values that might be NaN
+            elif hasattr(value, '__len__') and not isinstance(value, (str, bytes)):
+                # This is likely an array-like object, convert to list
+                try:
+                    cleaned[key] = list(value) if value is not None else None
+                except:
+                    cleaned[key] = value
+            # Safe NaN check for scalar values only
             else:
-                cleaned[key] = value
+                try:
+                    is_nan = pd.isna(value)
+                except (ValueError, TypeError):
+                    # If pd.isna fails (e.g., with arrays), assume not NaN
+                    is_nan = False
+                
+                if is_nan or value is None:
+                    cleaned[key] = None
+                elif isinstance(value, (np.floating, float)):
+                    # Convert floats to integers for count/integer columns
+                    if any(x in key.lower() for x in ['count', 'active_listings', 'recently_sold', 'days_since', 'experience_years', 'sub_responsiveness_count', 'sub_negotiation_count', 'sub_professionalism_count', 'sub_market_expertise_count']):
+                        cleaned[key] = int(round(value)) if not is_nan else None
+                    # Convert floats to integers for price columns (bigint)
+                    elif any(x in key.lower() for x in ['price', 'min_price', 'max_price']):
+                        cleaned[key] = int(round(value)) if not is_nan else None
+                    else:
+                        # Keep as float for scores, ratings, etc.
+                        cleaned[key] = float(value) if not is_nan else None
+                elif isinstance(value, (np.integer, int)):
+                    cleaned[key] = int(value)
+                elif isinstance(value, str):
+                    cleaned[key] = value
+                else:
+                    # For any other type, try to preserve as-is
+                    cleaned[key] = value
         
         return cleaned
 
