@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  property-recommendation:
+    build: .
+    ports:
+      - "8011:8011"
+    env_file:
+      - ../.env # If .env is outside the folder
+      # - .env    # If .env is inside the folder
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8011/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
