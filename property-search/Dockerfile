@@ -3,21 +3,18 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
+
+# Copy and install dependencies safely
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# ✅ Fix: upgrade pip + set timeout + optional mirror
+RUN python -m pip install --upgrade pip \
+    && pip install --default-timeout=100 --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY main.py .
+# Copy app code
+COPY . .
 
-# Expose port
 EXPOSE 8010
 
-# Start the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8010"]
