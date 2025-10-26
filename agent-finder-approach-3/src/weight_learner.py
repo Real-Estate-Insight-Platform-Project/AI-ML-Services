@@ -261,6 +261,12 @@ class WeightLearner:
         alpha = np.mean(preference_deviations) * 2  # Scale to 0-1 range
         alpha = np.clip(alpha, 0.0, 1.0)
         
+        # Debug logging for alpha calculation
+        logger.info(f"User preferences: {user_preferences}")
+        logger.info(f"Preference deviations from neutral (0.5): {preference_deviations}")
+        logger.info(f"Calculated alpha before clipping: {np.mean(preference_deviations) * 2:.3f}")
+        logger.info(f"Final alpha (fusion strength): {alpha:.3f}")
+        
         # Fuse weights: (1-α) * base + α * preferences
         fused_weights = (1 - alpha) * base_weight_vector + alpha * preference_vector
         

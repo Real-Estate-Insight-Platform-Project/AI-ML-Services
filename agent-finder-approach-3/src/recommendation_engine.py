@@ -257,6 +257,12 @@ class RecommendationEngine:
         # Calculate main utility component: β' · features + PERSONALIZED component
         main_utility = np.dot(feature_matrix, fused_weights)
         
+        # Debug logging for utility calculation
+        logger.info(f"Feature matrix shape: {feature_matrix.shape}")
+        logger.info(f"Fused weights shape: {fused_weights.shape}")
+        logger.info(f"Main utility stats: min={main_utility.min():.3f}, max={main_utility.max():.3f}, mean={main_utility.mean():.3f}")
+        logger.info(f"Base weights magnitude: {np.linalg.norm(fused_weights):.3f}")
+        
         # DIRECT PERSONALIZATION: Add personalized skill component
         # Extract user preferences for direct application
         user_prefs = getattr(self, '_current_user_preferences', {})
@@ -351,44 +357,51 @@ class RecommendationEngine:
             top_k: Number of diverse agents to select
             
         Returns:
-            List of agent indices in diversified order
+            List of agent advertiser_ids in diversified order
         """
         logger.info("Applying MMR diversification...")
         
         # Get theme vectors for similarity calculation
         if not theme_columns:
             # No themes available, fall back to utility ranking
-            sorted_indices = utility_scores.sort_values(ascending=False).head(top_k).index.tolist()
-            return sorted_indices
+            sorted_agents = utility_scores.sort_values(ascending=False).head(top_k)
+            return sorted_agents.index.tolist()
         
         theme_matrix = agents_df[theme_columns].fillna(0.0).values
-        agent_indices = agents_df.index.tolist()
         
-        # MMR algorithm
-        selected_indices = []
-        remaining_indices = set(range(len(agents_df)))
+        # Reset index to ensure we work with positional indices consistently
+        agents_reset = agents_df.reset_index(drop=True)
+        utility_reset = utility_scores.reindex(agents_df.index).reset_index(drop=True)
+        
+        # MMR algorithm using positional indices
+        selected_advertiser_ids = []
+        remaining_positions = set(range(len(agents_reset)))
         
         # Start with highest utility agent
-        if len(remaining_indices) > 0:
-            best_idx = utility_scores.argmax()
-            selected_indices.append(agent_indices[best_idx])
-            remaining_indices.remove(best_idx)
+        if len(remaining_positions) > 0:
+            best_pos = utility_reset.argmax()
+            selected_advertiser_ids.append(agents_reset.iloc[best_pos]['advertiser_id'])
+            remaining_positions.remove(best_pos)
         
         # Iteratively select diverse agents
-        while len(selected_indices) < top_k and remaining_indices:
+        while len(selected_advertiser_ids) < top_k and remaining_positions:
             best_mmr_score = -float('inf')
-            best_idx = None
+            best_pos = None
             
-            for idx in remaining_indices:
+            for pos in remaining_positions:
                 # Relevance score (normalized utility)
-                relevance = utility_scores.iloc[idx]
+                relevance = utility_reset.iloc[pos]
                 
                 # Diversity score (minimum similarity to selected agents)
-                if len(selected_indices) > 0:
-                    selected_theme_vectors = theme_matrix[[
-                        agent_indices.index(sel_idx) for sel_idx in selected_indices
-                    ]]
-                    current_theme_vector = theme_matrix[idx].reshape(1, -1)
+                if len(selected_advertiser_ids) > 0:
+                    # Get positions of already selected agents
+                    selected_positions = []
+                    for sel_id in selected_advertiser_ids:
+                        sel_pos = agents_reset[agents_reset['advertiser_id'] == sel_id].index[0]
+                        selected_positions.append(sel_pos)
+                    
+                    selected_theme_vectors = theme_matrix[selected_positions]
+                    current_theme_vector = theme_matrix[pos].reshape(1, -1)
                     
                     # Calculate similarities
                     similarities = cosine_similarity(current_theme_vector, selected_theme_vectors)[0]
@@ -403,15 +416,15 @@ class RecommendationEngine:
                 
                 if mmr_score > best_mmr_score:
                     best_mmr_score = mmr_score
-                    best_idx = idx
+                    best_pos = pos
             
-            if best_idx is not None:
-                selected_indices.append(agent_indices[best_idx])
-                remaining_indices.remove(best_idx)
+            if best_pos is not None:
+                selected_advertiser_ids.append(agents_reset.iloc[best_pos]['advertiser_id'])
+                remaining_positions.remove(best_pos)
         
-        logger.info(f"Selected {len(selected_indices)} diverse agents")
+        logger.info(f"Selected {len(selected_advertiser_ids)} diverse agents")
         
-        return selected_indices
+        return selected_advertiser_ids
     
     def rank_and_recommend(self,
                           agents_df: pd.DataFrame,
@@ -481,11 +494,45 @@ class RecommendationEngine:
         )
         
         # Step 6: Create final recommendations
-        recommended_agents = constraint_filtered_agents.loc[diversified_indices].copy()
+        recommended_agents = constraint_filtered_agents.loc[
+            constraint_filtered_agents['advertiser_id'].isin(diversified_indices)
+        ].copy()
+        
+        # Preserve the MMR order by reordering based on diversified_indices
+        recommended_agents = recommended_agents.set_index('advertiser_id').reindex(diversified_indices).reset_index()
         
         # Add scoring metadata
-        recommended_agents['utility_score'] = constraint_filtered_utility.loc[diversified_indices]
-        recommended_agents['availability_fit'] = availability_fit.loc[diversified_indices]
+        logger.info(f"Recommended agent IDs: {recommended_agents['advertiser_id'].tolist()}")
+        logger.info(f"Constraint filtered utility index: {constraint_filtered_utility.index.tolist()}")
+        logger.info(f"Constraint filtered utility values: {constraint_filtered_utility.values}")
+        
+        # Fix: Map utility scores correctly by using the original agent dataframe index
+        # constraint_filtered_utility has pandas index from the original agents_df
+        # We need to map advertiser_id -> utility_score correctly
+        
+        recommended_utility_scores = []
+        recommended_availability_scores = []
+        
+        for agent_id in recommended_agents['advertiser_id']:
+            # Find the original index for this agent_id in constraint_filtered_agents
+            original_indices = constraint_filtered_agents[constraint_filtered_agents['advertiser_id'] == agent_id].index
+            
+            if len(original_indices) > 0:
+                original_idx = original_indices[0]
+                utility_score = constraint_filtered_utility.loc[original_idx]
+                availability_score = availability_fit.loc[original_idx] if original_idx in availability_fit.index else 0.0
+            else:
+                logger.warning(f"Could not find original index for agent {agent_id}")
+                utility_score = 0.0
+                availability_score = 0.0
+            
+            recommended_utility_scores.append(utility_score)
+            recommended_availability_scores.append(availability_score)
+        
+        logger.info(f"Final utility scores: {recommended_utility_scores}")
+        
+        recommended_agents['utility_score'] = recommended_utility_scores
+        recommended_agents['availability_fit'] = recommended_availability_scores
         recommended_agents['rank'] = range(1, len(recommended_agents) + 1)
         
         # Metadata for explanations
@@ -537,9 +584,17 @@ class RecommendationEngine:
         # Active agent requirement
         if user_filters.get('active_only', True):
             # Consider agent active if they have listings or recent sales
+            # Handle both possible column names for robustness
+            if 'days_since_last_sale' in agents_df.columns:
+                recent_sales_mask = agents_df['days_since_last_sale'] <= 180
+            elif 'days_since_last_review' in agents_df.columns:
+                recent_sales_mask = agents_df['days_since_last_review'] <= 180
+            else:
+                recent_sales_mask = pd.Series(True, index=agents_df.index)
+            
             active_mask = (
                 (agents_df['active_listings_count'] > 0) |
-                (agents_df['days_since_last_sale'] <= 180)  # Active in last 6 months
+                recent_sales_mask
             )
             constraint_mask &= active_mask
         

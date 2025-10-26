@@ -234,16 +234,24 @@ class AdvancedThemeMiner:
             return theme_labels
         
         # Apply TF-IDF
+        documents = list(cluster_documents.values())
+        labels = list(cluster_documents.keys())
+        
+        # Adjust min_df/max_df based on available cluster documents to avoid
+        # the common error where min_df > number_of_documents or max_df
+        # becomes incompatible with min_df for very small corpora.
+        n_documents = len(documents)
+        min_df_val = 2 if n_documents >= 2 else 1
+        # If only one document, allow max_df=1.0 so it doesn't filter everything
+        max_df_val = 0.95 if n_documents >= 2 else 1.0
+
         tfidf = TfidfVectorizer(
             max_features=1000,
             stop_words='english',
             ngram_range=(1, 3),
-            min_df=2,
-            max_df=0.95
+            min_df=min_df_val,
+            max_df=max_df_val
         )
-        
-        documents = list(cluster_documents.values())
-        labels = list(cluster_documents.keys())
         
         try:
             tfidf_matrix = tfidf.fit_transform(documents)

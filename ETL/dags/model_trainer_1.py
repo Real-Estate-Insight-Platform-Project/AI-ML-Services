@@ -11,6 +11,9 @@ from darts.dataprocessing import Pipeline
 from darts.dataprocessing.transformers import StaticCovariatesTransformer, Scaler, InvertibleMapper
 from darts.models import XGBModel
 from darts.models import LightGBMModel
+from darts.models import RandomForestModel
+from sklearn.linear_model import LinearRegression
+from collections import defaultdict
 import mlflow
 import mlflow.lightgbm
 import mlflow.xgboost
@@ -171,6 +174,10 @@ def get_predictions(df,feature, n_predict):
     train_futures = []
     test_futures = []
 
+    meta_predictions = defaultdict(lambda: [[] for _ in range(n_predict)])
+    meta_y_true = [[] for _ in range(n_predict)]
+
+
     for s in ts_transformed:
         ts = ts_transformed[s]
 
@@ -232,6 +239,10 @@ def get_predictions(df,feature, n_predict):
                 true_val = val_series[i][j]
                 true_inv = pipeline_dict[sname].inverse_transform(true_val)
                 y_true.append(true_inv.values()[-1].item())
+
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["XGB"][j] = list(y_hat)
 
             xgb_rmse, xgb_rmsle, xgb_mae, xgb_mape, xgb_r2 = calculate_metrics(y_true, y_hat)
 
@@ -302,6 +313,10 @@ def get_predictions(df,feature, n_predict):
                 true_inv = pipeline_dict[sname].inverse_transform(true_val)
                 y_true.append(true_inv.values()[-1].item())
 
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["LightGBM"][j] = list(y_hat)
+
             lgb_rmse, lgb_rmsle, lgb_mae, lgb_mape, lgb_r2 = calculate_metrics(y_true, y_hat)
 
             print(f"Validation RMSE: {lgb_rmse:.4f}, RMSLE: {lgb_rmsle:.4f}, "
@@ -327,6 +342,151 @@ def get_predictions(df,feature, n_predict):
     del lgbm_model
     cleanup_resources()
 
+    # Random Forest model training and validation
+    with mlflow.start_run(run_name=f"RandomForest_Darts_Model_{feature}"):
+
+        rf_lags = 12
+        rf_lags_past = list(range(-24, 0))
+        rf_lags_future = list(range(1, 2))
+        rf_output_chunk_length = n_predict
+        rf_n_estimators = 100
+        rf_max_depth = 10
+        rf_min_samples_split = 2
+        rf_min_samples_leaf = 1
+        rf_random_state = 42
+
+        mlflow.log_params({
+            "lags": rf_lags,
+            "lags_past_covariates": rf_lags_past,
+            "lags_future_covariates": rf_lags_future,
+            "output_chunk_length": rf_output_chunk_length,
+            "n_estimators": rf_n_estimators,
+            "max_depth": rf_max_depth,
+            "min_samples_split": rf_min_samples_split,
+            "min_samples_leaf": rf_min_samples_leaf,
+            "random_state": rf_random_state,
+        })
+
+        rf_model = RandomForestModel(
+            lags=rf_lags,
+            lags_past_covariates=rf_lags_past,
+            lags_future_covariates=rf_lags_future,
+            output_chunk_length=rf_output_chunk_length,
+            n_estimators=rf_n_estimators,
+            max_depth=rf_max_depth,
+            min_samples_split=rf_min_samples_split,
+            min_samples_leaf=rf_min_samples_leaf,
+            random_state=rf_random_state,
+        )
+
+        rf_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures
+        )
+
+        preds = rf_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+        )
+
+        y_true, y_hat = [], []
+        for j in range(n_predict):
+            for i, sname in enumerate(ts_transformed):
+                pred_ts = preds[i][j]
+                inv = pipeline_dict[sname].inverse_transform(pred_ts)
+                y_hat.append(inv.values()[-1].item())
+
+                true_val = val_series[i][j]
+                true_inv = pipeline_dict[sname].inverse_transform(true_val)
+                y_true.append(true_inv.values()[-1].item())
+
+            if not meta_y_true[j]:
+                meta_y_true[j] = list(y_true)
+            meta_predictions["random_forest"][j] = list(y_hat)
+
+            rf_rmse, rf_rmsle, rf_mae, rf_mape, rf_r2 = calculate_metrics(y_true, y_hat)
+
+            print(
+                f"Validation RMSE: {rf_rmse:.4f}, RMSLE: {rf_rmsle:.4f}, "
+                f"MAE: {rf_mae:.4f}, MAPE: {rf_mape:.2f}%, R²: {rf_r2:.4f}"
+            )
+
+            mlflow.log_metrics({
+                f"RMSE_{j+1}_month_ahead": rf_rmse,
+                f"RMSLE_{j+1}_month_ahead": rf_rmsle,
+                f"MAE_{j+1}_month_ahead": rf_mae,
+                f"MAPE_{j+1}_month_ahead": rf_mape,
+                f"R2_{j+1}_month_ahead": rf_r2
+            })
+
+            y_true, y_hat = [], []
+
+        # Log trained model
+        # mlflow.random_forest.log_model(rf_model.model, artifact_path=f"RandomForest_Darts_Model_{feature}")
+
+    # End MLflow run
+    mlflow.end_run()
+
+    # Memory cleanup
+    del rf_model
+    cleanup_resources()
+
+
+    # Meta-model stacking using base model predictions
+    available_models = [name for name, preds in meta_predictions.items() if any(len(h) > 0 for h in preds)]
+
+    if available_models:
+        with mlflow.start_run(run_name=f"MetaLinearRegression_Darts_Model_{feature}"):
+            mlflow.log_params({
+                "meta_model": "LinearRegression",
+                "meta_base_models": ",".join(sorted(available_models)),
+                "meta_horizons": n_predict,
+            })
+
+            for horizon_idx in range(n_predict):
+                y_true_vals = meta_y_true[horizon_idx]
+                if not y_true_vals:
+                    continue
+
+                horizon_models = [
+                    model_name
+                    for model_name in available_models
+                    if len(meta_predictions[model_name][horizon_idx]) == len(y_true_vals)
+                ]
+
+                if not horizon_models:
+                    continue
+
+                X = np.column_stack([
+                    meta_predictions[model_name][horizon_idx]
+                    for model_name in horizon_models
+                ])
+
+                y_array = np.array(y_true_vals)
+
+                meta_model = LinearRegression()
+                meta_model.fit(X, y_array)
+                meta_preds = meta_model.predict(X)
+
+                meta_rmse, meta_rmsle, meta_mae, meta_mape, meta_r2 = calculate_metrics(y_array, meta_preds)
+
+                mlflow.log_metrics({
+                    f"RMSE_{horizon_idx + 1}_month_ahead": meta_rmse,
+                    f"RMSLE_{horizon_idx + 1}_month_ahead": meta_rmsle,
+                    f"MAE_{horizon_idx + 1}_month_ahead": meta_mae,
+                    f"MAPE_{horizon_idx + 1}_month_ahead": meta_mape,
+                    f"R2_{horizon_idx + 1}_month_ahead": meta_r2,
+                })
+
+        mlflow.end_run()
+        cleanup_resources()
+    else:
+        print("Meta model skipped: no base model predictions available to stack.")
+
+
     # Predictions for next month
     train_series = []
     train_pasts = []
@@ -351,50 +511,125 @@ def get_predictions(df,feature, n_predict):
     test_futures = add_month(test_futures, n_predict)
     test_futures = add_month(test_futures, n_predict)
 
+    final_predictions = defaultdict(lambda: [[] for _ in range(n_predict)])
 
-    lags = 12
-    lags_past_covariates = list(range(-24,0))   # previous 24 months of past covariates
-    lags_future_covariates = list(range(1, 2)) 
-    if (lgb_r2 >= xgb_r2):
-        print("Using LightGBM model for predictions")
-        model = LightGBMModel(
-            lags=lags,
-            lags_past_covariates=lags_past_covariates,
-            lags_future_covariates=lags_future_covariates,
+    lgbm_model = LightGBMModel(
+            lags=12,
+            lags_past_covariates=list(range(-24, 0)),
+            lags_future_covariates=list(range(1, 2)),
             output_chunk_length=n_predict,
             random_state=42
-        )
-    else:
-        print("Using XGBoost model for predictions")
-        model = XGBModel(
-            lags=lags,
-            lags_past_covariates=lags_past_covariates,
-            lags_future_covariates=lags_future_covariates,
-            output_chunk_length=n_predict,
-            random_state=42
-        )
+    )
 
-    model.fit(series=train_series, past_covariates=train_pasts, future_covariates=train_futures)
+    lgbm_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures
+    )
 
-
-    preds = model.predict(
+    lgbm_preds = lgbm_model.predict(
         n=n_predict,
         series=train_series,
         past_covariates=train_pasts,
         future_covariates=test_futures
     )
 
-    y_hat = []
+    lgbm_y_hat = []
 
     for j in range (n_predict):
         for i, sname in enumerate(ts_transformed):
-            pred_ts = preds[i][j]
+            pred_ts = lgbm_preds[i][j]
             inv = pipeline_dict[sname].inverse_transform(pred_ts)
-            y_hat.append(inv.values()[-1].item())
+            lgbm_y_hat.append(inv.values()[-1].item())
 
-    y_hat = np.array(y_hat)
+    lgbm_y_hat = np.array(lgbm_y_hat)
 
-    # Final cleanup
+    final_predictions["lightgbm"][j] = list(lgbm_y_hat)
+
+    cleanup_resources()
+
+    xgb_model = XGBModel(
+            lags=12,
+            lags_past_covariates=list(range(-24, 0)),
+            lags_future_covariates=list(range(1, 2)),
+            output_chunk_length=n_predict,
+            random_state=42
+    )
+
+    xgb_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures,
+            verbose=True
+    )
+
+    xgb_preds = xgb_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+    )
+
+    xgb_y_hat = []
+
+    for j in range (n_predict):
+        for i, sname in enumerate(ts_transformed):
+            pred_ts = xgb_preds[i][j]
+            inv = pipeline_dict[sname].inverse_transform(pred_ts)
+            xgb_y_hat.append(inv.values()[-1].item())
+
+    xgb_y_hat = np.array(xgb_y_hat)
+
+    final_predictions["xgb"][j] = list(xgb_y_hat)
+
     cleanup_resources()
     
-    return y_hat
+    rf_model = RandomForestModel(
+            lags=rf_lags,
+            lags_past_covariates=rf_lags_past,
+            lags_future_covariates=rf_lags_future,
+            output_chunk_length=rf_output_chunk_length,
+            n_estimators=rf_n_estimators,
+            max_depth=rf_max_depth,
+            min_samples_split=rf_min_samples_split,
+            min_samples_leaf=rf_min_samples_leaf,
+            random_state=rf_random_state,
+    )
+
+    rf_model.fit(
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=train_futures
+    )
+
+    rf_preds = rf_model.predict(
+            n=n_predict,
+            series=train_series,
+            past_covariates=train_pasts,
+            future_covariates=test_futures
+    )
+
+    rf_y_hat = []
+
+    for j in range (n_predict):
+        for i, sname in enumerate(ts_transformed):
+            pred_ts = rf_preds[i][j]
+            inv = pipeline_dict[sname].inverse_transform(pred_ts)
+            rf_y_hat.append(inv.values()[-1].item())
+
+    rf_y_hat = np.array(rf_y_hat)
+
+    final_predictions["rf"][j] = list(rf_y_hat)
+
+    cleanup_resources()
+
+    X_final = np.column_stack([
+        final_predictions[model_name][horizon_idx]
+        for model_name in horizon_models
+    ])
+
+    meta_preds_final = meta_model.predict(X_final)
+
+    cleanup_resources()
+
+    return meta_preds_final

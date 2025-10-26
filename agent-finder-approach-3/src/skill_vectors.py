@@ -81,7 +81,13 @@ class SkillVectorBuilder:
         skill_df['experience_score'] = self._calculate_experience_score(skill_df['experience_years'])
         
         # Compute Agent Quality Prior (Q_prior)
-        skill_df['q_prior'] = self._calculate_q_prior(skill_df)
+        # Use learned quality_prior from DataProcessor if available, otherwise compute fallback
+        if 'quality_prior' in agents_df.columns and agents_df['quality_prior'].notna().any():
+            logger.info("Using learned quality_prior from DataProcessor")
+            skill_df['q_prior'] = agents_df['quality_prior'].fillna(0.0)
+        else:
+            logger.info("Computing fallback Q_prior with hardcoded weights")
+            skill_df['q_prior'] = self._calculate_q_prior(skill_df)
         
         # Apply robust scaling to all numeric features
         feature_cols = sub_score_cols + theme_cols + ['volume_score', 'recency_score_normalized', 'experience_score']

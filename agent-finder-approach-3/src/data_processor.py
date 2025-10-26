@@ -211,7 +211,12 @@ class DataProcessor:
         raw_weights = ridge.coef_
         
         # Normalize to sum to 1
-        normalized_weights = raw_weights / raw_weights.sum()
+        if raw_weights.sum() > 0:
+            normalized_weights = raw_weights / raw_weights.sum()
+        else:
+            # Fallback to equal weights if all coefficients are zero
+            logger.warning("All learned weights are zero, using equal blend weights")
+            normalized_weights = np.array([1/3, 1/3, 1/3])
         
         learned_weights = {
             'posterior_mean': float(normalized_weights[0]),
@@ -344,8 +349,12 @@ class DataProcessor:
             review_counts = valid_data['review_count_actual']
             
             # Shrinkage factor: higher review count = less shrinkage
-            # Use simple formula: shrinkage = k / (k + n) where k is estimated from data
-            k = global_var / (valid_data[score].var() + 1e-6) * 10  # Regularization parameter
+            # Fix the buggy k calculation - use a reasonable fixed value or compute properly
+            if global_var > 0:
+                # Use variance-based estimation or fixed reasonable value
+                k = max(5.0, min(20.0, 1.0 / global_var * 10))  # Bounded between 5-20
+            else:
+                k = 10.0  # Default fallback
             
             shrinkage_factors = k / (k + review_counts)
             
