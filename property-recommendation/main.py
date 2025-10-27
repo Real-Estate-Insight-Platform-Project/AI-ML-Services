@@ -23,10 +23,9 @@ engine = create_engine(DATABASE_URL)
 app = FastAPI()
 
 # --- CORS Configuration ---
-origins = ["http://34.72.69.249:3000"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -209,6 +208,10 @@ def get_recommendations(request: RecommendationRequest):
         similar_properties=similar_properties,
     )
 
+# Add a health check endpoint
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     import uvicorn
