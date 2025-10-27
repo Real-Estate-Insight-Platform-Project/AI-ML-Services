@@ -10,7 +10,7 @@ from models import (
     StatesResponse,
     ErrorResponse
 )
-from app.service import recommendation_service
+from service import recommendation_service
 from config.settings import settings
 import logging
 
