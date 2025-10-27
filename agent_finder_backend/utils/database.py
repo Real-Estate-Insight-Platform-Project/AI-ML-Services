@@ -45,6 +45,71 @@ class DatabaseClient:
         ).execute()
         return response.data[0] if response.data else None
     
+    def get_recent_reviews_by_agent(self, advertiser_id: int, limit: int = 5) -> list:
+        """Fetch recent reviews for a specific agent."""
+        response = self.client.table('reviews').select('*').eq(
+            'advertiser_id', advertiser_id
+        ).order('review_created_date', desc=True).limit(limit).execute()
+        return response.data if response.data else []
+    
+    def get_cities_by_state(self, state_name: str) -> list:
+        """Fetch all cities for a specific state from uszips table with pagination."""
+        all_cities = set()
+        page_size = 1000
+        offset = 0
+        
+        while True:
+            response = self.client.table('uszips').select('city, state_name').eq(
+                'state_name', state_name
+            ).range(offset, offset + page_size - 1).execute()
+            
+            if not response.data:
+                break
+                
+            # Add unique cities to the set
+            for row in response.data:
+                if row.get('city'):
+                    all_cities.add(row['city'])
+            
+            # If we got less than page_size records, we've reached the end
+            if len(response.data) < page_size:
+                break
+                
+            offset += page_size
+        
+        # Convert to sorted list
+        cities = list(all_cities)
+        cities.sort()
+        return cities
+    
+    def get_all_states(self) -> list:
+        """Fetch all unique states from uszips table with pagination."""
+        all_states = set()
+        page_size = 1000
+        offset = 0
+        
+        while True:
+            response = self.client.table('uszips').select('state_name').range(offset, offset + page_size - 1).execute()
+            
+            if not response.data:
+                break
+                
+            # Add unique states to the set
+            for row in response.data:
+                if row.get('state_name'):
+                    all_states.add(row['state_name'])
+            
+            # If we got less than page_size records, we've reached the end
+            if len(response.data) < page_size:
+                break
+                
+            offset += page_size
+        
+        # Convert to sorted list
+        states = list(all_states)
+        states.sort()
+        return states
+
     def get_reviews_by_agent(self, advertiser_id: int) -> pd.DataFrame:
         """Fetch all reviews for a specific agent."""
         response = self.client.table('reviews').select('*').eq(

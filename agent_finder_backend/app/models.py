@@ -246,6 +246,100 @@ class AgentSearchResponse(BaseModel):
         }
 
 
+class ReviewCounts(BaseModel):
+    """Review counts for an agent."""
+    total_review_count: int
+    positive_review_count: int
+    negative_review_count: int
+    neutral_review_count: int
+
+
+class Review(BaseModel):
+    """Individual review model."""
+    review_id: str
+    advertiser_id: int
+    review_rating: float
+    review_comment: Optional[str]
+    review_created_date: Optional[str]
+    transaction_date: Optional[str]
+    reviewer_role: Optional[str]
+    reviewer_location: Optional[str]
+    sentiment: Optional[str]
+    sentiment_confidence: Optional[float]
+
+
+class AgentReviewsResponse(BaseModel):
+    """Response model for agent reviews endpoint."""
+    success: bool
+    agent_id: int
+    agent_name: str
+    review_counts: ReviewCounts
+    recent_reviews: List[Review]
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "agent_id": 731,
+                "agent_name": "Nancy Jenkins",
+                "review_counts": {
+                    "total_review_count": 15,
+                    "positive_review_count": 12,
+                    "negative_review_count": 2,
+                    "neutral_review_count": 1
+                },
+                "recent_reviews": [
+                    {
+                        "review_id": "abc123",
+                        "advertiser_id": 731,
+                        "review_rating": 5.0,
+                        "review_comment": "Excellent service!",
+                        "review_created_date": "2024-10-01",
+                        "transaction_date": "2024-09-15",
+                        "reviewer_role": "BUYER",
+                        "reviewer_location": "Burlington, VT",
+                        "sentiment": "positive",
+                        "sentiment_confidence": 0.95
+                    }
+                ]
+            }
+        }
+
+
+class CitiesResponse(BaseModel):
+    """Response model for cities endpoint."""
+    success: bool
+    state_name: str
+    total_cities: int
+    cities: List[str]
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "state_name": "Vermont",
+                "total_cities": 125,
+                "cities": ["Burlington", "Montpelier", "Rutland", "Essex", "Colchester"]
+            }
+        }
+
+
+class StatesResponse(BaseModel):
+    """Response model for states endpoint."""
+    success: bool
+    total_states: int
+    states: List[str]
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "total_states": 50,
+                "states": ["Alabama", "Alaska", "Arizona", "Arkansas", "California"]
+            }
+        }
+
+
 class ErrorResponse(BaseModel):
     """Error response model."""
     

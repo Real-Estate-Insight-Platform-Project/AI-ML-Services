@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     # API Configuration
     API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "Agent Finder API"
+    DEBUG: bool = False
     
     # Model Configuration
     SENTIMENT_MODEL: str = "nlptown/bert-base-multilingual-uncased-sentiment"
