@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from typing import List, Dict, Optional
-from models import AgentSearchRequest, AgentRecommendation
+from app.models import AgentSearchRequest, AgentRecommendation
 from utils.database import db_client
 from utils.geo import GeoUtils
 from models.scoring import agent_scorer

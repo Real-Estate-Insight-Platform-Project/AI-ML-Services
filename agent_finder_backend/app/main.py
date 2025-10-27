@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from models import (
+from app.models import (
     AgentSearchRequest,
     AgentSearchResponse,
     AgentRecommendation,
@@ -10,7 +10,7 @@ from models import (
     StatesResponse,
     ErrorResponse
 )
-from service import recommendation_service
+from app.service import recommendation_service
 from config.settings import settings
 import logging
 

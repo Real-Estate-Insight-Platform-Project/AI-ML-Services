@@ -23,7 +23,7 @@ engine = create_engine(DATABASE_URL)
 app = FastAPI()
 
 # --- CORS Configuration ---
-origins = ["https://real-estate-insight.duckdns.org"]
+origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
