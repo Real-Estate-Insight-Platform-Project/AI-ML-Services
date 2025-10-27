@@ -12,6 +12,10 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import logging
+
+# Suppress Uvicorn's invalid request warnings
+logging.getLogger("uvicorn.error").setLevel(logging.ERROR)
 
 # --- Environment and Database Setup ---
 load_dotenv()
