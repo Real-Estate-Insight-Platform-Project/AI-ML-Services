@@ -5,6 +5,9 @@ from app.models import (
     AgentSearchRequest,
     AgentSearchResponse,
     AgentRecommendation,
+    AgentReviewsResponse,
+    CitiesResponse,
+    StatesResponse,
     ErrorResponse
 )
 from app.service import recommendation_service
@@ -197,6 +200,161 @@ async def get_statistics():
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred while fetching statistics"
+        )
+
+
+@app.post(
+    f"{settings.API_V1_PREFIX}/agents/reviews",
+    response_model=AgentReviewsResponse,
+    responses={
+        200: {"description": "Successful retrieval of agent reviews"},
+        404: {"model": ErrorResponse, "description": "Agent not found"},
+        500: {"model": ErrorResponse, "description": "Internal server error"}
+    }
+)
+async def get_agent_reviews(agent_id: int):
+    """
+    POST: Get top 5 recent reviews for a specific agent along with review counts.
+    
+    Args:
+        agent_id: Agent's advertiser ID (path parameter)
+    
+    Returns:
+        Agent's review counts and top 5 recent reviews
+    """
+    try:
+        from utils.database import db_client
+        
+        # Get agent details for review counts
+        agent = db_client.get_agent_by_id(agent_id)
+        
+        if not agent:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Agent with ID {agent_id} not found"
+            )
+        
+        # Get top 5 recent reviews for this agent
+        reviews = db_client.get_recent_reviews_by_agent(agent_id, limit=5)
+        
+        # Extract review counts from agent data
+        review_counts = {
+            'total_review_count': agent.get('review_count', 0),
+            'positive_review_count': agent.get('positive_review_count', 0),
+            'negative_review_count': agent.get('negative_review_count', 0),
+            'neutral_review_count': agent.get('neutral_review_count', 0)
+        }
+        
+        return {
+            "success": True,
+            "agent_id": agent_id,
+            "agent_name": agent.get('full_name', 'Unknown'),
+            "review_counts": review_counts,
+            "recent_reviews": reviews
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching agent reviews: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while fetching agent reviews"
+        )
+
+
+@app.get(
+    f"{settings.API_V1_PREFIX}/locations/cities",
+    response_model=CitiesResponse,
+    responses={
+        200: {"description": "Successful retrieval of cities"},
+        404: {"model": ErrorResponse, "description": "State not found"},
+        500: {"model": ErrorResponse, "description": "Internal server error"}
+    }
+)
+async def get_cities_by_state(state_name: str):
+    """
+    GET: Get all cities for a specific state.
+    
+    Args:
+        state_name: State name as query parameter (e.g., "California", "Texas")
+    
+    Returns:
+        List of cities in the specified state
+    """
+    try:
+        from utils.database import db_client
+
+        if not state_name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="state_name query parameter is required"
+            )
+        
+        # Get cities from uszips table for the specified state
+        cities = db_client.get_cities_by_state(state_name)
+        
+        if not cities:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No cities found for state: {state_name}"
+            )
+        
+        return {
+            "success": True,
+            "state_name": state_name,
+            "total_cities": len(cities),
+            "cities": cities
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching cities: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while fetching cities"
+        )
+
+
+@app.get(
+    f"{settings.API_V1_PREFIX}/locations/states",
+    response_model=StatesResponse,
+    responses={
+        200: {"description": "Successful retrieval of states"},
+        500: {"model": ErrorResponse, "description": "Internal server error"}
+    }
+)
+async def get_all_states():
+    """
+    Get all available states.
+    
+    Returns:
+        List of all states available in the database
+    """
+    try:
+        from utils.database import db_client
+        
+        # Get all unique states from uszips table
+        states = db_client.get_all_states()
+        
+        if not states:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No states found in database"
+            )
+        
+        return {
+            "success": True,
+            "total_states": len(states),
+            "states": states
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching states: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while fetching states"
         )
 
 
