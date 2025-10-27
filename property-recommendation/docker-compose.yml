@@ -11,7 +11,7 @@ services:
       - .:/app
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://34.72.69.249:8011/docs"]
+      test: ["CMD", "curl", "-f", "http://localhost:8011/docs"]
       interval: 30s
       timeout: 10s
       retries: 3

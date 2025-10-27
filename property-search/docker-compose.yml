@@ -16,7 +16,7 @@ services:
           "CMD",
           "python",
           "-c",
-          "import urllib.request; urllib.request.urlopen('https://34.72.69.249:8010/docs')",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8010/docs')",
         ]
       interval: 30s
       timeout: 10s
