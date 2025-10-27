@@ -23,7 +23,7 @@ engine = create_engine(DATABASE_URL)
 app = FastAPI()
 
 # --- CORS Configuration ---
-origins = ["http://localhost:3000"]
+origins = ["http://34.72.69.249:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
