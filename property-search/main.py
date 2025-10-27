@@ -33,7 +33,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     # In production, change this to your frontend's domain
-    allow_origins=["https://real-estate-insight.duckdns.org"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
