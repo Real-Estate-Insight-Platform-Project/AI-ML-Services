@@ -65,7 +65,7 @@ x-airflow-common:
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     FORWARDED_ALLOW_IPS: "*"
     # Add these two lines for nginx proxy support
-    AIRFLOW__WEBSERVER__BASE_URL: 'https://real-estate-insight.duckdns.org/airflow'
+    AIRFLOW__WEBSERVER__BASE_URL: 'http://34.72.69.249:8080'
     AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: 'true'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
